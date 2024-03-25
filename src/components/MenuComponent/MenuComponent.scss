@@ -1,0 +1,55 @@
+.menu {
+  --menu-width: 20rem;
+
+  .menuButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: transparent;
+    z-index: 11;
+    transition: left .3s ease-in-out;
+
+    &.opened {
+      left: calc(var(--menu-width) - 4rem);
+    }
+  }
+
+  .drawer {
+    position: absolute;
+    top: 0;
+    left: calc(var(--menu-width) * -1);
+    bottom: 0;
+    width: var(--menu-width);
+    z-index: 10;
+    background-color: aquamarine;
+    border-radius: 0 1rem 1rem 0;
+    transition: left .3s ease-in-out;
+
+    &.opened {
+      left: 0;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 1rem;
+  }
+
+  .menuIcon {
+    height: 1.5rem;
+    will-change: filter;
+    transition: filter 300ms;
+  }
+  .menuIcon:hover {
+    filter: drop-shadow(0 0 0.8rem #000000);
+  }
+  .menuIcon.react:hover {
+    filter: drop-shadow(0 0 0.8rem #000000);
+  }
+}
