@@ -1,5 +1,3 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import CardComponent from './components/CardComponent/CardComponent'
 import MenuComponent from './components/MenuComponent/MenuComponent'
@@ -28,16 +26,16 @@ function App() {
     <div onClick={() => dispatch(closeMenu())}>
       <MenuComponent />
       <div>
-        <CardComponent card={card} isExamples={true} />
+        <CardComponent card={card} />
       </div>
-      <div>
+      {/* <div>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
-      </div>
+      </div> */}
       <h1>count is {count}</h1>
       <div className="card">
         <button onClick={() => dispatch(increment())}>

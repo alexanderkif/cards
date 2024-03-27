@@ -1,55 +1,93 @@
 .menu {
   --menu-width: 20rem;
+  --icon-size: 1.5rem;
+  --filter-green: invert(48%) sepia(77%) saturate(3661%) hue-rotate(130deg) brightness(93%) contrast(102%);
+  --color-green: #00a964;
+  --color-green0a: #00a9650a;
 
   .menuButton {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
+    position: fixed;
     top: 1rem;
     left: 1rem;
-    width: 3rem;
-    height: 3rem;
+    padding: 0;
+    width: calc(var(--icon-size) * 2);
+    height: calc(var(--icon-size) * 2);
     border-radius: 50%;
     background-color: transparent;
     z-index: 11;
-    transition: left .3s ease-in-out;
+    will-change: filter;
+    transition: left .4s ease-in-out, filter .8s ease-in-out;
 
     &.opened {
-      left: calc(var(--menu-width) - 4rem);
+      left: calc(var(--menu-width) - var(--icon-size) * 2 - 1rem);
+      filter: var(--filter-green);
+    }
+
+    .menuIcon {
+      height: var(--icon-size);
+    }
+    .menuIcon:hover {
+      filter: drop-shadow(0 0 0.6rem #000000);
+    }
+    .menuIcon.react:hover {
+      filter: drop-shadow(0 0 0.6rem #000000);
     }
   }
 
   .drawer {
-    position: absolute;
+    --border-width: 1px;
+    position: fixed;
     top: 0;
-    left: calc(var(--menu-width) * -1);
+    left: calc(var(--menu-width) * -1 - var(--border-width));
     bottom: 0;
     width: var(--menu-width);
     z-index: 10;
-    background-color: aquamarine;
+    background-color: #ffffff;
+    border: solid #000000;
+    border-width: 0 var(--border-width) 0 0;
     border-radius: 0 1rem 1rem 0;
-    transition: left .3s ease-in-out;
+    transition: left .2s ease-in-out;
 
     &.opened {
       left: 0;
     }
-  }
 
-  ul {
-    list-style: none;
-    padding: 1rem;
-  }
+    ul {
+      list-style: none;
+      padding: 1rem;
 
-  .menuIcon {
-    height: 1.5rem;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .menuIcon:hover {
-    filter: drop-shadow(0 0 0.8rem #000000);
-  }
-  .menuIcon.react:hover {
-    filter: drop-shadow(0 0 0.8rem #000000);
+      li {
+        display: flex;
+        align-items: center;
+        height: 3rem;
+        cursor: pointer;
+
+        .itemIcon {
+          flex: auto;
+          max-width: 1.5rem;
+          padding: 0.5rem;
+
+          &.green {
+            filter: var(--filter-green);
+          }
+        }
+
+        .itemText {
+          flex: 1;
+          text-align: left;
+          padding-left: 0.5rem;
+          font-weight: 500;
+        }
+
+        &:hover {
+          background-color: var(--color-green0a);
+          filter: var(--filter-green);
+          box-shadow: 0 0 .5rem .5rem var(--color-green0a);
+        }
+      }
+    }
   }
 }

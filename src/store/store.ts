@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import menuSlice from './menuSlice';
 import counterReducer from './counterSlice'
+import cardsSlice from './cardsSlice';
 
 const store = configureStore({
   reducer: {
     menu: menuSlice,
+    cards: cardsSlice,
     counter: counterReducer,
   },
 })

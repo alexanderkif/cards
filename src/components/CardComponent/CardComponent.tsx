@@ -3,9 +3,12 @@ import { useState } from 'react'
 // import viteLogo from '/vite.svg'
 import './CardComponent.css'
 import { Card } from '../../types/types'
+import { selectIsExamples } from '../../store/cardsSlice';
+import { useAppSelector } from '../../store/hooks';
 
-function CardComponent({card, isExamples = false}: {card: Card, isExamples: boolean}) {
+function CardComponent({card}: {card: Card}) {
   const [isFaceSide, setFaceSide] = useState(true)
+  const isExamples = useAppSelector(selectIsExamples);
 
   return (
     <>
