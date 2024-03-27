@@ -1,32 +1,27 @@
 import { useState } from 'react'
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
-import './CardComponent.css'
+import './CardComponent.scss'
 import { Card } from '../../types/types'
 import { selectIsExamples } from '../../store/cardsSlice';
 import { useAppSelector } from '../../store/hooks';
 
-function CardComponent({card}: {card: Card}) {
+function CardComponent({ card }: { card: Card }) {
   const [isFaceSide, setFaceSide] = useState(true)
   const isExamples = useAppSelector(selectIsExamples);
 
   return (
-    <>
-      <div className="card">
-        {isFaceSide ? card.head : card.tails}
+    <div className="card" onClick={() => setFaceSide(!isFaceSide)}>
+      <div className='cardContent'>
+        {isFaceSide ?
+          card.head :
+          <ul>{card.tails.map(tail => <li key={tail}>{tail}</li>)}</ul>
+        }
       </div>
-      <div className="cardExamples">
-        {isExamples && card.examples}
-      </div>
-      <div>
-        isExamples is {isExamples}
-      </div>
-      <div className="cardButtons">
-        <button onClick={() => setFaceSide(!isFaceSide)}>
-          isFaceSide = {isFaceSide}
-        </button>
-      </div>
-    </>
+      {isExamples &&
+        <div className="cardExamples">
+          <ul>{card.examples.map(example => <li key={example}>{example}</li>)}</ul>
+        </div>
+      }
+    </div>
   )
 }
 

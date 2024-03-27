@@ -18,7 +18,6 @@ function MenuComponent() {
     event.stopPropagation();
     dispatch(toggleMenu());
   };
-  console.log('questionIcon', questionIcon)
 
   return (
     <div className="menu">

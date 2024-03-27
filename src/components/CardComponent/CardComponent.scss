@@ -1,0 +1,46 @@
+.card {
+  --card-size: 80vmin;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: var(--card-size);
+  height: var(--card-size);
+  border-radius: 1rem;
+  background-color: var(--color-green73);
+  box-shadow: 0 0 0.5rem 0.5rem var(--color-green73);
+
+  .cardContent {
+    flex: 1;
+    flex-basis: var(--card-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    font-size: 10vmin;
+    overflow-wrap: anywhere;
+    text-align: center;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .cardExamples {
+    flex: auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2vmin 5vmin;
+    font-size: 5vmin;
+    overflow-wrap: anywhere;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
