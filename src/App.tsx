@@ -7,8 +7,8 @@ import { closeMenu } from './store/menuSlice'
 
 const card: Card = {
   head: 'book',
-  tails: ['книга', 'бронировать'],
-  examples: ['interesting book', 'book hotel']
+  tails: ['libro', 'reservar'],
+  examples: ['book me a single room at my usual hotel', 'she felt every emotion in the book of love']
 }
 
 function App() {

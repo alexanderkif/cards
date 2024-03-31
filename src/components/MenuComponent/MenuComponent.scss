@@ -47,6 +47,7 @@
     border: solid #000000;
     border-width: 0 var(--border-width) 0 0;
     border-radius: 0 1rem 1rem 0;
+    overflow-x: hidden;
     transition: left .2s ease-in-out;
 
     &.opened {
@@ -55,12 +56,14 @@
 
     ul {
       list-style: none;
-      padding: 1rem;
+      padding: 0;
+      margin-top: 1.5rem;
 
       li {
         display: flex;
         align-items: center;
-        height: 3rem;
+        padding: 0 1rem;
+        margin-bottom: 1rem;
         cursor: pointer;
 
         .itemIcon {

@@ -1,14 +1,14 @@
 import { SyntheticEvent } from 'react';
 import './MenuComponent.scss'
-import menuIcon from '../../assets/line-3-svgrepo-com.svg'
-import questionIcon from '../../assets/question-circle-svgrepo-com.svg'
-import addIcon from '../../assets/plus-circle-svgrepo-com.svg'
-import downloadIcon from '../../assets/cloud-download-svgrepo-com.svg'
-import saveToFileIcon from '../../assets/cloud-arrow-up-svgrepo-com.svg'
-import removeAllIcon from '../../assets/xmark-circle-svgrepo-com.svg'
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { selectIsOpen, toggleMenu } from '../../store/menuSlice';
-import { selectIsExamples, toggleIsExamples } from '../../store/cardsSlice';
+import menuIcon from '@/assets/line-3-svgrepo-com.svg'
+import questionIcon from '@/assets/question-circle-svgrepo-com.svg'
+import addIcon from '@/assets/plus-circle-svgrepo-com.svg'
+import downloadIcon from '@/assets/cloud-download-svgrepo-com.svg'
+import saveToFileIcon from '@/assets/cloud-arrow-up-svgrepo-com.svg'
+import removeAllIcon from '@/assets/xmark-circle-svgrepo-com.svg'
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import { selectIsOpen, toggleMenu } from '@/store/menuSlice';
+import { selectIsExamples, toggleIsExamples } from '@/store/cardsSlice';
 
 function MenuComponent() {
   const isOpen = useAppSelector(selectIsOpen);
