@@ -1,11 +1,49 @@
 .route {
-  position: absolute;
-  opacity: 1;
-  visibility: visible;
-  transition: all .4s ease-in-out;
+  --route-animation-time: .4s;
 
-  &.hidden {
-    opacity: 0;
-    visibility: hidden;
+  position: absolute;
+  opacity: 0; 
+  display: none; 
+  animation: fadeOut var(--route-animation-time) ease-out; 
+
+  &.active {
+    opacity: 1; 
+    display: block;
+    animation: fadeIn var(--route-animation-time) ease-in;
   }
+}
+
+@keyframes fadeIn { 
+  0% { 
+      opacity: 0; 
+      display: none; 
+  } 
+
+  50% { 
+      opacity: 0; 
+      display: none; 
+  } 
+
+  100% { 
+      opacity: 1; 
+      display: block; 
+  } 
+}
+
+
+@keyframes fadeOut { 
+  0% { 
+      opacity: 1; 
+      display: block; 
+  } 
+
+  50% { 
+      opacity: 0; 
+      display: none; 
+  } 
+
+  100% { 
+      opacity: 0; 
+      display: none; 
+  } 
 }
