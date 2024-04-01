@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
-import menuSlice from './menuSlice';
+import menuSlice from './menuSlice'
 import counterReducer from './counterSlice'
-import cardsSlice from './cardsSlice';
+import cardsSlice from './cardsSlice'
 
 const store = configureStore({
   reducer: {
@@ -11,7 +11,7 @@ const store = configureStore({
   },
 })
 
-export default store;
+export default store
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

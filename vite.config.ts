@@ -11,48 +11,48 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       devOptions: { enabled: true },
-      // includeAssets: ['**/*.{png}'], 
-      manifest: {  
-        name: 'Cards',  
+      // includeAssets: ['**/*.{png}'],
+      manifest: {
+        name: 'Cards',
         short_name: 'Cards',
         icons,
-        // icons: [ 
-        //   {  
-        //       src: '/assets/favicon/android-chrome-96x96.png',  
-        //       sizes: '96x96',  
-        //       type : 'image/png'  
-        //   }, 
-        //   {  
-        //       src: '/assets/favicon/android-chrome-192x192.png',  
-        //       sizes: '192x192',  
-        //       type : 'image/png'  
-        //   }, 
-        //   {  
-        //       src: '/assets/favicon/android-chrome-512x512.png',  
-        //       sizes: '512x512',  
-        //       type: 'image/png', 
-        //       purpose: 'any' 
-        //   }, 
+        // icons: [
+        //   {
+        //       src: '/assets/favicon/android-chrome-96x96.png',
+        //       sizes: '96x96',
+        //       type : 'image/png'
+        //   },
+        //   {
+        //       src: '/assets/favicon/android-chrome-192x192.png',
+        //       sizes: '192x192',
+        //       type : 'image/png'
+        //   },
+        //   {
+        //       src: '/assets/favicon/android-chrome-512x512.png',
+        //       sizes: '512x512',
+        //       type: 'image/png',
+        //       purpose: 'any'
+        //   },
         // ],
-        theme_color: '#ffffff',  
-        background_color: '#ffffff',  
-        // display: 'standalone'  
-      }, 
-      // workbox: {  
-      //   cleanupOutdatedCaches: true,  
-      //   globPatterns: ['**/*.{js,css,html,ico,jpg,json,png,txt,svg}'], 
-      //   runtimeCaching: [  
-      //     {  
-      //       urlPattern: ({ url }) => url.pathname.startsWith('/api'),  
-      //       handler: 'NetworkFirst',  
-      //       options: {  
-      //         cacheName: 'api-cache', 
-      //         cacheableResponse: { statuses: [0, 200] } 
-      //       }  
-      //     } 
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
+        // display: 'standalone'
+      },
+      // workbox: {
+      //   cleanupOutdatedCaches: true,
+      //   globPatterns: ['**/*.{js,css,html,ico,jpg,json,png,txt,svg}'],
+      //   runtimeCaching: [
+      //     {
+      //       urlPattern: ({ url }) => url.pathname.startsWith('/api'),
+      //       handler: 'NetworkFirst',
+      //       options: {
+      //         cacheName: 'api-cache',
+      //         cacheableResponse: { statuses: [0, 200] }
+      //       }
+      //     }
       //   ]
       // }
-    })
+    }),
   ],
   resolve: {
     alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],

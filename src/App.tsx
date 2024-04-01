@@ -5,12 +5,12 @@ import { useAppDispatch } from './store/hooks'
 import { closeMenu } from './store/menuSlice'
 
 function App() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   return (
     <div onClick={() => dispatch(closeMenu())}>
       <MenuComponent />
-      <div className='page'>
+      <div className="page">
         <CardComponent />
       </div>
     </div>
