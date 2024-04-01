@@ -71,7 +71,7 @@
           max-width: 1.5rem;
           padding: 0.5rem;
 
-          &.green {
+          &.active {
             filter: var(--filter-green);
           }
         }
@@ -85,7 +85,8 @@
 
         &:hover {
           background-color: var(--color-green0a);
-          filter: var(--filter-green);
+          color: var(--color-green);
+          // filter: var(--filter-green);
           box-shadow: 0 0 .5rem .5rem var(--color-green0a);
         }
       }

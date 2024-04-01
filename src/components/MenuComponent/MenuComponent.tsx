@@ -1,18 +1,27 @@
 import { SyntheticEvent } from 'react'
 import './MenuComponent.scss'
 import menuIcon from '@/assets/line-3-svgrepo-com.svg'
+import cardsIcon from '@/assets/layers-3-svgrepo-com.svg'
+import examplesIcon from '@/assets/paper-clip-svgrepo-com.svg'
 import questionIcon from '@/assets/question-circle-svgrepo-com.svg'
 import addIcon from '@/assets/plus-circle-svgrepo-com.svg'
 import downloadIcon from '@/assets/cloud-download-svgrepo-com.svg'
 import saveToFileIcon from '@/assets/cloud-arrow-up-svgrepo-com.svg'
 import removeAllIcon from '@/assets/xmark-circle-svgrepo-com.svg'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { selectIsOpen, toggleMenu } from '@/store/menuSlice'
+import {
+  selectIsOpen,
+  selectPage,
+  setPage,
+  toggleMenu,
+} from '@/store/menuSlice'
 import { selectIsExamples, toggleIsExamples } from '@/store/cardsSlice'
+import { Routes } from '@/types/types'
 
 function MenuComponent() {
   const isOpen = useAppSelector(selectIsOpen)
   const isExamples = useAppSelector(selectIsExamples)
+  const page = useAppSelector(selectPage)
   const dispatch = useAppDispatch()
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation()
@@ -29,17 +38,38 @@ function MenuComponent() {
       </button>
       <div className={isOpen ? 'drawer opened' : 'drawer'}>
         <ul>
-          <li onClick={() => dispatch(toggleIsExamples())}>
+          <li onClick={() => dispatch(setPage(Routes.card))}>
+            <img
+              src={cardsIcon}
+              className={`itemIcon ${page === Routes.card ? 'active' : ''}`}
+              alt="Cards"
+            />
+            <span className="itemText">Cards</span>
+          </li>
+          <li onClick={() => dispatch(setPage(Routes.new))}>
+            <img
+              src={addIcon}
+              className={`itemIcon ${page === Routes.new ? 'active' : ''}`}
+              alt="Add new card"
+            />
+            <span className="itemText">Add new card</span>
+          </li>
+          <li onClick={() => dispatch(setPage(Routes.about))}>
             <img
               src={questionIcon}
-              className={isExamples ? 'itemIcon green' : 'itemIcon'}
+              className={`itemIcon ${page === Routes.about ? 'active' : ''}`}
+              alt="About"
+            />
+            <span className="itemText">About</span>
+          </li>
+          <hr />
+          <li onClick={() => dispatch(toggleIsExamples())}>
+            <img
+              src={examplesIcon}
+              className={isExamples ? 'itemIcon active' : 'itemIcon'}
               alt="Show examples"
             />
             <span className="itemText">Show examples</span>
-          </li>
-          <li>
-            <img src={addIcon} className="itemIcon" alt="Add new card" />
-            <span className="itemText">Add new card</span>
           </li>
           <li>
             <img

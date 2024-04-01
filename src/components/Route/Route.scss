@@ -1,0 +1,11 @@
+.route {
+  position: absolute;
+  opacity: 1;
+  visibility: visible;
+  transition: all .4s ease-in-out;
+
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

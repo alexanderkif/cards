@@ -3,3 +3,9 @@ export interface Card {
   tails: string[]
   examples: string[]
 }
+
+export enum Routes {
+  card = 'card',
+  about = 'about',
+  new = 'new',
+}
