@@ -15,7 +15,12 @@ import {
   setPage,
   toggleMenu,
 } from '@/store/menuSlice'
-import { selectIsExamples, toggleIsExamples } from '@/store/cardsSlice'
+import {
+  selectIsExamples,
+  setCardIndex,
+  setCards,
+  toggleIsExamples,
+} from '@/store/cardsSlice'
 import { Routes } from '@/types/types'
 
 function MenuComponent() {
@@ -26,6 +31,33 @@ function MenuComponent() {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation()
     dispatch(toggleMenu())
+  }
+  const removeAllCards = () => {
+    dispatch(setPage(Routes.new))
+    dispatch(setCardIndex(0))
+    dispatch(setCards([]))
+  }
+
+  function getMenuItem(
+    icon: string,
+    iconClass = '',
+    text: string,
+    fn: () => void = () => {}
+  ) {
+    return (
+      <li onClick={fn}>
+        <img src={icon} className={`itemIcon ${iconClass}`} alt={text} />
+        <span className="itemText">{text}</span>
+      </li>
+    )
+  }
+
+  function getActiveRouteClass(route: Routes) {
+    return page === route ? 'active' : ''
+  }
+
+  function setRoute(route: Routes) {
+    return () => dispatch(setPage(route))
   }
 
   return (
@@ -38,59 +70,44 @@ function MenuComponent() {
       </button>
       <div className={isOpen ? 'drawer opened' : 'drawer'}>
         <ul>
-          <li onClick={() => dispatch(setPage(Routes.card))}>
-            <img
-              src={cardsIcon}
-              className={`itemIcon ${page === Routes.card ? 'active' : ''}`}
-              alt="Cards"
-            />
-            <span className="itemText">Cards</span>
-          </li>
-          <li onClick={() => dispatch(setPage(Routes.new))}>
-            <img
-              src={addIcon}
-              className={`itemIcon ${page === Routes.new ? 'active' : ''}`}
-              alt="Add new card"
-            />
-            <span className="itemText">Add new card</span>
-          </li>
-          <li onClick={() => dispatch(setPage(Routes.about))}>
-            <img
-              src={questionIcon}
-              className={`itemIcon ${page === Routes.about ? 'active' : ''}`}
-              alt="About"
-            />
-            <span className="itemText">About</span>
-          </li>
-          <hr />
-          <li onClick={() => dispatch(toggleIsExamples())}>
-            <img
-              src={examplesIcon}
-              className={isExamples ? 'itemIcon active' : 'itemIcon'}
-              alt="Show examples"
-            />
-            <span className="itemText">Show examples</span>
-          </li>
-          <li>
-            <img
-              src={downloadIcon}
-              className="itemIcon"
-              alt="Download from file"
-            />
-            <span className="itemText">Download from file</span>
-          </li>
-          <li>
-            <img src={saveToFileIcon} className="itemIcon" alt="Save to file" />
-            <span className="itemText">Save to file</span>
-          </li>
-          <li>
-            <img
-              src={removeAllIcon}
-              className="itemIcon"
-              alt="Remove all cards"
-            />
-            <span className="itemText">Remove all cards</span>
-          </li>
+          {getMenuItem(
+            cardsIcon,
+            getActiveRouteClass(Routes.card),
+            'Cards',
+            setRoute(Routes.card)
+          )}
+          {getMenuItem(
+            addIcon,
+            getActiveRouteClass(Routes.new),
+            'Add new card',
+            setRoute(Routes.new)
+          )}
+          {getMenuItem(
+            addIcon,
+            getActiveRouteClass(Routes.edit),
+            'Edit current card',
+            setRoute(Routes.edit)
+          )}
+          {getMenuItem(
+            questionIcon,
+            getActiveRouteClass(Routes.about),
+            'About',
+            setRoute(Routes.about)
+          )}
+          {getMenuItem(
+            examplesIcon,
+            isExamples ? 'active' : '',
+            'Show examples',
+            () => dispatch(toggleIsExamples())
+          )}
+          {getMenuItem(downloadIcon, '', 'Download from file')}
+          {getMenuItem(saveToFileIcon, '', 'Save to xsl file')}
+          {getMenuItem(
+            removeAllIcon,
+            'red',
+            'Remove all cards!!!',
+            removeAllCards
+          )}
         </ul>
       </div>
     </div>

@@ -2,6 +2,11 @@
   --color-green: #00A964;
   --color-green73: #adffdd73;
   --color-green0a: #00a9650a;
+  --color-disabled: #b1b1b1;
+  --color-red: #EC584A;
+  --filter-green: invert(48%) sepia(77%) saturate(3661%) hue-rotate(130deg) brightness(93%) contrast(102%);
+  --filter-red: invert(67%) sepia(73%) saturate(4366%) hue-rotate(325deg) brightness(89%) contrast(109%);
+
   user-select: none;
 }
 

@@ -1,3 +1,15 @@
 .aboutComponent {
-  display: block;
+  height: 80vh;
+  width: 80vw;
+  max-width: 50rem;
+  display: flex;
+  align-items: center;
+
+  .fields {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5vmin;
+    width: 100%;
+  }
 }

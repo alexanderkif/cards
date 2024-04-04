@@ -1,57 +1,147 @@
-// import { useCallback, useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import './AddComponent.scss'
+import { Card, Routes } from '@/types/types'
+import {
+  addCard,
+  editCard,
+  emptyCard,
+  selectCardIndex,
+  selectCards,
+} from '@/store/cardsSlice'
+import { setPage } from '@/store/menuSlice'
 
-function AddComponent() {
-  // const dispatch = useAppDispatch()
-  // const backRef = useRef(null)
-  // const cards = useAppSelector(selectCards)
-  // const cardIndex = useAppSelector(selectCardIndex)
-  // const isExamples = useAppSelector(selectIsExamples)
-  // const [isFace, setIsFace] = useState(true)
+enum Fields {
+  head = 'head',
+  tail1 = 'tail1',
+  tail2 = 'tail2',
+  example1 = 'example1',
+  example2 = 'example2',
+}
 
-  // const hideNextCard = () => {
-  //   const el: HTMLElement = backRef.current!
-  //   el.classList.add('hideText')
-  //   setTimeout(() => el.classList.remove('hideText'), ANIMATION_TIME)
-  // }
+const WORD_LENGTH = 30
+const EXAMPLE_LENGTH = 100
 
-  // const arrowRight = useCallback(() => {
-  //   hideNextCard()
-  //   setIsFace(true)
-  //   dispatch(setCardIndex(cardIndex < cards.length - 1 ? cardIndex + 1 : 0))
-  // }, [cardIndex, cards.length, dispatch])
+function AddComponent({ edit = false }: { edit: boolean }) {
+  const dispatch = useAppDispatch()
+  const cards = useAppSelector(selectCards)
+  const cardIndex = useAppSelector(selectCardIndex)
 
-  // const arrowLeft = useCallback(() => {
-  //   hideNextCard()
-  //   setIsFace(true)
-  //   dispatch(setCardIndex(cardIndex > 0 ? cardIndex - 1 : cards.length - 1))
-  // }, [cardIndex, cards.length, dispatch])
+  const [card, setCard] = useState(emptyCard)
 
-  // const handlers = useSwipeable({
-  //   onSwipedLeft: () => arrowRight(),
-  //   onSwipedRight: () => arrowLeft(),
-  //   onSwipedUp: () => setIsFace(false),
-  //   onSwipedDown: () => setIsFace(true),
-  // })
+  useEffect(() => {
+    if (cards.length > 0) {
+      setCard(
+        JSON.parse(
+          JSON.stringify(
+            edit && cardIndex > -1 ? cards[cardIndex || 0] : emptyCard
+          )
+        )
+      )
+    }
+  }, [cardIndex])
 
-  // const handleKeyDown = useCallback(
-  //   ({ key }: KeyboardEvent): void => {
-  //     if (key === 'ArrowUp') setIsFace(false)
-  //     if (key === 'ArrowDown') setIsFace(true)
-  //     if (key === 'ArrowRight') arrowRight()
-  //     if (key === 'ArrowLeft') arrowLeft()
-  //   },
-  //   [arrowLeft, arrowRight]
-  // )
+  const changeInput = (e: FormEvent) => {
+    const { name, value } = e.target as HTMLInputElement
+    const updatedCard: Card = JSON.parse(JSON.stringify(card))
 
-  // useEffect(() => {
-  //   window.addEventListener('keydown', handleKeyDown)
-  //   return () => {
-  //     window.removeEventListener('keydown', handleKeyDown)
-  //   }
-  // }, [handleKeyDown])
+    switch (name) {
+      case Fields.head:
+        updatedCard.head = value
+        break
+      case Fields.tail1:
+        updatedCard.tails[0] = value
+        break
+      case Fields.tail2:
+        updatedCard.tails[1] = value
+        break
+      case Fields.example1:
+        updatedCard.examples[0] = value
+        break
+      case Fields.example2:
+        updatedCard.examples[1] = value
+        break
 
-  return <div className="addComponent">AddComponent</div>
+      default:
+        break
+    }
+
+    setCard(updatedCard)
+  }
+
+  const submitInputs = () => {
+    const newCard: Card = {
+      head: card.head.trim(),
+      tails: card.tails.map((t) => t.trim()).filter((t) => !!t),
+      examples: card.examples.map((e) => e.trim()).filter((e) => !!e),
+    }
+    if (edit) {
+      dispatch(editCard({ card: newCard, cardIndex }))
+      dispatch(setPage(Routes.card))
+    } else {
+      dispatch(addCard(newCard))
+      setCard(emptyCard)
+    }
+  }
+
+  return (
+    <div className="addComponent">
+      <div className="fields">
+        <input
+          type="text"
+          name={Fields.head}
+          value={card.head || ''}
+          onInput={changeInput}
+          placeholder="Expression"
+          required
+          maxLength={WORD_LENGTH}
+        />
+        <input
+          type="text"
+          name={Fields.tail1}
+          value={card.tails[0] || ''}
+          onInput={changeInput}
+          placeholder="Explanation 1"
+          required
+          maxLength={WORD_LENGTH}
+        />
+        <input
+          type="text"
+          name={Fields.tail2}
+          value={card.tails[1] || ''}
+          onInput={changeInput}
+          placeholder="Explanation 2"
+          maxLength={WORD_LENGTH}
+        />
+        <input
+          type="text"
+          className="example"
+          name={Fields.example1}
+          value={card.examples[0] || ''}
+          onInput={changeInput}
+          placeholder="Example 1"
+          maxLength={EXAMPLE_LENGTH}
+        />
+        <input
+          type="text"
+          className="example"
+          name={Fields.example2}
+          value={card.examples[1] || ''}
+          onInput={changeInput}
+          placeholder="Example 2"
+          maxLength={EXAMPLE_LENGTH}
+        />
+        <div className="buttons">
+          <button
+            disabled={!card.head || !card.tails[0]}
+            onClick={submitInputs}
+          >
+            {edit ? 'Save card' : 'Add card'}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default AddComponent

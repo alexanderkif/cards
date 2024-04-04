@@ -1,3 +1,51 @@
 .addComponent {
-  display: block;
+  height: 80vh;
+  width: 80vw;
+  max-width: 50rem;
+  display: flex;
+  align-items: center;
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    width: 100%;
+
+    input {
+      padding: 0.5vmin 1vmin;
+      border-radius: 1vmin;
+      font-size: 5vmin;
+      outline: none;
+      border: 2px solid var(--color-green);
+
+      &.example {
+        font-size: 3vmin;
+      }
+  
+      &:invalid {
+        border-color: var(--color-red);
+      }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+
+      button {
+        padding: 1vmin 3vmin;
+        border-radius: 1vmin;
+        border: 2px solid var(--color-green);
+        color: var(--color-green);
+        background-color: transparent;
+        font-size: 5vmin;
+        cursor: pointer;
+
+        &:disabled {
+          border: 2px solid var(--color-disabled);
+          color: var(--color-disabled);
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
 }

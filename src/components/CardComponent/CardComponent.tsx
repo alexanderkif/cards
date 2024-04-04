@@ -63,32 +63,38 @@ function CardComponent() {
 
   return (
     <div className="cardComponent" {...handlers}>
-      <div
-        className={`card ${isFace ? '' : 'flipped'}`}
-        onClick={() => setIsFace(!isFace)}
-      >
-        <div className="content">
-          <div className="text">{cards[cardIndex].head}</div>
-        </div>
-        <div className="content back" ref={backRef}>
-          <div className="text">
-            <ul>
-              {cards[cardIndex].tails.map((tail) => (
-                <li key={tail}>{tail}</li>
-              ))}
-            </ul>
+      {cards[cardIndex] && (
+        <div
+          className={`card ${isFace ? '' : 'flipped'}`}
+          onClick={() => setIsFace(!isFace)}
+        >
+          <div className="content">
+            <div className="text">{cards[cardIndex].head}</div>
           </div>
-          {isExamples && (
-            <div className="examples">
+          <div className="content back" ref={backRef}>
+            <div className="text">
               <ul>
-                {cards[cardIndex].examples.map((example) => (
-                  <li key={example}>{example}</li>
+                {cards[cardIndex].tails.map((tail, index) => (
+                  <li key={`${cards[cardIndex].head}_${tail}-${index}`}>
+                    {tail}
+                  </li>
                 ))}
               </ul>
             </div>
-          )}
+            {isExamples && (
+              <div className="examples">
+                <ul>
+                  {cards[cardIndex].examples.map((example, index) => (
+                    <li key={`${cards[cardIndex].head}_${example}-${index}`}>
+                      {example}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

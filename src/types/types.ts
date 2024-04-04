@@ -8,4 +8,5 @@ export enum Routes {
   card = 'card',
   about = 'about',
   new = 'new',
+  edit = 'edit',
 }
