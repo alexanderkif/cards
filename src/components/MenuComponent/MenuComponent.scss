@@ -35,7 +35,7 @@
   }
 
   .drawer {
-    --border-width: 1px;
+    --border-width: 0.3rem;
     position: fixed;
     top: 0;
     left: calc(var(--menu-width) * -1 - var(--border-width));
@@ -43,9 +43,8 @@
     width: var(--menu-width);
     z-index: 10;
     background-color: var(--bg-main);
-    border: solid #000000;
-    border-width: 0 var(--border-width) 0 0;
     border-radius: 0 1rem 1rem 0;
+    box-shadow: 0 0 var(--border-width) 0.1rem var(--color-green);
     overflow-x: hidden;
     transition: left .2s ease-in-out;
 
@@ -93,7 +92,6 @@
         &:hover {
           background-color: var(--color-green0a);
           color: var(--color-green);
-          // filter: var(--filter-green);
           box-shadow: 0 0 .5rem .5rem var(--color-green0a);
         }
       }

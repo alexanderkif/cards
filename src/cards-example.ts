@@ -2,6 +2,11 @@ import { Card } from './types/types'
 
 const cardsExample: Card[] = [
   {
+    head: 'be',
+    tails: ['was, were', 'been'],
+    examples: ['When were you born?', 'They have been married 10 years'],
+  },
+  {
     head: 'book',
     tails: ['libro', 'reservar'],
     examples: [
@@ -10,19 +15,17 @@ const cardsExample: Card[] = [
     ],
   },
   {
-    head: 'E = mc^2',
-    tails: ['Mass–energy equivalence is the relationship.'],
-    examples: [
-      "The principle is described by the physicist Albert Einstein's formula.",
-    ],
-  },
-  {
     head: 'happiness',
-    tails: ['Glück', 'Freude', 'Fröhlichkeit'],
+    tails: ['Glück', 'Freude'],
     examples: [
       'she struggled to find happiness in her life',
       "Tom's heart swelled with happiness",
     ],
+  },
+  {
+    head: 'E = mc^2',
+    tails: ['Energy equals mass times the speed of light squared.'],
+    examples: [],
   },
 ]
 

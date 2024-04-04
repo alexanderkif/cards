@@ -5,6 +5,7 @@ import cardsIcon from '@/assets/layers-3-svgrepo-com.svg'
 import examplesIcon from '@/assets/paper-clip-svgrepo-com.svg'
 import questionIcon from '@/assets/question-circle-svgrepo-com.svg'
 import addIcon from '@/assets/plus-circle-svgrepo-com.svg'
+import editIcon from '@/assets/pencil-svgrepo-com.svg'
 import downloadIcon from '@/assets/cloud-download-svgrepo-com.svg'
 import saveToFileIcon from '@/assets/cloud-arrow-up-svgrepo-com.svg'
 import removeAllIcon from '@/assets/xmark-circle-svgrepo-com.svg'
@@ -83,7 +84,7 @@ function MenuComponent() {
             setRoute(Routes.new)
           )}
           {getMenuItem(
-            addIcon,
+            editIcon,
             getActiveRouteClass(Routes.edit),
             'Edit current card',
             setRoute(Routes.edit)
