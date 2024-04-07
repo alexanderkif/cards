@@ -5,6 +5,7 @@ import FileSaver from 'file-saver'
 import menuIcon from '@/assets/line-3-svgrepo-com.svg'
 import cardsIcon from '@/assets/layers-3-svgrepo-com.svg'
 import examplesIcon from '@/assets/paper-clip-svgrepo-com.svg'
+import randomIcon from '@/assets/arrow-left-arrow-right-svgrepo-com.svg'
 import questionIcon from '@/assets/question-circle-svgrepo-com.svg'
 import addIcon from '@/assets/plus-circle-svgrepo-com.svg'
 import editIcon from '@/assets/pencil-svgrepo-com.svg'
@@ -20,9 +21,11 @@ import {
 } from '@/store/menuSlice'
 import {
   selectIsExamples,
+  selectIsRandom,
   setCardIndex,
   setCards,
   toggleIsExamples,
+  toggleIsRandom,
 } from '@/store/cardsSlice'
 import { Card, Routes } from '@/types/types'
 
@@ -30,6 +33,7 @@ function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null)
   const isOpen = useAppSelector(selectIsOpen)
   const isExamples = useAppSelector(selectIsExamples)
+  const isRandom = useAppSelector(selectIsRandom)
   const page = useAppSelector(selectPage)
   const dispatch = useAppDispatch()
   const handleClick = (event: SyntheticEvent) => {
@@ -164,6 +168,12 @@ function MenuComponent() {
             isExamples ? 'active' : '',
             'Show examples',
             () => dispatch(toggleIsExamples())
+          )}
+          {getMenuItem(
+            randomIcon,
+            isRandom ? 'active' : '',
+            'Random card',
+            () => dispatch(toggleIsRandom())
           )}
           {getMenuItem(downloadIcon, '', 'Download file', clickLoadFile)}
           {getMenuItem(saveToFileIcon, '', 'Save to xsl file', saveToFile)}

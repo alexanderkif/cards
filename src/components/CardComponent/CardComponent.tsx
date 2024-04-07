@@ -4,6 +4,7 @@ import {
   selectCardIndex,
   selectCards,
   selectIsExamples,
+  selectIsRandom,
   setCardIndex,
 } from '@/store/cardsSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -17,6 +18,7 @@ function CardComponent() {
   const cards = useAppSelector(selectCards)
   const cardIndex = useAppSelector(selectCardIndex)
   const isExamples = useAppSelector(selectIsExamples)
+  const isRandom = useAppSelector(selectIsRandom)
   const [isFace, setIsFace] = useState(true)
 
   const hideNextCard = () => {
@@ -25,16 +27,37 @@ function CardComponent() {
     setTimeout(() => el.classList.remove('hideText'), ANIMATION_TIME)
   }
 
+  const getRandomCard = () => {
+    const index = cardIndex + Math.floor(Math.random() * (cards.length - 2) + 1)
+    return index < cards.length ? index : index - cards.length
+  }
+
   const arrowRight = useCallback(() => {
     hideNextCard()
     setIsFace(true)
-    dispatch(setCardIndex(cardIndex < cards.length - 1 ? cardIndex + 1 : 0))
+    dispatch(
+      setCardIndex(
+        isRandom
+          ? getRandomCard()
+          : cardIndex < cards.length - 1
+            ? cardIndex + 1
+            : 0
+      )
+    )
   }, [cardIndex, cards.length, dispatch])
 
   const arrowLeft = useCallback(() => {
     hideNextCard()
     setIsFace(true)
-    dispatch(setCardIndex(cardIndex > 0 ? cardIndex - 1 : cards.length - 1))
+    dispatch(
+      setCardIndex(
+        isRandom
+          ? getRandomCard()
+          : cardIndex > 0
+            ? cardIndex - 1
+            : cards.length - 1
+      )
+    )
   }, [cardIndex, cards.length, dispatch])
 
   const handlers = useSwipeable({

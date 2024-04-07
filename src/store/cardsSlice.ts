@@ -6,6 +6,7 @@ interface CardsState {
   cardIndex: number
   cards: Card[]
   isExamples: boolean
+  isRandom: boolean
 }
 
 export const emptyCard = {
@@ -17,7 +18,8 @@ export const emptyCard = {
 const initialState: CardsState = {
   cardIndex: 0,
   cards: [],
-  isExamples: true,
+  isExamples: JSON.parse(localStorage.getItem('isExamples') || 'true'),
+  isRandom: JSON.parse(localStorage.getItem('isRandom') || 'true'),
 }
 
 export const cardsSlice = createSlice({
@@ -25,7 +27,12 @@ export const cardsSlice = createSlice({
   initialState,
   reducers: {
     toggleIsExamples: (state) => {
+      localStorage.setItem('isExamples', JSON.stringify(!state.isExamples))
       state.isExamples = !state.isExamples
+    },
+    toggleIsRandom: (state) => {
+      localStorage.setItem('isRandom', JSON.stringify(!state.isRandom))
+      state.isRandom = !state.isRandom
     },
     setCardIndex: (state, action: PayloadAction<number>) => {
       localStorage.setItem('cardIndex', JSON.stringify(action.payload))
@@ -60,6 +67,7 @@ export const cardsSlice = createSlice({
 
 export const {
   toggleIsExamples,
+  toggleIsRandom,
   setCardIndex,
   editCard,
   addCard,
@@ -68,6 +76,7 @@ export const {
 } = cardsSlice.actions
 
 export const selectIsExamples = (state: RootState) => state.cards.isExamples
+export const selectIsRandom = (state: RootState) => state.cards.isRandom
 export const selectCards = (state: RootState) => state.cards.cards
 export const selectCardIndex = (state: RootState) => state.cards.cardIndex
 
