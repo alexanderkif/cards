@@ -8,20 +8,16 @@
   .fields {
     display: flex;
     flex-direction: column;
-    gap: 5vh;
+    gap: 3vh;
     width: 100%;
 
     input {
-      padding: 0.5vmin 1vmin;
-      border-radius: 1vmin;
-      font-size: 5vmin;
+      padding: 0.5vmin 2vmin;
+      border-radius: 2vmin;
+      font-size: 7vmin;
       outline: none;
       border: 2px solid var(--color-green);
 
-      &.example {
-        font-size: 3vmin;
-      }
-  
       &:invalid {
         border-color: var(--color-red);
       }

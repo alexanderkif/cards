@@ -84,11 +84,16 @@ function CardComponent() {
             {isExamples && (
               <div className="examples">
                 <ul>
-                  {cards[cardIndex].examples.map((example, index) => (
-                    <li key={`${cards[cardIndex].head}_${example}-${index}`}>
-                      {example}
-                    </li>
-                  ))}
+                  {cards[cardIndex].examples.map(
+                    (example, index) =>
+                      example && (
+                        <li
+                          key={`${cards[cardIndex].head}_${example}-${index}`}
+                        >
+                          {example}
+                        </li>
+                      )
+                  )}
                 </ul>
               </div>
             )}

@@ -18,7 +18,7 @@
     font-size: 40px;
     transform-style: preserve-3d;
     transform-origin: bottom center;
-    transition: transform .5s ease-in-out;
+    transition: transform .3s ease-in-out;
 
     &.flipped {
       transform: translateY(-100%) rotateX(180deg);

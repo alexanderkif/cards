@@ -24,8 +24,6 @@ function App() {
   } else {
     dispatch(setCards(cardsExample))
   }
-  console.log('cardIndexInStore', cardIndexInStore)
-  console.log('cardsInStore', cardsInStore)
 
   return (
     <div onClick={() => dispatch(closeMenu())}>
