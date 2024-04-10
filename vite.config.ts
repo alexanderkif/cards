@@ -16,27 +16,9 @@ export default defineConfig({
         name: 'Cards',
         short_name: 'Cards',
         icons,
-        // icons: [
-        //   {
-        //       src: '/assets/favicon/android-chrome-96x96.png',
-        //       sizes: '96x96',
-        //       type : 'image/png'
-        //   },
-        //   {
-        //       src: '/assets/favicon/android-chrome-192x192.png',
-        //       sizes: '192x192',
-        //       type : 'image/png'
-        //   },
-        //   {
-        //       src: '/assets/favicon/android-chrome-512x512.png',
-        //       sizes: '512x512',
-        //       type: 'image/png',
-        //       purpose: 'any'
-        //   },
-        // ],
         theme_color: '#000000',
         background_color: '#000000',
-        // display: 'standalone'
+        display: 'fullscreen'
       },
       // workbox: {
       //   cleanupOutdatedCaches: true,
