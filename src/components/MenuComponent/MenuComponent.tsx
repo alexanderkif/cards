@@ -2,16 +2,6 @@ import { SyntheticEvent, useRef } from 'react'
 import './MenuComponent.scss'
 import ExcelJS from 'exceljs'
 import FileSaver from 'file-saver'
-import menuIcon from '@/assets/line-3-svgrepo-com.svg'
-import cardsIcon from '@/assets/layers-3-svgrepo-com.svg'
-import examplesIcon from '@/assets/paper-clip-svgrepo-com.svg'
-import randomIcon from '@/assets/arrow-left-arrow-right-svgrepo-com.svg'
-import questionIcon from '@/assets/question-circle-svgrepo-com.svg'
-import addIcon from '@/assets/plus-circle-svgrepo-com.svg'
-import editIcon from '@/assets/pencil-svgrepo-com.svg'
-import downloadIcon from '@/assets/cloud-download-svgrepo-com.svg'
-import saveToFileIcon from '@/assets/cloud-arrow-up-svgrepo-com.svg'
-import removeAllIcon from '@/assets/xmark-circle-svgrepo-com.svg'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   selectIsOpen,
@@ -27,7 +17,8 @@ import {
   toggleIsExamples,
   toggleIsRandom,
 } from '@/store/cardsSlice'
-import { Card, Routes } from '@/types/types'
+import { Card, Routes, SVGIcons } from '@/types/types'
+import SVGIcon from './SVGIcons'
 
 function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -47,15 +38,15 @@ function MenuComponent() {
   }
 
   function getMenuItem(
-    icon: string,
+    svg: SVGIcons,
     iconClass = '',
     text: string,
     fn: () => void = () => {}
   ) {
     return (
       <li onClick={fn}>
-        <img src={icon} className={`itemIcon ${iconClass}`} alt={text} />
-        <span className="itemText">{text}</span>
+        <SVGIcon name={svg} svgClass={`itemIcon ${iconClass}`} />
+        <span className={`itemText ${iconClass}`}>{text}</span>
       </li>
     )
   }
@@ -135,50 +126,53 @@ function MenuComponent() {
         className={isOpen ? 'menuButton opened' : 'menuButton'}
         onClick={handleClick}
       >
-        <img src={menuIcon} className="menuIcon" alt="Menu" />
+        <SVGIcon
+          name={SVGIcons.menu}
+          svgClass={`menuIcon ${isOpen ? 'purple' : 'green'}`}
+        />
       </button>
-      <div className={isOpen ? 'drawer opened' : 'drawer'}>
+      <div className={`drawer ${isOpen ? 'opened' : ''}`}>
         <ul>
           {getMenuItem(
-            cardsIcon,
+            SVGIcons.cards,
             getActiveRouteClass(Routes.card),
             'Cards',
             setRoute(Routes.card)
           )}
           {getMenuItem(
-            addIcon,
+            SVGIcons.add,
             getActiveRouteClass(Routes.new),
             'Add new card',
             setRoute(Routes.new)
           )}
           {getMenuItem(
-            editIcon,
+            SVGIcons.edit,
             getActiveRouteClass(Routes.edit),
             'Edit current card',
             setRoute(Routes.edit)
           )}
           {getMenuItem(
-            questionIcon,
+            SVGIcons.question,
             getActiveRouteClass(Routes.about),
             'About',
             setRoute(Routes.about)
           )}
           {getMenuItem(
-            examplesIcon,
+            SVGIcons.examples,
             isExamples ? 'active' : '',
             'Show examples',
             () => dispatch(toggleIsExamples())
           )}
           {getMenuItem(
-            randomIcon,
+            SVGIcons.random,
             isRandom ? 'active' : '',
             'Random card',
             () => dispatch(toggleIsRandom())
           )}
-          {getMenuItem(downloadIcon, '', 'Download file', clickLoadFile)}
-          {getMenuItem(saveToFileIcon, '', 'Save to xsl file', saveToFile)}
+          {getMenuItem(SVGIcons.dowload, '', 'Download file', clickLoadFile)}
+          {getMenuItem(SVGIcons.save, '', 'Save to xsl file', saveToFile)}
           {getMenuItem(
-            removeAllIcon,
+            SVGIcons.removeAll,
             'red',
             'Remove all cards!!!',
             removeAllCards

@@ -16,10 +16,10 @@
       border-radius: 2vmin;
       font-size: 7vmin;
       outline: none;
-      border: 2px solid var(--color-green);
+      border: 2px solid var(--color-active);
 
       &:invalid {
-        border-color: var(--color-red);
+        border-color: var(--color-negative);
       }
     }
 
@@ -30,8 +30,8 @@
       button {
         padding: 1vmin 3vmin;
         border-radius: 1vmin;
-        border: 2px solid var(--color-green);
-        color: var(--color-green);
+        border: 2px solid var(--color-active);
+        color: var(--color-active);
         background-color: transparent;
         font-size: 5vmin;
         cursor: pointer;

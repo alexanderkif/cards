@@ -1,6 +1,11 @@
 .menu {
   --menu-width: 20rem;
   --icon-size: 1.5rem;
+  --border-width: 0.7rem;
+
+  svg {
+    fill: var(--color-main);
+  }
 
   .menuButton {
     display: flex;
@@ -15,27 +20,30 @@
     border: none;
     background-color: transparent;
     z-index: 11;
-    will-change: filter;
-    transition: left .4s ease-in-out, filter .8s ease-in-out;
+    will-change: fill;
+    transition: left .4s ease-in-out, fill .8s ease-in-out;
 
     &.opened {
       left: calc(var(--menu-width) - var(--icon-size) * 2 - 1rem);
-      filter: var(--filter-green);
+
+      svg {
+        fill: var(--color-active);
+      }
     }
 
     .menuIcon {
       height: var(--icon-size);
     }
+
     .menuIcon:hover {
-      filter: drop-shadow(0 0 0.6rem #000000);
-    }
-    .menuIcon.react:hover {
-      filter: drop-shadow(0 0 0.6rem #000000);
+      fill: var(--bg-main);
+      box-shadow: 0 0 var(--border-width) var(--border-width) var(--color-active);
+      border-radius: 50%;
+      background-color: var(--color-active);
     }
   }
 
   .drawer {
-    --border-width: 0.3rem;
     position: fixed;
     top: 0;
     left: calc(var(--menu-width) * -1 - var(--border-width));
@@ -43,8 +51,9 @@
     width: var(--menu-width);
     z-index: 10;
     background-color: var(--bg-main);
+    border-right: 2px solid var(--color-active);
+    box-shadow: 0px 0 2px 2px var(--bg-main);
     border-radius: 0 1rem 1rem 0;
-    box-shadow: 0 0 var(--border-width) 0.1rem var(--color-green);
     overflow-x: hidden;
     transition: left .2s ease-in-out;
 
@@ -68,14 +77,6 @@
           flex: auto;
           max-width: 1.5rem;
           padding: 0.5rem;
-
-          &.active {
-            filter: var(--filter-green);
-          }
-
-          &.red {
-            filter: var(--filter-red);
-          }
         }
 
         .itemText {
@@ -83,16 +84,32 @@
           text-align: left;
           padding-left: 0.5rem;
           font-weight: 500;
+        }
 
-          &.red {
-            color: var(--color-red);
-          }
+        .active {
+          color: var(--color-active);
+          fill: var(--color-active);
         }
 
         &:hover {
-          background-color: var(--color-green0a);
-          color: var(--color-green);
-          box-shadow: 0 0 .5rem .5rem var(--color-green0a);
+          background-color: var(--color-active);
+          box-shadow: 0 0 .5rem .5rem var(--color-active);
+          color: var(--bg-main);
+
+          svg, .itemText {
+            fill: var(--bg-main);
+            color: var(--bg-main);
+
+            &.red {
+              color: var(--color-negative);
+              fill: var(--color-negative);
+            }
+          }
+        }
+
+        .red {
+          color: var(--color-negative);
+          fill: var(--color-negative);
         }
       }
     }

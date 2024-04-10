@@ -1,6 +1,10 @@
 :root {
-  --bg-main: #fcfcfc;
-  --color-main: #333333;
+  --bg-main: #000000;
+  --color-main: #fcffc3;
+  --color-active: #8ef5c8;
+  --color-disabled: #b1b1b1;
+  --color-negative: #ef5400;
+
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
