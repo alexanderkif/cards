@@ -19,8 +19,8 @@ enum Fields {
   example2 = 'example2',
 }
 
-const WORD_LENGTH = 30
-const EXAMPLE_LENGTH = 100
+const WORD_LENGTH = 60
+const EXAMPLE_LENGTH = 120
 
 function AddComponent({ edit = false }: { edit: boolean }) {
   const dispatch = useAppDispatch()

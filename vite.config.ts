@@ -18,7 +18,6 @@ export default defineConfig({
         icons,
         theme_color: '#000000',
         background_color: '#000000',
-        display_override: ['window-controls-overlay', 'minimal-ui'],
         display: 'fullscreen'
       },
       // workbox: {

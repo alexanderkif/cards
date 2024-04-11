@@ -5,6 +5,7 @@
   --color-disabled: #b1b1b1;
   --color-negative: #ef5400;
 
+  color-scheme: only dark;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
