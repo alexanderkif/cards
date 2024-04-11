@@ -18,8 +18,7 @@ export default defineConfig({
         icons,
         theme_color: '#000000',
         background_color: '#000000',
-        // display: 'fullscreen'
-        display: 'standalone'
+        display: 'fullscreen'
       },
       // workbox: {
       //   cleanupOutdatedCaches: true,
