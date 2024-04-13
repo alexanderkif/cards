@@ -169,7 +169,7 @@ function MenuComponent() {
           {getMenuItem(
             SVGIcons.random,
             isRandom ? 'active' : '',
-            'Random card',
+            'Shuffle cards / sort abc',
             () => dispatch(shuffleCards())
           )}
           {getMenuItem(
