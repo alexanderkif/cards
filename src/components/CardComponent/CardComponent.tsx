@@ -4,7 +4,7 @@ import {
   selectCardIndex,
   selectCards,
   selectIsExamples,
-  selectIsRandom,
+  selectIsFlipped,
   setCardIndex,
 } from '@/store/cardsSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
@@ -18,7 +18,7 @@ function CardComponent() {
   const cards = useAppSelector(selectCards)
   const cardIndex = useAppSelector(selectCardIndex)
   const isExamples = useAppSelector(selectIsExamples)
-  const isRandom = useAppSelector(selectIsRandom)
+  const isFlipped = useAppSelector(selectIsFlipped)
   const [isFace, setIsFace] = useState(true)
 
   const hideNextCard = () => {
@@ -27,37 +27,16 @@ function CardComponent() {
     setTimeout(() => el.classList.remove('hideText'), ANIMATION_TIME)
   }
 
-  const getRandomCard = () => {
-    const index = cardIndex + Math.floor(Math.random() * (cards.length - 2) + 1)
-    return index < cards.length ? index : index - cards.length
-  }
-
   const arrowRight = useCallback(() => {
     hideNextCard()
     setIsFace(true)
-    dispatch(
-      setCardIndex(
-        isRandom
-          ? getRandomCard()
-          : cardIndex < cards.length - 1
-            ? cardIndex + 1
-            : 0
-      )
-    )
+    dispatch(setCardIndex(cardIndex < cards.length - 1 ? cardIndex + 1 : 0))
   }, [cardIndex, cards.length, dispatch])
 
   const arrowLeft = useCallback(() => {
     hideNextCard()
     setIsFace(true)
-    dispatch(
-      setCardIndex(
-        isRandom
-          ? getRandomCard()
-          : cardIndex > 0
-            ? cardIndex - 1
-            : cards.length - 1
-      )
-    )
+    dispatch(setCardIndex(cardIndex > 0 ? cardIndex - 1 : cards.length - 1))
   }, [cardIndex, cards.length, dispatch])
 
   const handlers = useSwipeable({
@@ -91,10 +70,10 @@ function CardComponent() {
           className={`card ${isFace ? '' : 'flipped'}`}
           onClick={() => setIsFace(!isFace)}
         >
-          <div className="content">
+          <div className={`content ${isFlipped ? 'back' : ''}`}>
             <div className="text">{cards[cardIndex].head}</div>
           </div>
-          <div className="content back" ref={backRef}>
+          <div className={`content ${isFlipped ? '' : 'back'}`} ref={backRef}>
             <div className="text">
               <ul>
                 {cards[cardIndex].tails.map((tail, index) => (

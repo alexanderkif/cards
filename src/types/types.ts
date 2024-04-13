@@ -22,4 +22,5 @@ export enum SVGIcons {
   dowload = 'dowload',
   save = 'save',
   removeAll = 'removeAll',
+  flip = 'flip',
 }

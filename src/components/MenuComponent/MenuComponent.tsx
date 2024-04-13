@@ -10,12 +10,14 @@ import {
   toggleMenu,
 } from '@/store/menuSlice'
 import {
+  flipAllCards,
   selectIsExamples,
+  selectIsFlipped,
   selectIsRandom,
   setCardIndex,
   setCards,
   toggleIsExamples,
-  toggleIsRandom,
+  shuffleCards,
 } from '@/store/cardsSlice'
 import { Card, Routes, SVGIcons } from '@/types/types'
 import SVGIcon from './SVGIcons'
@@ -25,6 +27,7 @@ function MenuComponent() {
   const isOpen = useAppSelector(selectIsOpen)
   const isExamples = useAppSelector(selectIsExamples)
   const isRandom = useAppSelector(selectIsRandom)
+  const isFlipped = useAppSelector(selectIsFlipped)
   const page = useAppSelector(selectPage)
   const dispatch = useAppDispatch()
   const handleClick = (event: SyntheticEvent) => {
@@ -167,7 +170,13 @@ function MenuComponent() {
             SVGIcons.random,
             isRandom ? 'active' : '',
             'Random card',
-            () => dispatch(toggleIsRandom())
+            () => dispatch(shuffleCards())
+          )}
+          {getMenuItem(
+            SVGIcons.flip,
+            isFlipped ? 'active' : '',
+            'Flip all cards',
+            () => dispatch(flipAllCards())
           )}
           {getMenuItem(SVGIcons.dowload, '', 'Download file', clickLoadFile)}
           {getMenuItem(SVGIcons.save, '', 'Save to xsl file', saveToFile)}
