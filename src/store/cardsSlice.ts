@@ -62,19 +62,17 @@ export const cardsSlice = createSlice({
       state,
       action: PayloadAction<{ card: Card; cardIndex: number }>
     ) => {
-      const newCards = [...state.cards]
-      newCards[action.payload.cardIndex] = action.payload.card
-      localStorage.setItem('cards', JSON.stringify(newCards))
-      state.cards = newCards
+      state.cards[action.payload.cardIndex] = action.payload.card
+      state.cards = [...state.cards]
+      localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     addCard: (state, action: PayloadAction<Card>) => {
-      const newCards = [...state.cards, action.payload]
-      localStorage.setItem('cards', JSON.stringify(newCards))
-      state.cards = newCards
+      state.cards = [...state.cards, action.payload]
+      localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     setCards: (state, action: PayloadAction<Card[]>) => {
-      localStorage.setItem('cards', JSON.stringify(action.payload))
       state.cards = action.payload
+      localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     flipAllCards: (state) => {
       state.isFlipCards = !state.isFlipCards

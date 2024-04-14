@@ -15,6 +15,7 @@ const ANIMATION_TIME = 400
 
 function CardComponent() {
   const dispatch = useAppDispatch()
+  const cardRef = useRef(null)
   const backRef = useRef(null)
   const cards = useAppSelector(selectCards)
   const cardIndex = useAppSelector(selectCardIndex)
@@ -31,11 +32,16 @@ function CardComponent() {
   useEffect(() => {
     hideNextCard()
     setIsFace(true)
-  }, [cardIndex])
+  }, [cards, cardIndex])
 
   const handlers = useSwipeable({
     onSwipedLeft: () => dispatch(setNextCardIndex()),
-    onSwipedRight: () => dispatch(setPrevCardIndex()),
+    onSwipedRight: () => {
+      dispatch(setPrevCardIndex())
+      const el: HTMLElement = cardRef.current!
+      el.classList.add('out-right')
+      setTimeout(() => el.classList.remove('out-right'), ANIMATION_TIME)
+    },
     onSwipedUp: () => setIsFace(false),
     onSwipedDown: () => setIsFace(true),
   })
@@ -61,6 +67,7 @@ function CardComponent() {
     <div className="cardComponent" {...handlers}>
       {cards[cardIndex] && (
         <div
+          ref={cardRef}
           className={`card ${isFace ? '' : 'flipped'}`}
           onClick={() => setIsFace(!isFace)}
         >
