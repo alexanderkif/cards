@@ -1,9 +1,17 @@
 :root {
+  --bg-mix: 50%;
+  --text-mix: 30%;
   --bg-main: #000000;
-  --color-main: #fcffc3;
-  --color-active: #8ef5c8;
-  --color-disabled: #b1b1b1;
-  --color-negative: #ff8d0d;
+  --bg-light-bright: #0c5eff;
+  --color-light: #FFFFFF;
+  --color-main-bright: #FFF500;
+  --color-active-bright: #9900FF;
+  --color-negative-bright: #FF1200;
+  --color-main: color-mix(in srgb, var(--color-main-bright) var(--text-mix), var(--color-light));
+  --color-active: color-mix(in srgb, var(--color-active-bright) var(--text-mix), var(--color-light));
+  --color-negative: color-mix(in srgb, var(--color-negative-bright) var(--text-mix), var(--color-light));
+  --bg-light: color-mix(in srgb, var(--bg-light-bright) var(--text-mix), var(--color-light));
+  --menu-opacity: 0.3;
 
   color-scheme: only dark;
 
@@ -18,6 +26,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-tap-highlight-color: transparent;
 }
 
 body {

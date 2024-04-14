@@ -37,8 +37,8 @@
         cursor: pointer;
 
         &:disabled {
-          border: 2px solid var(--color-disabled);
-          color: var(--color-disabled);
+          border: 2px solid var(--color-negative);
+          color: var(--color-negative);
           cursor: not-allowed;
         }
       }

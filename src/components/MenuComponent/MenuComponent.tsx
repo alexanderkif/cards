@@ -160,6 +160,7 @@ function MenuComponent() {
             'About',
             setRoute(Routes.about)
           )}
+          <hr />
           {getMenuItem(
             SVGIcons.examples,
             isExamples ? 'active' : '',
@@ -178,11 +179,11 @@ function MenuComponent() {
             'Flip all cards',
             () => dispatch(flipAllCards())
           )}
-          {getMenuItem(SVGIcons.dowload, '', 'Download file', clickLoadFile)}
           {getMenuItem(SVGIcons.save, '', 'Save to xsl file', saveToFile)}
+          {getMenuItem(SVGIcons.dowload, 'negative', 'Download file', clickLoadFile)}
           {getMenuItem(
             SVGIcons.removeAll,
-            'red',
+            'negative',
             'Remove all cards!!!',
             removeAllCards
           )}
