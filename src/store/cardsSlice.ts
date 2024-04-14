@@ -37,17 +37,26 @@ export const cardsSlice = createSlice({
   initialState,
   reducers: {
     toggleIsExamples: (state) => {
-      localStorage.setItem('isExamples', JSON.stringify(!state.isExamples))
       state.isExamples = !state.isExamples
+      localStorage.setItem('isExamples', JSON.stringify(state.isExamples))
     },
     shuffleCards: (state) => {
       state.isRandom = !state.isRandom
-      localStorage.setItem('isRandom', JSON.stringify(!state.isRandom))
+      localStorage.setItem('isRandom', JSON.stringify(state.isRandom))
       state.cards = state.isRandom ? shuffle(state.cards) : [...state.cards.sort((c1, c2) => c1.head.localeCompare(c2.head))]
+      localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     setCardIndex: (state, action: PayloadAction<number>) => {
-      localStorage.setItem('cardIndex', JSON.stringify(action.payload))
       state.cardIndex = action.payload
+      localStorage.setItem('cardIndex', JSON.stringify(state.cardIndex))
+    },
+    setNextCardIndex: (state) => {
+      state.cardIndex = state.cardIndex < state.cards.length - 1 ? state.cardIndex + 1 : 0
+      localStorage.setItem('cardIndex', JSON.stringify(state.cardIndex))
+    },
+    setPrevCardIndex: (state) => {
+      state.cardIndex = state.cardIndex > 0 ? state.cardIndex - 1 : state.cards.length - 1
+      localStorage.setItem('cardIndex', JSON.stringify(state.cardIndex))
     },
     editCard: (
       state,
@@ -68,8 +77,8 @@ export const cardsSlice = createSlice({
       state.cards = action.payload
     },
     flipAllCards: (state) => {
-      localStorage.setItem('isFlipCards', JSON.stringify(!state.isFlipCards))
       state.isFlipCards = !state.isFlipCards
+      localStorage.setItem('isFlipCards', JSON.stringify(state.isFlipCards))
     },
     removeAllCards: (state) => {
       localStorage.removeItem('cardIndex')
@@ -84,6 +93,8 @@ export const {
   toggleIsExamples,
   shuffleCards,
   setCardIndex,
+  setNextCardIndex,
+  setPrevCardIndex,
   editCard,
   addCard,
   setCards,

@@ -21,6 +21,7 @@ import {
 } from '@/store/cardsSlice'
 import { Card, Routes, SVGIcons } from '@/types/types'
 import SVGIcon from './SVGIcons'
+import { useSwipeable } from 'react-swipeable'
 
 function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -122,6 +123,10 @@ function MenuComponent() {
       `Cards ${new Date().toLocaleDateString()}.xlsx`
     )
   }
+  
+  const handlers = useSwipeable({
+    onSwipedLeft: () => dispatch(toggleMenu())
+  })
 
   return (
     <div className="menu">
@@ -134,7 +139,7 @@ function MenuComponent() {
           svgClass={`menuIcon ${isOpen ? 'purple' : 'green'}`}
         />
       </button>
-      <div className={`drawer ${isOpen ? 'opened' : ''}`}>
+      <div className={`drawer ${isOpen ? 'opened' : ''}`} {...handlers}>
         <ul>
           {getMenuItem(
             SVGIcons.cards,

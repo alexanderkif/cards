@@ -5,7 +5,8 @@ import {
   selectCards,
   selectIsExamples,
   selectIsFlipped,
-  setCardIndex,
+  setNextCardIndex,
+  setPrevCardIndex,
 } from '@/store/cardsSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useSwipeable } from 'react-swipeable'
@@ -27,21 +28,14 @@ function CardComponent() {
     setTimeout(() => el.classList.remove('hideText'), ANIMATION_TIME)
   }
 
-  const arrowRight = useCallback(() => {
+  useEffect(() => {
     hideNextCard()
     setIsFace(true)
-    dispatch(setCardIndex(cardIndex < cards.length - 1 ? cardIndex + 1 : 0))
-  }, [cardIndex, cards.length, dispatch])
-
-  const arrowLeft = useCallback(() => {
-    hideNextCard()
-    setIsFace(true)
-    dispatch(setCardIndex(cardIndex > 0 ? cardIndex - 1 : cards.length - 1))
-  }, [cardIndex, cards.length, dispatch])
+  }, [cardIndex])
 
   const handlers = useSwipeable({
-    onSwipedLeft: () => arrowRight(),
-    onSwipedRight: () => arrowLeft(),
+    onSwipedLeft: () => dispatch(setNextCardIndex()),
+    onSwipedRight: () => dispatch(setPrevCardIndex()),
     onSwipedUp: () => setIsFace(false),
     onSwipedDown: () => setIsFace(true),
   })
@@ -50,10 +44,10 @@ function CardComponent() {
     ({ key }: KeyboardEvent): void => {
       if (key === 'ArrowUp') setIsFace(false)
       if (key === 'ArrowDown') setIsFace(true)
-      if (key === 'ArrowRight') arrowRight()
-      if (key === 'ArrowLeft') arrowLeft()
+      if (key === 'ArrowRight') dispatch(setNextCardIndex())
+      if (key === 'ArrowLeft') dispatch(setPrevCardIndex())
     },
-    [arrowLeft, arrowRight]
+    [dispatch]
   )
 
   useEffect(() => {
