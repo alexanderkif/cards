@@ -43,7 +43,7 @@ export const cardsSlice = createSlice({
     shuffleCards: (state) => {
       state.isRandom = !state.isRandom
       localStorage.setItem('isRandom', JSON.stringify(state.isRandom))
-      state.cards = state.isRandom ? shuffle(state.cards) : [...state.cards.sort((c1, c2) => c1.head.localeCompare(c2.head))]
+      state.cards = state.isRandom ? [...shuffle(state.cards)] : [...state.cards.sort((c1, c2) => c1.head.localeCompare(c2.head))]
       localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     setCardIndex: (state, action: PayloadAction<number>) => {
@@ -64,14 +64,16 @@ export const cardsSlice = createSlice({
     ) => {
       state.cards[action.payload.cardIndex] = action.payload.card
       state.cards = [...state.cards]
+      state.cardIndex = action.payload.cardIndex
       localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     addCard: (state, action: PayloadAction<Card>) => {
       state.cards = [...state.cards, action.payload]
+      state.cardIndex = state.cards.indexOf(action.payload)
       localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     setCards: (state, action: PayloadAction<Card[]>) => {
-      state.cards = action.payload
+      state.cards = [...action.payload]
       localStorage.setItem('cards', JSON.stringify(state.cards))
     },
     flipAllCards: (state) => {

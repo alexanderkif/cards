@@ -32,7 +32,7 @@ function CardComponent() {
   useEffect(() => {
     hideNextCard()
     setIsFace(true)
-  }, [cards, cardIndex])
+  }, [cardIndex])
 
   const handlers = useSwipeable({
     onSwipedLeft: () => dispatch(setNextCardIndex()),
