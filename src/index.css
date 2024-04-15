@@ -11,6 +11,7 @@
   --color-active: color-mix(in srgb, var(--color-active-bright) var(--text-mix), var(--color-light));
   --color-negative: color-mix(in srgb, var(--color-negative-bright) var(--text-mix), var(--color-light));
   --bg-light: color-mix(in srgb, var(--bg-light-bright) var(--text-mix), var(--color-light));
+  --bg-light-back: color-mix(in srgb, var(--color-active-bright) var(--text-mix), var(--color-light));
   --menu-opacity: 0.3;
 
   color-scheme: only dark;

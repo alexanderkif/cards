@@ -17,11 +17,12 @@
     font-size: 40px;
     transform-style: preserve-3d;
     transform-origin: bottom center;
-    transition: transform .3s ease-in-out;
+    transition: transform .3s ease-in-out, background-color .3s ease-in-out;
     color: var(--bg-main);
 
     &.flipped {
       transform: translateY(-100%) rotateX(180deg);
+      background-color: var(--bg-light-back);
     }
 
     &.out-right {
