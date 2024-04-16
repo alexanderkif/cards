@@ -29,11 +29,15 @@ function App() {
   }
 
   const handlers = useSwipeable({
-    onSwipedRight: (e) => {
+    onSwipedRight: e => {
       if (e.initial[0] < 50) dispatch(toggleMenu())
+      if (!(e.event.target as HTMLElement).classList.contains('page')) return null
       else swipeFn.current(Direction.left)
     },
-    onSwipedLeft: () => swipeFn.current(Direction.right),
+    onSwipedLeft: e => {
+      if (!(e.event.target as HTMLElement).classList.contains('page')) return null
+      swipeFn.current(Direction.right)
+    },
   })
 
   return (
