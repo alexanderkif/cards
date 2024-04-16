@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import './CardComponent.scss'
 import {
   selectCardIndex,
@@ -10,10 +16,16 @@ import {
 } from '@/store/cardsSlice'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useSwipeable } from 'react-swipeable'
+import { HandledEvents } from 'react-swipeable/es/types'
+import { Direction } from '@/types/types'
 
-const ANIMATION_TIME = 400
+const ANIMATION_TIME = 300
 
-function CardComponent() {
+function CardComponent({
+  swipeFn,
+}: {
+  swipeFn: MutableRefObject<(direction: Direction) => void>
+}) {
   const dispatch = useAppDispatch()
   const cardRef = useRef(null)
   const backRef = useRef(null)
@@ -24,9 +36,9 @@ function CardComponent() {
   const [isFace, setIsFace] = useState(true)
 
   const hideNextCard = () => {
-    const el: HTMLElement = backRef.current!
-    el.classList.add('hideText')
-    setTimeout(() => el.classList.remove('hideText'), ANIMATION_TIME)
+    const backEl: HTMLElement = backRef.current!
+    backEl.classList.add('hideText')
+    setTimeout(() => backEl.classList.remove('hideText'), ANIMATION_TIME)
   }
 
   useEffect(() => {
@@ -34,13 +46,34 @@ function CardComponent() {
     setIsFace(true)
   }, [cardIndex])
 
+  useEffect(() => {
+    swipeFn.current = slideCard
+  }, [swipeFn.current])
+
+  const slideCard = (direction: Direction) => {
+    const cardEl: HTMLElement = cardRef.current!
+    cardEl.classList.add(`slide-${direction}`)
+    setTimeout(
+      () =>
+        direction === Direction.right
+          ? dispatch(setNextCardIndex())
+          : dispatch(setPrevCardIndex()),
+      ANIMATION_TIME / 2
+    )
+    setTimeout(
+      () => cardEl.classList.remove(`slide-${direction}`),
+      ANIMATION_TIME
+    )
+  }
+
   const handlers = useSwipeable({
-    onSwipedLeft: () => dispatch(setNextCardIndex()),
-    onSwipedRight: () => {
-      dispatch(setPrevCardIndex())
-      const el: HTMLElement = cardRef.current!
-      el.classList.add('out-right')
-      setTimeout(() => el.classList.remove('out-right'), ANIMATION_TIME)
+    onSwipedLeft: ({ event }: { event: HandledEvents }) => {
+      event.stopPropagation()
+      slideCard(Direction.right)
+    },
+    onSwipedRight: ({ event }: { event: HandledEvents }) => {
+      event.stopPropagation()
+      slideCard(Direction.left)
     },
     onSwipedUp: () => setIsFace(false),
     onSwipedDown: () => setIsFace(true),
@@ -50,8 +83,8 @@ function CardComponent() {
     ({ key }: KeyboardEvent): void => {
       if (key === 'ArrowUp') setIsFace(false)
       if (key === 'ArrowDown') setIsFace(true)
-      if (key === 'ArrowRight') dispatch(setNextCardIndex())
-      if (key === 'ArrowLeft') dispatch(setPrevCardIndex())
+      if (key === 'ArrowRight') slideCard(Direction.left)
+      if (key === 'ArrowLeft') slideCard(Direction.right)
     },
     [dispatch]
   )

@@ -1,5 +1,6 @@
 .cardComponent {
   --card-size: 80vmin;
+  --animation-time: 0.3s;
 
   width: var(--card-size);
   height: var(--card-size);
@@ -17,7 +18,9 @@
     font-size: 40px;
     transform-style: preserve-3d;
     transform-origin: bottom center;
-    transition: transform .3s ease-in-out, background-color .3s ease-in-out;
+    transition:
+      transform var(--animation-time) ease-in-out,
+      background-color var(--animation-time) ease-in-out;
     color: var(--bg-main);
 
     &.flipped {
@@ -25,11 +28,46 @@
       background-color: var(--bg-light-back);
     }
 
-    &.out-right {
-      transform: translateX(100%) rotateY(90deg);
+    &.slide-left {
+      -webkit-animation: card-slide-left var(--animation-time)
+        cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      animation: card-slide-left var(--animation-time)
+        cubic-bezier(0.455, 0.03, 0.515, 0.955);
+    }
+
+    &.slide-right {
+      -webkit-animation: card-slide-left var(--animation-time)
+        cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse;
+      animation: card-slide-left var(--animation-time)
+        cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse;
     }
   }
-  
+
+  @-webkit-keyframes card-slide-left {
+    50% {
+      -webkit-transform: translateX(70%) translateZ(-40vmin) rotateY(65deg);
+      transform: translateX(70%) translateZ(-40vmin) rotateY(65deg);
+      opacity: 0;
+    }
+    51% {
+      -webkit-transform: translateX(-70%) translateZ(-40vmin) rotateY(-65deg);
+      transform: translateX(-70%) translateZ(-40vmin) rotateY(-65deg);
+      opacity: 0;
+    }
+  }
+  @keyframes card-slide-left {
+    50% {
+      -webkit-transform: translateX(70%) translateZ(-40vmin) rotateY(65deg);
+      transform: translateX(70%) translateZ(-40vmin) rotateY(65deg);
+      opacity: 0;
+    }
+    51% {
+      -webkit-transform: translateX(-70%) translateZ(-40vmin) rotateY(-65deg);
+      transform: translateX(-70%) translateZ(-40vmin) rotateY(-65deg);
+      opacity: 0;
+    }
+  }
+
   .content {
     position: absolute;
     display: flex;
@@ -40,7 +78,7 @@
     height: 100%;
     backface-visibility: hidden;
   }
-  
+
   .back {
     transform: rotateX(180deg);
   }

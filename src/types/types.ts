@@ -24,3 +24,8 @@ export enum SVGIcons {
   removeAll = 'removeAll',
   flip = 'flip',
 }
+
+export enum Direction {
+  left = 'left',
+  right = 'right',
+}
