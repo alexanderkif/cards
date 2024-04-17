@@ -26,6 +26,16 @@
     &.flipped {
       transform: translateY(-100%) rotateX(180deg);
       background-color: var(--bg-light-back);
+
+      &.slide-left {
+        -webkit-animation: none;
+        animation: none;
+      }
+  
+      &.slide-right {
+        -webkit-animation: none;
+        animation: none;
+      }
     }
 
     &.slide-left {
