@@ -18,6 +18,7 @@ import {
   setCards,
   toggleIsExamples,
   shuffleCards,
+  selectCards,
 } from '@/store/cardsSlice'
 import { Card, Routes, SVGIcons } from '@/types/types'
 import SVGIcon from './SVGIcons'
@@ -30,12 +31,17 @@ function MenuComponent() {
   const isRandom = useAppSelector(selectIsRandom)
   const isFlipped = useAppSelector(selectIsFlipped)
   const page = useAppSelector(selectPage)
+  const cards = useAppSelector(selectCards)
   const dispatch = useAppDispatch()
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation()
     dispatch(toggleMenu())
   }
   const removeAllCards = () => {
+    const confirmation = confirm('All existing cards will be removed.')
+    if (!confirmation) {
+      return
+    }
     dispatch(setPage(Routes.new))
     dispatch(setCardIndex(0))
     dispatch(setCards([]))
@@ -64,6 +70,12 @@ function MenuComponent() {
   }
 
   function clickLoadFile() {
+    const confirmation = confirm(
+      'All existing cards will be overwritten with new cards.'
+    )
+    if (!confirmation) {
+      return
+    }
     if (fileInput.current) fileInput.current.click()
   }
 
@@ -95,6 +107,13 @@ function MenuComponent() {
   }
 
   async function saveToFile() {
+    const fileName = prompt(
+      'Please enter file name',
+      `Cards ${new Date().toLocaleDateString()}.xlsx`
+    )
+    if (fileName === null) {
+      return
+    }
     const cards = JSON.parse(localStorage.getItem('cards') || '') as Card[]
     const rows = cards.map((c) => ({
       head: c.head,
@@ -118,14 +137,11 @@ function MenuComponent() {
     worksheet.getRow(1).alignment = { horizontal: 'center' }
     worksheet.getRow(1).font = { bold: true }
     const buffer = await workbook.xlsx.writeBuffer()
-    FileSaver.saveAs(
-      new Blob([buffer]),
-      `Cards ${new Date().toLocaleDateString()}.xlsx`
-    )
+    FileSaver.saveAs(new Blob([buffer]), fileName)
   }
-  
+
   const handlers = useSwipeable({
-    onSwipedLeft: () => dispatch(toggleMenu())
+    onSwipedLeft: () => dispatch(toggleMenu()),
   })
 
   return (
@@ -145,7 +161,7 @@ function MenuComponent() {
             SVGIcons.cards,
             getActiveRouteClass(Routes.card),
             'Cards',
-            setRoute(Routes.card)
+            setRoute(cards.length === 0 ? Routes.new : Routes.card)
           )}
           {getMenuItem(
             SVGIcons.add,
@@ -157,7 +173,7 @@ function MenuComponent() {
             SVGIcons.edit,
             getActiveRouteClass(Routes.edit),
             'Edit current card',
-            setRoute(Routes.edit)
+            setRoute(cards.length === 0 ? Routes.new : Routes.edit)
           )}
           {getMenuItem(
             SVGIcons.question,
@@ -185,7 +201,12 @@ function MenuComponent() {
             () => dispatch(flipAllCards())
           )}
           {getMenuItem(SVGIcons.save, '', 'Save to xsl file', saveToFile)}
-          {getMenuItem(SVGIcons.dowload, 'negative', 'Download file', clickLoadFile)}
+          {getMenuItem(
+            SVGIcons.dowload,
+            'negative',
+            'Download file',
+            clickLoadFile
+          )}
           {getMenuItem(
             SVGIcons.removeAll,
             'negative',

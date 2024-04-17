@@ -17,7 +17,8 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { useSwipeable } from 'react-swipeable'
 import { HandledEvents } from 'react-swipeable/es/types'
-import { Direction } from '@/types/types'
+import { Direction, Routes } from '@/types/types'
+import { setPage } from '@/store/menuSlice'
 
 const ANIMATION_TIME = 300
 
@@ -36,10 +37,17 @@ function CardComponent({
   const [isFace, setIsFace] = useState(true)
 
   const hideNextCard = () => {
-    const backEl: HTMLElement = backRef.current!
+    if (!backRef.current) {
+      return
+    }
+    const backEl: HTMLElement = backRef.current
     backEl.classList.add('hideText')
     setTimeout(() => backEl.classList.remove('hideText'), ANIMATION_TIME)
   }
+
+  useEffect(() => {
+    if (cards.length === 0) dispatch(setPage(Routes.new))
+  }, [cards])
 
   useEffect(() => {
     hideNextCard()
@@ -51,7 +59,10 @@ function CardComponent({
   }, [swipeFn.current])
 
   const slideCard = (direction: Direction) => {
-    const cardEl: HTMLElement = cardRef.current!
+    if (!cardRef.current) {
+      return
+    }
+    const cardEl: HTMLElement = cardRef.current
     cardEl.classList.add(`slide-${direction}`)
     setTimeout(
       () =>
