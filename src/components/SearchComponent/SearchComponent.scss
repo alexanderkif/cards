@@ -1,15 +1,41 @@
 .searchComponent {
   display: flex;
   justify-content: center;
-  align-items: center;
   height: 100vh;
   width: 100vw;
   
   .fields {
-    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 5rem;
     width: 80vw;
     max-width: 50rem;
-    text-align: center;
-    font-size: 5vmin;
+
+    input {
+      padding: 0.5vmin 2vmin;
+      border-radius: 2vmin;
+      font-size: 7vmin;
+      outline: none;
+      border: 2px solid var(--color-active);
+
+      &:invalid {
+        border-color: var(--color-negative);
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        display: flex;
+        align-items: center;
+        margin-top: 1rem;
+        border-bottom: 1px solid;
+        font-size: 5vmin;
+        cursor: pointer;
+      }
+    }
   }
 }

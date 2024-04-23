@@ -173,6 +173,12 @@ function MenuComponent() {
             setRoute(cards.length === 0 ? Routes.new : Routes.card)
           )}
           {getMenuItem(
+            SVGIcons.search,
+            getActiveRouteClass(Routes.search),
+            'Search',
+            setRoute(Routes.search)
+          )}
+          {getMenuItem(
             SVGIcons.add,
             getActiveRouteClass(Routes.new),
             'Add new card',
@@ -189,12 +195,6 @@ function MenuComponent() {
             'negative',
             'Remove current card!',
             removeCard
-          )}
-          {getMenuItem(
-            SVGIcons.search,
-            getActiveRouteClass(Routes.search),
-            'Search',
-            setRoute(Routes.search)
           )}
           {getMenuItem(
             SVGIcons.question,
