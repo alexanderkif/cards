@@ -26,16 +26,6 @@
     &.flipped {
       transform: translateY(-100%) rotateX(180deg);
       background-color: var(--bg-light-back);
-
-      &.slide-left {
-        -webkit-animation: none;
-        animation: none;
-      }
-  
-      &.slide-right {
-        -webkit-animation: none;
-        animation: none;
-      }
     }
 
     &.slide-left {
@@ -87,10 +77,10 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-  }
 
-  .back {
-    transform: rotateX(180deg);
+    &.back {
+      transform: rotateX(180deg);
+    }
   }
 
   .text {
@@ -124,9 +114,5 @@
     list-style: none;
     padding: 0;
     margin: 0;
-  }
-
-  .hideText > * {
-    font-size: 0;
   }
 }

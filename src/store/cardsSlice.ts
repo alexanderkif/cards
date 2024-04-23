@@ -104,7 +104,7 @@ export const {
 
 export const selectIsExamples = (state: RootState) => state.cards.isExamples
 export const selectIsRandom = (state: RootState) => state.cards.isRandom
-export const selectIsFlipped = (state: RootState) => state.cards.isFlipCards
+export const selectIsAllFlipped = (state: RootState) => state.cards.isFlipCards
 export const selectCards = (state: RootState) => state.cards.cards
 export const selectCardIndex = (state: RootState) => state.cards.cardIndex
 

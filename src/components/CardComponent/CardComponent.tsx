@@ -10,7 +10,7 @@ import {
   selectCardIndex,
   selectCards,
   selectIsExamples,
-  selectIsFlipped,
+  selectIsAllFlipped,
   setNextCardIndex,
   setPrevCardIndex,
 } from '@/store/cardsSlice'
@@ -33,26 +33,12 @@ function CardComponent({
   const cards = useAppSelector(selectCards)
   const cardIndex = useAppSelector(selectCardIndex)
   const isExamples = useAppSelector(selectIsExamples)
-  const isFlipped = useAppSelector(selectIsFlipped)
+  const isAllCardsFlipped = useAppSelector(selectIsAllFlipped)
   const [isFace, setIsFace] = useState(true)
-
-  const hideNextCard = () => {
-    if (!backRef.current) {
-      return
-    }
-    const backEl: HTMLElement = backRef.current
-    backEl.classList.add('hideText')
-    setTimeout(() => backEl.classList.remove('hideText'), ANIMATION_TIME)
-  }
 
   useEffect(() => {
     if (cards.length === 0) dispatch(setPage(Routes.new))
   }, [cards])
-
-  useEffect(() => {
-    hideNextCard()
-    setIsFace(true)
-  }, [cardIndex])
 
   useEffect(() => {
     swipeFn.current = slideCard
@@ -63,18 +49,26 @@ function CardComponent({
       return
     }
     const cardEl: HTMLElement = cardRef.current
-    cardEl.classList.add(`slide-${direction}`)
-    setTimeout(
-      () =>
-        direction === Direction.right
-          ? dispatch(setNextCardIndex())
-          : dispatch(setPrevCardIndex()),
-      ANIMATION_TIME / 2
-    )
-    setTimeout(
-      () => cardEl.classList.remove(`slide-${direction}`),
-      ANIMATION_TIME
-    )
+    if (cardEl.classList.contains('flipped')) {
+      setIsFace(true)
+      setTimeout(slide, ANIMATION_TIME)
+    } else {
+      slide()
+    }
+    function slide() {
+      cardEl.classList.add(`slide-${direction}`)
+      setTimeout(
+        () =>
+          direction === Direction.right
+            ? dispatch(setNextCardIndex())
+            : dispatch(setPrevCardIndex()),
+        ANIMATION_TIME / 2
+      )
+      setTimeout(
+        () => cardEl.classList.remove(`slide-${direction}`),
+        ANIMATION_TIME
+      )
+    }
   }
 
   const handlers = useSwipeable({
@@ -115,10 +109,10 @@ function CardComponent({
           className={`card ${isFace ? '' : 'flipped'}`}
           onClick={() => setIsFace(!isFace)}
         >
-          <div className={`content ${isFlipped ? 'back' : ''}`}>
+          <div className={`content ${isAllCardsFlipped ? 'back' : ''}`}>
             <div className="text">{cards[cardIndex].head}</div>
           </div>
-          <div className={`content ${isFlipped ? '' : 'back'}`} ref={backRef}>
+          <div className={`content ${isAllCardsFlipped ? '' : 'back'}`} ref={backRef}>
             <div className="text">
               <ul>
                 {cards[cardIndex].tails.map((tail, index) => (

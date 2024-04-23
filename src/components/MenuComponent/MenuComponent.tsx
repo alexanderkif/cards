@@ -12,7 +12,7 @@ import {
 import {
   flipAllCards,
   selectIsExamples,
-  selectIsFlipped,
+  selectIsAllFlipped,
   selectIsRandom,
   setCardIndex,
   setCards,
@@ -29,7 +29,7 @@ function MenuComponent() {
   const isOpen = useAppSelector(selectIsOpen)
   const isExamples = useAppSelector(selectIsExamples)
   const isRandom = useAppSelector(selectIsRandom)
-  const isFlipped = useAppSelector(selectIsFlipped)
+  const isAllCardsFlipped = useAppSelector(selectIsAllFlipped)
   const page = useAppSelector(selectPage)
   const cards = useAppSelector(selectCards)
   const dispatch = useAppDispatch()
@@ -196,7 +196,7 @@ function MenuComponent() {
           )}
           {getMenuItem(
             SVGIcons.flip,
-            isFlipped ? 'active' : '',
+            isAllCardsFlipped ? 'active' : '',
             'Flip all cards',
             () => dispatch(flipAllCards())
           )}
