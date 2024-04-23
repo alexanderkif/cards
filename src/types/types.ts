@@ -17,6 +17,7 @@ export enum SVGIcons {
   cards = 'cards',
   add = 'add',
   edit = 'edit',
+  remove = 'remove',
   search = 'search',
   examples = 'examples',
   random = 'random',

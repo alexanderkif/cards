@@ -86,6 +86,11 @@ export const cardsSlice = createSlice({
       state.cardIndex = 0
       state.cards = []
     },
+    removeCurrentCard: (state) => {
+      state.cards = state.cards.filter(card => card !== state.cards[state.cardIndex])
+      localStorage.setItem('cards', JSON.stringify(state.cards))
+      if (state.cardIndex > state.cards.length - 1) state.cardIndex = 0
+    }
   },
 })
 
@@ -100,6 +105,7 @@ export const {
   setCards,
   flipAllCards,
   removeAllCards,
+  removeCurrentCard,
 } = cardsSlice.actions
 
 export const selectIsExamples = (state: RootState) => state.cards.isExamples

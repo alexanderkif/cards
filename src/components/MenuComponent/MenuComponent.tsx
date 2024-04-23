@@ -19,6 +19,7 @@ import {
   toggleIsExamples,
   shuffleCards,
   selectCards,
+  removeCurrentCard,
 } from '@/store/cardsSlice'
 import { Card, Routes, SVGIcons } from '@/types/types'
 import SVGIcon from './SVGIcons'
@@ -36,6 +37,14 @@ function MenuComponent() {
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation()
     dispatch(toggleMenu())
+  }
+  const removeCard = () => {
+    const confirmation = confirm('Current card will be removed.')
+    if (!confirmation) {
+      return
+    }
+    dispatch(removeCurrentCard())
+    dispatch(setPage(Routes.card))
   }
   const removeAllCards = () => {
     const confirmation = confirm('All existing cards will be removed.')
@@ -174,6 +183,12 @@ function MenuComponent() {
             getActiveRouteClass(Routes.edit),
             'Edit current card',
             setRoute(cards.length === 0 ? Routes.new : Routes.edit)
+          )}
+          {getMenuItem(
+            SVGIcons.remove,
+            'negative',
+            'Remove current card!',
+            removeCard
           )}
           {getMenuItem(
             SVGIcons.search,
