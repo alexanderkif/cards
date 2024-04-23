@@ -25,7 +25,11 @@ function SearchComponent() {
       return <></>
     }
     return cards
-      .filter((card) => String(card.head + card.tails).includes(searchString))
+      .filter((card) =>
+        String(card.head + card.tails)
+          .toLowerCase()
+          .includes(searchString.toLowerCase())
+      )
       .map((card) => (
         <li key={card.head + card.tails} onClick={() => setCurrentCard(card)}>
           {card.head + ' * ' + card.tails.join(' * ')}
