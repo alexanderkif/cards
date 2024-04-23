@@ -9,6 +9,7 @@ export enum Routes {
   about = 'about',
   new = 'new',
   edit = 'edit',
+  search = 'search',
 }
 
 export enum SVGIcons {
@@ -16,6 +17,7 @@ export enum SVGIcons {
   cards = 'cards',
   add = 'add',
   edit = 'edit',
+  search = 'search',
   examples = 'examples',
   random = 'random',
   question = 'question',

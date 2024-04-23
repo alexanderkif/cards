@@ -2,6 +2,7 @@ import { useSwipeable } from 'react-swipeable'
 import './App.scss'
 import cardsExample from './cards-example'
 import AboutComponent from './components/AboutComponent/AboutComponent'
+import SearchComponent from './components/SearchComponent/SearchComponent'
 import AddComponent from './components/AddComponent/AddComponent'
 import CardComponent from './components/CardComponent/CardComponent'
 import MenuComponent from './components/MenuComponent/MenuComponent'
@@ -50,6 +51,7 @@ function App() {
         />
         <Route route={Routes.new} component={<AddComponent edit={false} />} />
         <Route route={Routes.edit} component={<AddComponent edit={true} />} />
+        <Route route={Routes.search} component={<SearchComponent />} />
         <Route route={Routes.about} component={<AboutComponent />} />
       </div>
     </div>
