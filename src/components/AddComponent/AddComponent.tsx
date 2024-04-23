@@ -72,8 +72,8 @@ function AddComponent({ edit = false }: { edit: boolean }) {
   const submitInputs = () => {
     const newCard: Card = {
       head: card.head.trim(),
-      tails: card.tails.map((t) => t.trim()).filter((t) => !!t),
-      examples: card.examples.map((e) => e.trim()).filter((e) => !!e),
+      tails: card.tails.map((t) => t && t.trim()).filter((t) => !!t),
+      examples: card.examples.map((e) => e && e.trim()).filter((e) => !!e),
     }
     if (edit) {
       dispatch(editCard({ card: newCard, cardIndex }))
