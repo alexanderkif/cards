@@ -29,6 +29,6 @@
       "public/*": ["public/*"]
     }
   },
-  "include": ["src", ".eslintrc.cjs"],
+  "include": ["src", ".eslintrc.cjs", "**/*.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

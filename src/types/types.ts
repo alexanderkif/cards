@@ -26,6 +26,7 @@ export enum SVGIcons {
   save = 'save',
   removeAll = 'removeAll',
   flip = 'flip',
+  smile = 'smile',
 }
 
 export enum Direction {

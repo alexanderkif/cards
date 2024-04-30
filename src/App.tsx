@@ -49,9 +49,9 @@ function App() {
           route={Routes.card}
           component={<CardComponent swipeFn={swipeFn} />}
         />
+        <Route route={Routes.search} component={<SearchComponent />} />
         <Route route={Routes.new} component={<AddComponent edit={false} />} />
         <Route route={Routes.edit} component={<AddComponent edit={true} />} />
-        <Route route={Routes.search} component={<SearchComponent />} />
         <Route route={Routes.about} component={<AboutComponent />} />
       </div>
     </div>

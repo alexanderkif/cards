@@ -24,9 +24,11 @@ import {
 import { Card, Routes, SVGIcons } from '@/types/types'
 import SVGIcon from './SVGIcons'
 import { useSwipeable } from 'react-swipeable'
+import DonateButton from '../DonateButton/DonateButton'
 
 function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null)
+  const clickFn = useRef<() => void>(() => {})
   const isOpen = useAppSelector(selectIsOpen)
   const isExamples = useAppSelector(selectIsExamples)
   const isRandom = useAppSelector(selectIsRandom)
@@ -202,6 +204,11 @@ function MenuComponent() {
             'About',
             setRoute(Routes.about)
           )}
+          <li onClick={() => clickFn.current()}>
+            <SVGIcon name={SVGIcons.smile} svgClass="itemIcon" />
+            <span className="itemText">Buy me coffee</span>
+            <DonateButton clickFn={clickFn} />
+          </li>
           <hr />
           {getMenuItem(
             SVGIcons.examples,
