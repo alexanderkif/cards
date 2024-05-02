@@ -206,7 +206,7 @@ function MenuComponent() {
           )}
           <li onClick={() => clickFn.current()}>
             <SVGIcon name={SVGIcons.smile} svgClass="itemIcon" />
-            <span className="itemText">Buy me coffee</span>
+            <span className="itemText">Buy me a coffee</span>
             <DonateButton clickFn={clickFn} />
           </li>
           <hr />
