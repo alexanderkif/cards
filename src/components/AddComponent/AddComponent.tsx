@@ -1,15 +1,15 @@
-import { FormEvent, useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import './AddComponent.scss'
-import { Card, Routes } from '@/types/types'
+import { FormEvent, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import './AddComponent.scss';
+import { Card, Routes } from '@/types/types';
 import {
   addCard,
   editCard,
   emptyCard,
   selectCardIndex,
   selectCards,
-} from '@/store/cardsSlice'
-import { setPage } from '@/store/menuSlice'
+} from '@/store/cardsSlice';
+import { setPage } from '@/store/menuSlice';
 
 enum Fields {
   head = 'head',
@@ -19,15 +19,15 @@ enum Fields {
   example2 = 'example2',
 }
 
-const WORD_LENGTH = 60
-const EXAMPLE_LENGTH = 120
+const WORD_LENGTH = 60;
+const EXAMPLE_LENGTH = 120;
 
 function AddComponent({ edit = false }: { edit: boolean }) {
-  const dispatch = useAppDispatch()
-  const cards = useAppSelector(selectCards)
-  const cardIndex = useAppSelector(selectCardIndex)
+  const dispatch = useAppDispatch();
+  const cards = useAppSelector(selectCards);
+  const cardIndex = useAppSelector(selectCardIndex);
 
-  const [card, setCard] = useState(emptyCard)
+  const [card, setCard] = useState(emptyCard);
 
   useEffect(() => {
     if (cards.length > 0) {
@@ -37,52 +37,52 @@ function AddComponent({ edit = false }: { edit: boolean }) {
             edit && cardIndex > -1 ? cards[cardIndex || 0] : emptyCard
           )
         )
-      )
+      );
     }
-  }, [cardIndex])
+  }, [cardIndex]);
 
   const changeInput = (e: FormEvent) => {
-    const { name, value } = e.target as HTMLInputElement
-    const updatedCard: Card = JSON.parse(JSON.stringify(card))
+    const { name, value } = e.target as HTMLInputElement;
+    const updatedCard: Card = JSON.parse(JSON.stringify(card));
 
     switch (name) {
       case Fields.head:
-        updatedCard.head = value
-        break
+        updatedCard.head = value;
+        break;
       case Fields.tail1:
-        updatedCard.tails[0] = value
-        break
+        updatedCard.tails[0] = value;
+        break;
       case Fields.tail2:
-        updatedCard.tails[1] = value
-        break
+        updatedCard.tails[1] = value;
+        break;
       case Fields.example1:
-        updatedCard.examples[0] = value
-        break
+        updatedCard.examples[0] = value;
+        break;
       case Fields.example2:
-        updatedCard.examples[1] = value
-        break
+        updatedCard.examples[1] = value;
+        break;
 
       default:
-        break
+        break;
     }
 
-    setCard(updatedCard)
-  }
+    setCard(updatedCard);
+  };
 
   const submitInputs = () => {
     const newCard: Card = {
       head: card.head.trim(),
       tails: card.tails.map((t) => t && t.trim()).filter((t) => !!t),
       examples: card.examples.map((e) => e && e.trim()).filter((e) => !!e),
-    }
+    };
     if (edit) {
-      dispatch(editCard({ card: newCard, cardIndex }))
-      dispatch(setPage(Routes.card))
+      dispatch(editCard({ card: newCard, cardIndex }));
+      dispatch(setPage(Routes.card));
     } else {
-      dispatch(addCard(newCard))
-      setCard(emptyCard)
+      dispatch(addCard(newCard));
+      setCard(emptyCard);
     }
-  }
+  };
 
   return (
     <div className="addComponent">
@@ -141,7 +141,7 @@ function AddComponent({ edit = false }: { edit: boolean }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default AddComponent
+export default AddComponent;

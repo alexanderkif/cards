@@ -1,22 +1,22 @@
-import './DonateButton.scss'
-import { MutableRefObject, useEffect, useRef } from 'react'
+import './DonateButton.scss';
+import { MutableRefObject, useEffect, useRef } from 'react';
 
-const donateBtnID = '#donate-button'
+const donateBtnID = '#donate-button';
 
 export default function DonateButton({
   clickFn,
 }: {
-  clickFn: MutableRefObject<() => void>
+  clickFn: MutableRefObject<() => void>;
 }) {
-  const donateElement = useRef(null)
+  const donateElement = useRef(null);
 
   useEffect(() => {
     clickFn.current = () => {
-      const el = donateElement.current as unknown as HTMLElement
-      const buttonEl = el.querySelector('img')
-      if (buttonEl) buttonEl.click()
-    }
-  }, [clickFn.current])
+      const el = donateElement.current as unknown as HTMLElement;
+      const buttonEl = el.querySelector('img');
+      if (buttonEl) buttonEl.click();
+    };
+  }, [clickFn.current]);
 
   useEffect(() => {
     PayPal.Donation.Button({
@@ -27,16 +27,16 @@ export default function DonateButton({
         alt: 'Donate with PayPal button',
         title: 'PayPal - The safer, easier way to pay online!',
       },
-    }).render(donateBtnID)
+    }).render(donateBtnID);
     return () => {
-      const el = donateElement.current as unknown as HTMLElement
-      if (el) el.innerHTML = ''
-    }
-  }, [])
+      const el = donateElement.current as unknown as HTMLElement;
+      if (el) el.innerHTML = '';
+    };
+  }, []);
 
   return (
     <div id="donate-button-container" className="donateButton">
       <div id="donate-button" ref={donateElement}></div>
     </div>
-  )
+  );
 }

@@ -447,4 +447,4 @@ export const icons = [
     src: 'ios/1024.png',
     sizes: '1024x1024',
   },
-]
+];

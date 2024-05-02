@@ -1,4 +1,4 @@
-import { Card } from './types/types'
+import { Card } from './types/types';
 
 const cardsExample: Card[] = [
   {
@@ -27,6 +27,6 @@ const cardsExample: Card[] = [
     tails: ['Energy equals mass times the speed of light squared.'],
     examples: [],
   },
-]
+];
 
-export default cardsExample
+export default cardsExample;
