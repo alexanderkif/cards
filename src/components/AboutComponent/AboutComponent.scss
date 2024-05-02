@@ -6,10 +6,17 @@
   width: 100vw;
 
   .fields {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 80vh;
     width: 80vw;
     max-width: 50rem;
     text-align: center;
     font-size: 5vmin;
+
+    .copyRihgt {
+      font-size: 3vmin;
+    }
   }
 }

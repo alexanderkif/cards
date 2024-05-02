@@ -3,7 +3,10 @@ import './AboutComponent.scss';
 function AboutComponent() {
   return (
     <div className="aboutComponent">
-      <div className="fields">Cards for training memory</div>
+      <div className="fields">
+        <div>Cards for training memory</div>
+        <div className="copyRihgt">&copy; Aleksandr Nikiforov, 2024</div>
+      </div>
     </div>
   );
 }
