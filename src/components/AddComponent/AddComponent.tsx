@@ -39,7 +39,7 @@ function AddComponent({ edit = false }: { edit: boolean }) {
         )
       );
     }
-  }, [cardIndex]);
+  }, [cardIndex, cards, edit]);
 
   const changeInput = (e: FormEvent) => {
     const { name, value } = e.target as HTMLInputElement;

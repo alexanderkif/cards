@@ -31,14 +31,15 @@ function App() {
 
   const handlers = useSwipeable({
     onSwipedRight: (e) => {
-      if (e.initial[0] < 50) dispatch(toggleMenu());
-      if (!(e.event.target as HTMLElement).classList.contains('page'))
-        return null;
+      if (e.initial[0] < 50) {
+        dispatch(toggleMenu());
+        return;
+      }
+      if (!(e.event.target as HTMLElement).classList.contains('page')) return;
       else swipeFn.current(Direction.left);
     },
     onSwipedLeft: (e) => {
-      if (!(e.event.target as HTMLElement).classList.contains('page'))
-        return null;
+      if (!(e.event.target as HTMLElement).classList.contains('page')) return;
       swipeFn.current(Direction.right);
     },
   });

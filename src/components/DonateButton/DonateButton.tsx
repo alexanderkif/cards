@@ -16,7 +16,7 @@ export default function DonateButton({
       const buttonEl = el.querySelector('img');
       if (buttonEl) buttonEl.click();
     };
-  }, [clickFn.current]);
+  }, [clickFn]);
 
   useEffect(() => {
     PayPal.Donation.Button({
@@ -28,8 +28,8 @@ export default function DonateButton({
         title: 'PayPal - The safer, easier way to pay online!',
       },
     }).render(donateBtnID);
+    const el = donateElement.current as unknown as HTMLElement;
     return () => {
-      const el = donateElement.current as unknown as HTMLElement;
       if (el) el.innerHTML = '';
     };
   }, []);

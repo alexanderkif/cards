@@ -38,38 +38,41 @@ function CardComponent({
 
   useEffect(() => {
     if (cards.length === 0) dispatch(setPage(Routes.new));
-  }, [cards]);
+  }, [cards, dispatch]);
+
+  const slideCard = useCallback(
+    (direction: Direction) => {
+      if (!cardRef.current) {
+        return;
+      }
+      const cardEl: HTMLElement = cardRef.current;
+      if (cardEl.classList.contains('flipped')) {
+        setIsFace(true);
+        setTimeout(slide, ANIMATION_TIME);
+      } else {
+        slide();
+      }
+      function slide() {
+        cardEl.classList.add(`slide-${direction}`);
+        setTimeout(
+          () =>
+            direction === Direction.right
+              ? dispatch(setNextCardIndex())
+              : dispatch(setPrevCardIndex()),
+          ANIMATION_TIME / 2
+        );
+        setTimeout(
+          () => cardEl.classList.remove(`slide-${direction}`),
+          ANIMATION_TIME
+        );
+      }
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     swipeFn.current = slideCard;
-  }, [swipeFn.current]);
-
-  const slideCard = (direction: Direction) => {
-    if (!cardRef.current) {
-      return;
-    }
-    const cardEl: HTMLElement = cardRef.current;
-    if (cardEl.classList.contains('flipped')) {
-      setIsFace(true);
-      setTimeout(slide, ANIMATION_TIME);
-    } else {
-      slide();
-    }
-    function slide() {
-      cardEl.classList.add(`slide-${direction}`);
-      setTimeout(
-        () =>
-          direction === Direction.right
-            ? dispatch(setNextCardIndex())
-            : dispatch(setPrevCardIndex()),
-        ANIMATION_TIME / 2
-      );
-      setTimeout(
-        () => cardEl.classList.remove(`slide-${direction}`),
-        ANIMATION_TIME
-      );
-    }
-  };
+  }, [slideCard, swipeFn]);
 
   const handlers = useSwipeable({
     onSwipedLeft: ({ event }: { event: HandledEvents }) => {
@@ -91,7 +94,7 @@ function CardComponent({
       if (key === 'ArrowRight') slideCard(Direction.left);
       if (key === 'ArrowLeft') slideCard(Direction.right);
     },
-    [dispatch]
+    [slideCard]
   );
 
   useEffect(() => {
