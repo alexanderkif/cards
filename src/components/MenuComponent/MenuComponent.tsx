@@ -22,7 +22,7 @@ import {
   removeCurrentCard,
 } from '@/store/cardsSlice';
 import { Card, Routes, SVGIcons } from '@/types/types';
-import SVGIcon from './SVGIcons';
+import SVGIcon from '../Icons/SVGIcons';
 import { useSwipeable } from 'react-swipeable';
 import DonateButton from '../DonateButton/DonateButton';
 

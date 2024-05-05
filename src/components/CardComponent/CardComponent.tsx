@@ -19,8 +19,10 @@ import { useSwipeable } from 'react-swipeable';
 import { HandledEvents } from 'react-swipeable/es/types';
 import { Direction, Routes } from '@/types/types';
 import { setPage } from '@/store/menuSlice';
+import SpeakerComponent from '../SpeakerComponent/SpeakerComponent';
 
 const ANIMATION_TIME = 300;
+const BIG_SPEAKER = '7vmin';
 
 function CardComponent({
   swipeFn,
@@ -113,7 +115,13 @@ function CardComponent({
           onClick={() => setIsFace(!isFace)}
         >
           <div className={`content ${isAllCardsFlipped ? 'back' : ''}`}>
-            <div className="text">{cards[cardIndex].head}</div>
+            <div className="text">
+              {cards[cardIndex].head}
+              <SpeakerComponent
+                text={cards[cardIndex].head}
+                size={BIG_SPEAKER}
+              />
+            </div>
           </div>
           <div
             className={`content ${isAllCardsFlipped ? '' : 'back'}`}
@@ -121,11 +129,15 @@ function CardComponent({
           >
             <div className="text">
               <ul>
-                {cards[cardIndex].tails.map((tail, index) => (
-                  <li key={`${cards[cardIndex].head}_${tail}-${index}`}>
-                    {tail}
-                  </li>
-                ))}
+                {cards[cardIndex].tails.map(
+                  (tail, index) =>
+                    tail && (
+                      <li key={`${cards[cardIndex].head}_${tail}-${index}`}>
+                        {tail + ' '}
+                        <SpeakerComponent text={tail} size={BIG_SPEAKER} />
+                      </li>
+                    )
+                )}
               </ul>
             </div>
             {isExamples && (
@@ -137,7 +149,8 @@ function CardComponent({
                         <li
                           key={`${cards[cardIndex].head}_${example}-${index}`}
                         >
-                          {example}
+                          {example + ' '}
+                          <SpeakerComponent text={example} />
                         </li>
                       )
                   )}
