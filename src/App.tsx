@@ -18,6 +18,7 @@ function App() {
   const dispatch = useAppDispatch();
   const cardIndexInStore = localStorage.getItem('cardIndex');
   const cardsInStore = localStorage.getItem('cards');
+
   if (cardIndexInStore) {
     dispatch(setCardIndex(JSON.parse(cardIndexInStore)));
   } else {
@@ -45,7 +46,7 @@ function App() {
   });
 
   return (
-    <div onClick={() => dispatch(closeMenu())}>
+    <div className="" onClick={() => dispatch(closeMenu())}>
       <MenuComponent />
       <div className="page" {...handlers}>
         <Route

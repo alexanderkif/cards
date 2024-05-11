@@ -6,7 +6,9 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   selectIsOpen,
   selectPage,
+  selectTheme,
   setPage,
+  setTheme,
   toggleMenu,
 } from '@/store/menuSlice';
 import {
@@ -21,7 +23,7 @@ import {
   selectCards,
   removeCurrentCard,
 } from '@/store/cardsSlice';
-import { Card, Routes, SVGIcons } from '@/types/types';
+import { Card, Routes, SVGIcons, Theme } from '@/types/types';
 import SVGIcon from '../Icons/SVGIcons';
 import { useSwipeable } from 'react-swipeable';
 import DonateButton from '../DonateButton/DonateButton';
@@ -35,6 +37,7 @@ function MenuComponent() {
   const isAllCardsFlipped = useAppSelector(selectIsAllFlipped);
   const page = useAppSelector(selectPage);
   const cards = useAppSelector(selectCards);
+  const theme = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
   const handleClick = (event: SyntheticEvent) => {
     event.stopPropagation();
@@ -155,17 +158,22 @@ function MenuComponent() {
     onSwipedLeft: () => dispatch(toggleMenu()),
   });
 
+  const toggleTheme = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    const newTheme: Theme = theme === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    dispatch(setTheme(newTheme));
+  };
+
   return (
     <div className="menu">
-      <button
-        className={isOpen ? 'menuButton opened' : 'menuButton'}
-        onClick={handleClick}
-      >
+      <span onClick={handleClick}>
         <SVGIcon
           name={SVGIcons.menu}
-          svgClass={`menuIcon ${isOpen ? 'purple' : 'green'}`}
+          svgClass={`menuButton position-absolute top-0 m-4 z-3 ${isOpen ? 'opened' : ''}`}
+          size="6vmin"
         />
-      </button>
+      </span>
       <div className={`drawer ${isOpen ? 'opened' : ''}`} {...handlers}>
         <ul>
           {getMenuItem(
@@ -250,6 +258,13 @@ function MenuComponent() {
         style={{ display: 'none' }}
         onChange={loadFile}
       />
+      <span onClick={toggleTheme}>
+        <SVGIcon
+          name={theme === 'light' ? SVGIcons.moon : SVGIcons.sun}
+          svgClass="position-absolute top-0 end-0 m-4 z-3"
+          size="6vmin"
+        />
+      </span>
     </div>
   );
 }

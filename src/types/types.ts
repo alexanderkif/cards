@@ -28,9 +28,13 @@ export enum SVGIcons {
   flip = 'flip',
   smile = 'smile',
   speaker = 'speaker',
+  moon = 'moon',
+  sun = 'sun',
 }
 
 export enum Direction {
   left = 'left',
   right = 'right',
 }
+
+export type Theme = 'dark' | 'light' | 'auto';

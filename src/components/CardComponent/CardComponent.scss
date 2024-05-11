@@ -21,7 +21,7 @@
     transition:
       transform var(--animation-time) ease-in-out,
       background-color var(--animation-time) ease-in-out;
-    color: var(--bg-main);
+    color: var(--txt-color-main);
 
     &.flipped {
       transform: translateY(-100%) rotateX(180deg);

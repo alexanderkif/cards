@@ -18,6 +18,7 @@
       font-size: 7vmin;
       outline: none;
       border: 2px solid var(--color-active);
+      background-color: var(--bg-main);
 
       &:invalid {
         border-color: var(--color-negative);

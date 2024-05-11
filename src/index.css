@@ -1,27 +1,17 @@
 :root {
   --bg-mix: 50%;
-  --text-mix: 30%;
-  --bg-main: #000000;
-  --bg-light-bright: #0c5eff;
-  --color-light: #FFFFFF;
-  --color-main-bright: #FFF500;
-  --color-active-bright: #9900FF;
-  --color-negative-bright: #FF1200;
-  --color-main: color-mix(in srgb, var(--color-main-bright) var(--text-mix), var(--color-light));
-  --color-active: color-mix(in srgb, var(--color-active-bright) var(--text-mix), var(--color-light));
-  --color-negative: color-mix(in srgb, var(--color-negative-bright) var(--text-mix), var(--color-light));
-  --bg-light: color-mix(in srgb, var(--bg-light-bright) var(--text-mix), var(--color-light));
-  --bg-light-back: color-mix(in srgb, var(--color-active-bright) var(--text-mix), var(--color-light));
+  --txt-color-main: #333333;
+  --bg-main: #FFFFF3;
+  --color-main: #333333;
+  --color-active: #119911;
+  --color-negative: #dd2200;
+  --bg-light: #ddffff;
+  --bg-light-back: #ddffdd;
   --menu-opacity: 0.3;
-
-  color-scheme: only dark;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  color: var(--color-main);
-  background-color: var(--bg-main);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -32,10 +22,23 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+[data-bs-theme=dark] {
+  --bg-main: #333333;
+  --color-main: #FFF888;
+  --color-active: #55cc33;
+  --color-negative: #FF7755;
+}
+
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  color: var(--color-main);
+  background-color: var(--bg-main);
+}
+
+svg {
+  transition: fill 0.3s ease-in-out;
 }
