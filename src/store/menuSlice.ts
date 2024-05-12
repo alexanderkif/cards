@@ -29,6 +29,7 @@ export const menuSlice = createSlice({
     },
     setTheme: (state, action: PayloadAction<Theme>) => {
       state.theme = action.payload;
+      localStorage.setItem('theme', action.payload);
     },
   },
 });
