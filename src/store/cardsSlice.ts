@@ -45,7 +45,11 @@ export const cardsSlice = createSlice({
       localStorage.setItem('isRandom', JSON.stringify(state.isRandom));
       state.cards = state.isRandom
         ? [...shuffle(state.cards)]
-        : [...state.cards.sort((c1, c2) => c1.head.localeCompare(c2.head))];
+        : [
+            ...state.cards.sort((c1, c2) =>
+              ('' + c1.head).localeCompare(c2.head)
+            ),
+          ];
       localStorage.setItem('cards', JSON.stringify(state.cards));
     },
     setCardIndex: (state, action: PayloadAction<number>) => {

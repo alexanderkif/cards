@@ -1,5 +1,6 @@
 import {
   MutableRefObject,
+  SyntheticEvent,
   useCallback,
   useEffect,
   useRef,
@@ -13,13 +14,15 @@ import {
   selectIsAllFlipped,
   setNextCardIndex,
   setPrevCardIndex,
+  removeCurrentCard,
 } from '@/store/cardsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useSwipeable } from 'react-swipeable';
 import { HandledEvents } from 'react-swipeable/es/types';
-import { Direction, Routes } from '@/types/types';
+import { Direction, Routes, SVGIcons } from '@/types/types';
 import { setPage } from '@/store/menuSlice';
 import SpeakerComponent from '../SpeakerComponent/SpeakerComponent';
+import SVGIcon from '../Icons/SVGIcons';
 
 const ANIMATION_TIME = 300;
 const BIG_SPEAKER = '7vmin';
@@ -106,6 +109,21 @@ function CardComponent({
     };
   }, [handleKeyDown]);
 
+  const clickEditCard = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    dispatch(setPage(Routes.edit));
+  };
+
+  const removeCard = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    const confirmation = confirm('Current card will be removed.');
+    if (!confirmation) {
+      return;
+    }
+    dispatch(removeCurrentCard());
+    dispatch(setPage(Routes.card));
+  };
+
   return (
     <div className="cardComponent" {...handlers}>
       {cards[cardIndex] && (
@@ -160,6 +178,19 @@ function CardComponent({
           </div>
         </div>
       )}
+      <span className="position-absolute top-0 end-0 my-2 z-3">
+        <span onClick={clickEditCard} className="me-2">
+          <SVGIcon name={SVGIcons.edit} size="6vmin" tooltip="Edit card" />
+        </span>
+        <span onClick={removeCard} className="me-2">
+          <SVGIcon
+            name={SVGIcons.trash}
+            svgClass="negative"
+            size="6vmin"
+            tooltip="Delete card"
+          />
+        </span>
+      </span>
     </div>
   );
 }

@@ -30,6 +30,9 @@ export enum SVGIcons {
   speaker = 'speaker',
   moon = 'moon',
   sun = 'sun',
+  trash = 'trash',
+  share = 'share',
+  house = 'house',
 }
 
 export enum Direction {

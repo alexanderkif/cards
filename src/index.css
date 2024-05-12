@@ -1,9 +1,9 @@
 :root {
   --bg-mix: 50%;
   --txt-color-main: #333333;
-  --bg-main: #FFFFF3;
+  --bg-main: #FFFFF8;
   --color-main: #333333;
-  --color-active: #119911;
+  --color-active: #118822;
   --color-negative: #dd2200;
   --bg-light: #ddffff;
   --bg-light-back: #ddffdd;
@@ -41,4 +41,18 @@ body {
 
 svg {
   transition: fill 0.3s ease-in-out;
+  fill: var(--color-main);
+  stroke: var(--color-main);
+}
+
+svg.active {
+  color: var(--color-active);
+  fill: var(--color-active);
+  stroke: var(--color-active);
+}
+
+svg.negative {
+  color: var(--color-negative);
+  fill: var(--color-negative);
+  stroke: var(--color-negative);
 }

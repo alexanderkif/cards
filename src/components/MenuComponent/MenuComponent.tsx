@@ -21,7 +21,6 @@ import {
   toggleIsExamples,
   shuffleCards,
   selectCards,
-  removeCurrentCard,
 } from '@/store/cardsSlice';
 import { Card, Routes, SVGIcons, Theme } from '@/types/types';
 import SVGIcon from '../Icons/SVGIcons';
@@ -39,17 +38,9 @@ function MenuComponent() {
   const cards = useAppSelector(selectCards);
   const theme = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
-  const handleClick = (event: SyntheticEvent) => {
+  const handleMenuClick = (event: SyntheticEvent) => {
     event.stopPropagation();
     dispatch(toggleMenu());
-  };
-  const removeCard = () => {
-    const confirmation = confirm('Current card will be removed.');
-    if (!confirmation) {
-      return;
-    }
-    dispatch(removeCurrentCard());
-    dispatch(setPage(Routes.card));
   };
   const removeAllCards = () => {
     const confirmation = confirm('All existing cards will be removed.');
@@ -167,19 +158,62 @@ function MenuComponent() {
 
   return (
     <div className="menu">
-      <span onClick={handleClick}>
+      <span className="position-absolute top-0 end-0 m-3 z-2 d-flex flex-row-reverse">
+        <span onClick={toggleTheme}>
+          <SVGIcon
+            name={theme === 'light' ? SVGIcons.moon : SVGIcons.sun}
+            size="6vmin"
+            tooltip="Light / dark theme"
+          />
+        </span>
+        <span onClick={setRoute(Routes.new)} className="me-3">
+          <SVGIcon name={SVGIcons.add} size="6vmin" tooltip="Add new card" />
+        </span>
+        <span onClick={() => dispatch(flipAllCards())} className="me-3">
+          <SVGIcon
+            name={SVGIcons.flip}
+            svgClass={isAllCardsFlipped ? 'active' : ''}
+            size="6vmin"
+            tooltip="Flip all cards"
+          />
+        </span>
+        <span onClick={() => dispatch(shuffleCards())} className="me-3">
+          <SVGIcon
+            name={SVGIcons.random}
+            svgClass={isRandom ? 'active' : ''}
+            size="6vmin"
+            tooltip="Shuffle cards / sort abc"
+          />
+        </span>
+        <span onClick={() => dispatch(toggleIsExamples())} className="me-3">
+          <SVGIcon
+            name={SVGIcons.examples}
+            svgClass={isExamples ? 'active' : ''}
+            size="6vmin"
+            tooltip="Show examples"
+          />
+        </span>
+        <span onClick={() => dispatch(setPage(Routes.card))} className="me-3">
+          <SVGIcon
+            name={SVGIcons.house}
+            size="6vmin"
+            tooltip="To the Home page"
+          />
+        </span>
+      </span>
+      <span onClick={handleMenuClick}>
         <SVGIcon
           name={SVGIcons.menu}
-          svgClass={`menuButton position-absolute top-0 m-4 z-3 ${isOpen ? 'opened' : ''}`}
+          svgClass={`menuButton position-absolute top-0 m-3 z-3 ${isOpen ? 'opened' : ''}`}
           size="6vmin"
         />
       </span>
       <div className={`drawer ${isOpen ? 'opened' : ''}`} {...handlers}>
         <ul>
           {getMenuItem(
-            SVGIcons.cards,
+            SVGIcons.house,
             getActiveRouteClass(Routes.card),
-            'Cards',
+            'Home',
             setRoute(cards.length === 0 ? Routes.new : Routes.card)
           )}
           {getMenuItem(
@@ -187,24 +221,6 @@ function MenuComponent() {
             getActiveRouteClass(Routes.search),
             'Search',
             setRoute(Routes.search)
-          )}
-          {getMenuItem(
-            SVGIcons.add,
-            getActiveRouteClass(Routes.new),
-            'Add new card',
-            setRoute(Routes.new)
-          )}
-          {getMenuItem(
-            SVGIcons.edit,
-            getActiveRouteClass(Routes.edit),
-            'Edit current card',
-            setRoute(cards.length === 0 ? Routes.new : Routes.edit)
-          )}
-          {getMenuItem(
-            SVGIcons.remove,
-            'negative',
-            'Remove current card!',
-            removeCard
           )}
           {getMenuItem(
             SVGIcons.question,
@@ -258,13 +274,6 @@ function MenuComponent() {
         style={{ display: 'none' }}
         onChange={loadFile}
       />
-      <span onClick={toggleTheme}>
-        <SVGIcon
-          name={theme === 'light' ? SVGIcons.moon : SVGIcons.sun}
-          svgClass="position-absolute top-0 end-0 m-4 z-3"
-          size="6vmin"
-        />
-      </span>
     </div>
   );
 }

@@ -15,7 +15,7 @@
       fill 0.8s ease-in-out;
 
     &.opened {
-      left: calc(var(--menu-width) - 3rem - 6vmin);
+      left: calc(var(--menu-width) - 2rem - 6vmin);
       fill: var(--color-active);
     }
 
@@ -64,11 +64,14 @@
           text-align: left;
           padding-left: 1rem;
           font-weight: 500;
-        }
 
-        .active {
-          color: var(--color-active);
-          fill: var(--color-active);
+          &.active {
+            color: var(--color-active);
+          }
+  
+          &.negative {
+            color: var(--color-negative);
+          }
         }
 
         &:hover {
@@ -79,11 +82,6 @@
           );
           box-shadow: 0 0 0.5rem 0.5rem
             color-mix(in srgb, var(--bg-light), transparent var(--bg-mix));
-        }
-
-        .negative {
-          color: var(--color-negative);
-          fill: var(--color-negative);
         }
       }
     }
