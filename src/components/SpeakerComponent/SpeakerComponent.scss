@@ -2,12 +2,6 @@
   display: inline-flex;
   width: min-content;
 
-  .iconWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   .dialogWrapper {
     position: fixed;
     left: 0;
@@ -15,6 +9,7 @@
     top: 0;
     bottom: 0;
     padding-top: 3vmin;
+    border-radius: 1rem;
     display: flex;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.7);

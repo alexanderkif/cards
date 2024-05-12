@@ -96,7 +96,7 @@ function SpeakerComponent({
     <div className="speakerComponent" onClick={(e) => myDoubleClickCallback(e)}>
       <SVGIcon name={SVGIcons.speaker} svgClass={`itemIcon`} size={size} />
       {isDialogOpen && (
-        <div className="dialogWrapper" onClick={clickWrapper}>
+        <div className="dialogWrapper z-2" onClick={clickWrapper}>
           <div className="dialog">
             <select
               name="lang"
