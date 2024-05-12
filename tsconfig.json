@@ -29,6 +29,6 @@
       "public/*": ["public/*"]
     }
   },
-  "include": ["src", ".eslintrc.cjs", "**/*.ts"],
+  "include": ["src", ".eslintrc.cjs", "**/*.ts", "color-modes.js"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
