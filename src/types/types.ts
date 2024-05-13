@@ -40,4 +40,8 @@ export enum Direction {
   right = 'right',
 }
 
-export type Theme = 'dark' | 'light' | 'auto';
+export enum Theme {
+  dark = 'dark',
+  light = 'light',
+  auto = 'auto',
+}

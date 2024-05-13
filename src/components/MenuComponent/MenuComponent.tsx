@@ -151,7 +151,7 @@ function MenuComponent() {
 
   const toggleTheme = (e: SyntheticEvent) => {
     e.stopPropagation();
-    const newTheme: Theme = theme === 'light' ? 'dark' : 'light';
+    const newTheme = theme === Theme.light ? Theme.dark : Theme.light;
     document.documentElement.setAttribute('data-bs-theme', newTheme);
     dispatch(setTheme(newTheme));
   };
@@ -228,11 +228,13 @@ function MenuComponent() {
             'About',
             setRoute(Routes.about)
           )}
-          <li onClick={() => clickFn.current()}>
-            <SVGIcon name={SVGIcons.smile} svgClass="itemIcon" />
-            <span className="itemText">Buy me a coffee</span>
-            <DonateButton clickFn={clickFn} />
-          </li>
+          {window.PayPal && (
+            <li onClick={() => clickFn.current()}>
+              <SVGIcon name={SVGIcons.smile} svgClass="itemIcon" />
+              <span className="itemText">Buy me a coffee</span>
+              <DonateButton clickFn={clickFn} />
+            </li>
+          )}
           <hr />
           {getMenuItem(
             SVGIcons.examples,
