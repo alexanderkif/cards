@@ -133,7 +133,14 @@ function CardComponent({
           onClick={() => setIsFace(!isFace)}
         >
           <div className={`content ${isAllCardsFlipped ? 'back' : ''}`}>
-            <span className="position-absolute top-0 end-0 py-2 z-2 fs-6">
+            <div className="text">
+              {cards[cardIndex].head}
+              <SpeakerComponent
+                text={cards[cardIndex].head}
+                size={BIG_SPEAKER}
+              />
+            </div>
+            <span className="position-absolute top-0 end-0 py-2 fs-6">
               <span onClick={clickEditCard} className="me-2">
                 <SVGIcon
                   name={SVGIcons.edit}
@@ -150,13 +157,6 @@ function CardComponent({
                 />
               </span>
             </span>
-            <div className="text">
-              {cards[cardIndex].head}
-              <SpeakerComponent
-                text={cards[cardIndex].head}
-                size={BIG_SPEAKER}
-              />
-            </div>
           </div>
           <div
             className={`content ${isAllCardsFlipped ? '' : 'back'}`}
