@@ -66,6 +66,9 @@ function SpeakerComponent({
   };
 
   const getVoicesOptions = () => {
+    if (voices.length === 0) {
+      setVoices(synth.getVoices());
+    }
     return voices.map((voice) => (
       <option value={voice.name} key={voice.lang + voice.name}>
         {voice.name}

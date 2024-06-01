@@ -43,7 +43,7 @@ function AboutComponent() {
             example, "A&lt;sub&gt;2&lt;/sup&gt;" will be shown as A<sub>2</sub>.
           </p>
         </div>
-        <div className="copyRihgt d-flex justify-content-between">
+        <div className="copyRihgt d-flex justify-content-between align-items-center">
           <span>&copy; Aleksandr Nikiforov, 2024</span>{' '}
           <span>
             <a
