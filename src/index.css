@@ -8,6 +8,7 @@
   --bg-light: #ddffff;
   --bg-light-back: #ddffdd;
   --menu-opacity: 0.3;
+  --top-menu-height: 3rem;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

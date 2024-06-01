@@ -17,12 +17,14 @@ import {
   selectIsAllFlipped,
   selectIsRandom,
   setCardIndex,
-  setCards,
   toggleIsExamples,
   shuffleCards,
   selectCards,
+  saveGroup,
+  removeGroup,
+  selectGroups,
 } from '@/store/cardsSlice';
-import { Card, Routes, SVGIcons, Theme } from '@/types/types';
+import { Card, Group, Routes, SVGIcons, Theme } from '@/types/types';
 import SVGIcon from '../Icons/SVGIcons';
 import { useSwipeable } from 'react-swipeable';
 import DonateButton from '../DonateButton/DonateButton';
@@ -37,6 +39,7 @@ function MenuComponent() {
   const page = useAppSelector(selectPage);
   const cards = useAppSelector(selectCards);
   const theme = useAppSelector(selectTheme);
+  const groups = useAppSelector(selectGroups);
   const dispatch = useAppDispatch();
   const handleMenuClick = (event: SyntheticEvent) => {
     event.stopPropagation();
@@ -47,9 +50,9 @@ function MenuComponent() {
     if (!confirmation) {
       return;
     }
-    dispatch(setPage(Routes.new));
-    dispatch(setCardIndex(0));
-    dispatch(setCards([]));
+    groups.forEach((group) => {
+      dispatch(removeGroup(group.name));
+    });
   };
 
   function getMenuItem(
@@ -93,20 +96,21 @@ function MenuComponent() {
     const buffer = await blob.arrayBuffer();
     const workbook = new ExcelJS.Workbook();
     await workbook.xlsx.load(buffer);
-    const ws = workbook.getWorksheet('Cards');
-    const cards = [];
-    if (ws?.rowCount) {
-      for (let rowIndex = 2; rowIndex < ws.rowCount + 1; rowIndex++) {
-        const row = ws.getRow(rowIndex).values as Array<string>;
-        const card: Card = {
-          head: row[1],
-          tails: [row[2], row[3]],
-          examples: [row[4], row[5]],
-        };
-        cards.push(card);
+    workbook.worksheets.forEach((ws) => {
+      const cards = [];
+      if (ws?.rowCount) {
+        for (let rowIndex = 2; rowIndex < ws.rowCount + 1; rowIndex++) {
+          const row = ws.getRow(rowIndex).values as Array<string>;
+          const card: Card = {
+            head: row[1],
+            tails: [row[2], row[3]],
+            examples: [row[4], row[5]],
+          };
+          cards.push(card);
+        }
       }
-    }
-    dispatch(setCards(cards));
+      dispatch(saveGroup({ name: ws.name, cards }));
+    });
     dispatch(setCardIndex(0));
     dispatch(setPage(Routes.card));
   }
@@ -119,28 +123,30 @@ function MenuComponent() {
     if (fileName === null) {
       return;
     }
-    const cards = JSON.parse(localStorage.getItem('cards') || '') as Card[];
-    const rows = cards.map((c) => ({
-      head: c.head,
-      tail0: c.tails[0],
-      tail1: c.tails[1] || '',
-      example0: c.examples[0] || '',
-      example1: c.examples[1] || '',
-    }));
+    const groups = JSON.parse(localStorage.getItem('groups') || '') as Group[];
     const workbook = new ExcelJS.Workbook();
     workbook.created = new Date();
     workbook.modified = new Date();
-    const worksheet = workbook.addWorksheet('Cards');
-    worksheet.columns = [
-      { header: 'Head (require)', key: 'head', width: 20 },
-      { header: 'Tail (require)', key: 'tail0', width: 20 },
-      { header: 'Tail 2 (optional)', key: 'tail1', width: 20 },
-      { header: 'Example 1 (optional)', key: 'example0', width: 50 },
-      { header: 'Example 2 (optional)', key: 'example1', width: 50 },
-    ];
-    worksheet.addRows(rows);
-    worksheet.getRow(1).alignment = { horizontal: 'center' };
-    worksheet.getRow(1).font = { bold: true };
+    groups.forEach(({ name, cards }) => {
+      const rows = cards.map((c) => ({
+        head: c.head,
+        tail0: c.tails[0],
+        tail1: c.tails[1] || '',
+        example0: c.examples[0] || '',
+        example1: c.examples[1] || '',
+      }));
+      const worksheet = workbook.addWorksheet(name);
+      worksheet.columns = [
+        { header: 'Head (require)', key: 'head', width: 20 },
+        { header: 'Tail (require)', key: 'tail0', width: 20 },
+        { header: 'Tail 2 (optional)', key: 'tail1', width: 20 },
+        { header: 'Example 1 (optional)', key: 'example0', width: 50 },
+        { header: 'Example 2 (optional)', key: 'example1', width: 50 },
+      ];
+      worksheet.addRows(rows);
+      worksheet.getRow(1).alignment = { horizontal: 'center' };
+      worksheet.getRow(1).font = { bold: true };
+    });
     const buffer = await workbook.xlsx.writeBuffer();
     FileSaver.saveAs(new Blob([buffer]), fileName);
   }
@@ -162,18 +168,18 @@ function MenuComponent() {
         <span onClick={toggleTheme}>
           <SVGIcon
             name={theme === 'light' ? SVGIcons.moon : SVGIcons.sun}
-            size="6vmin"
+            size="1.5rem"
             tooltip="Light / dark theme"
           />
         </span>
         <span onClick={setRoute(Routes.new)} className="me-3">
-          <SVGIcon name={SVGIcons.add} size="6vmin" tooltip="Add new card" />
+          <SVGIcon name={SVGIcons.add} size="1.5rem" tooltip="Add new card" />
         </span>
         <span onClick={() => dispatch(flipAllCards())} className="me-3">
           <SVGIcon
             name={SVGIcons.flip}
             svgClass={isAllCardsFlipped ? 'active' : ''}
-            size="6vmin"
+            size="1.5rem"
             tooltip="Flip all cards"
           />
         </span>
@@ -181,7 +187,7 @@ function MenuComponent() {
           <SVGIcon
             name={SVGIcons.random}
             svgClass={isRandom ? 'active' : ''}
-            size="6vmin"
+            size="1.5rem"
             tooltip="Shuffle cards / sort abc"
           />
         </span>
@@ -189,23 +195,26 @@ function MenuComponent() {
           <SVGIcon
             name={SVGIcons.examples}
             svgClass={isExamples ? 'active' : ''}
-            size="6vmin"
+            size="1.5rem"
             tooltip="Show examples"
           />
         </span>
-        <span onClick={() => dispatch(setPage(Routes.card))} className="me-3">
+        <span onClick={() => dispatch(setPage(Routes.groups))} className="me-3">
           <SVGIcon
-            name={SVGIcons.house}
-            size="6vmin"
-            tooltip="To the Home page"
+            name={SVGIcons.cards}
+            size="1.5rem"
+            tooltip="Manage groups"
           />
+        </span>
+        <span onClick={() => dispatch(setPage(Routes.card))} className="me-3">
+          <SVGIcon name={SVGIcons.house} size="1.5rem" tooltip="Home page" />
         </span>
       </span>
       <span onClick={handleMenuClick}>
         <SVGIcon
           name={SVGIcons.menu}
           svgClass={`menuButton position-absolute top-0 m-3 z-3 ${isOpen ? 'opened' : ''}`}
-          size="6vmin"
+          size="2rem"
         />
       </span>
       <div className={`drawer ${isOpen ? 'opened' : ''}`} {...handlers}>
@@ -221,6 +230,12 @@ function MenuComponent() {
             getActiveRouteClass(Routes.search),
             'Search',
             setRoute(Routes.search)
+          )}
+          {getMenuItem(
+            SVGIcons.cards,
+            getActiveRouteClass(Routes.groups),
+            'Manage groups of cards',
+            setRoute(Routes.groups)
           )}
           {getMenuItem(
             SVGIcons.question,

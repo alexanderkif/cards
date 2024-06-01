@@ -2,18 +2,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - var(--top-menu-height));
   width: 100vw;
 
   .fields {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 80vh;
+    height: inherit;
+    padding: 1rem;
     width: 80vw;
     max-width: 50rem;
     text-align: center;
     font-size: 5vmin;
+
+    h1 {
+      padding-bottom: 1rem;
+    }
+
+    p {
+      text-align: justify;
+      font-size: 2vmin;
+    }
 
     .copyRihgt {
       font-size: 3vmin;

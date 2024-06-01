@@ -1,13 +1,13 @@
 .searchComponent {
   display: flex;
   justify-content: center;
-  height: 100vh;
+  height: calc(100vh - var(--top-menu-height));
   width: 100vw;
 
   .fields {
     display: flex;
     flex-direction: column;
-    padding-top: 5rem;
+    padding-top: 1rem;
     width: 80vw;
     max-width: 50rem;
 

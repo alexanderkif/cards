@@ -1,33 +1,56 @@
 import { useSwipeable } from 'react-swipeable';
 import './App.scss';
-import cardsExample from './cards-example';
+import groupsExample from './groups-example';
 import AboutComponent from './components/AboutComponent/AboutComponent';
 import SearchComponent from './components/SearchComponent/SearchComponent';
 import AddComponent from './components/AddComponent/AddComponent';
 import CardComponent from './components/CardComponent/CardComponent';
 import MenuComponent from './components/MenuComponent/MenuComponent';
 import Route from './components/Route/Route';
-import { setCardIndex, setCards } from './store/cardsSlice';
+import {
+  saveGroup,
+  setCardIndex,
+  setCards,
+  setCurrentGroup,
+} from './store/cardsSlice';
 import { useAppDispatch } from './store/hooks';
 import { closeMenu, toggleMenu } from './store/menuSlice';
-import { Direction, Routes } from './types/types';
+import { Group, Direction, Routes } from './types/types';
 import { useRef } from 'react';
+import GroupComponent from './components/GroupComponent/GroupComponent';
 
 function App() {
   const swipeFn = useRef<(direction: Direction) => void>(() => {});
   const dispatch = useAppDispatch();
-  const cardIndexInStore = localStorage.getItem('cardIndex');
+  const groups: Group[] = JSON.parse(localStorage.getItem('groups') || '[]');
+  const currentGroup = JSON.parse(localStorage.getItem('currentGroup') || '""');
+  const cardIndexInStore = +(localStorage.getItem('cardIndex') || 0);
   const cardsInStore = localStorage.getItem('cards');
 
-  if (cardIndexInStore) {
-    dispatch(setCardIndex(JSON.parse(cardIndexInStore)));
-  } else {
-    dispatch(setCardIndex(0));
+  if (groups.length === 0) {
+    dispatch(setCurrentGroup(''));
+    groupsExample.forEach((group) => {
+      dispatch(saveGroup(group));
+    });
+    if (cardsInStore) {
+      dispatch(saveGroup({ name: 'Cards', cards: JSON.parse(cardsInStore) }));
+      localStorage.removeItem('cards');
+    }
   }
-  if (cardsInStore) {
-    dispatch(setCards(JSON.parse(cardsInStore)));
-  } else {
-    dispatch(setCards(cardsExample));
+  if (groups.length > 0 && !currentGroup) {
+    dispatch(setCurrentGroup(groups[0].name));
+  }
+  if (groups.length > 0 && !!currentGroup) {
+    const currentGroupCards = groups.find((g) => g.name === currentGroup);
+    if (
+      currentGroupCards &&
+      currentGroupCards.cards.length < cardIndexInStore
+    ) {
+      dispatch(setCardIndex(0));
+    }
+    if (currentGroupCards) {
+      dispatch(setCards(currentGroupCards.cards));
+    }
   }
 
   const handlers = useSwipeable({
@@ -54,6 +77,7 @@ function App() {
           component={<CardComponent swipeFn={swipeFn} />}
         />
         <Route route={Routes.search} component={<SearchComponent />} />
+        <Route route={Routes.groups} component={<GroupComponent />} />
         <Route route={Routes.new} component={<AddComponent edit={false} />} />
         <Route route={Routes.edit} component={<AddComponent edit={true} />} />
         <Route route={Routes.about} component={<AboutComponent />} />

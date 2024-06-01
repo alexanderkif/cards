@@ -10,39 +10,34 @@ const DELAY_DOUBLE_CLICK = 300;
 
 function SpeakerComponent({
   text,
-  size = '4vmin',
+  size = '3vmin',
 }: {
   text: string;
   size?: string;
 }) {
   const timePassed = useRef(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
   const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
 
   const synth = speechSynthesis;
-  let voices = synth.getVoices();
   const utter = new SpeechSynthesisUtterance();
   let isUtterRateHi = true;
 
   useEffect(() => {
-    if (voices.length === 0) {
-      initVoice();
-    }
-  }, []);
-
-  function initVoice() {
-    voices = synth.getVoices();
-    setVoice(getDefaultVoice());
-  }
+    setVoices(synth.getVoices());
+  }, [synth]);
 
   const say = (): void => {
     utter.rate = isUtterRateHi ? UTTER_HI_RATE : UTTER_SLOW_RATE;
     isUtterRateHi = !isUtterRateHi;
+    getDefaultVoice();
     if (voice) {
       utter.voice = voice;
       utter.lang = voice.lang;
     }
-    utter.text = text;
+    const pattern = /<sup>|<\/sup>|<sub>|<\/sub>|<b>|<\/b>|<i>|<\/i>|<br>/gi;
+    utter.text = text.replaceAll(pattern, '');
     synth.speak(utter);
   };
 
@@ -65,7 +60,6 @@ function SpeakerComponent({
   const setDefaultVoice = (name: string) => {
     const voice = voices.find((v) => v.name === name);
     if (voice) {
-      setVoice(voice);
       localStorage.setItem('voiceName', name);
     }
     setIsDialogOpen(false);
@@ -79,13 +73,19 @@ function SpeakerComponent({
     ));
   };
 
-  function getDefaultVoice(): SpeechSynthesisVoice | null {
-    return (
+  function getDefaultVoice() {
+    if (voices?.length === 0) {
+      return;
+    }
+    setVoice(
       voices.find((v) => v.name === localStorage.getItem('voiceName')) ||
-      voices.filter((v) => v.lang === UTTER_DEFAULT_LANG)[0] ||
-      null
+        voices.filter((v) => v.lang === UTTER_DEFAULT_LANG)[0]
     );
   }
+
+  setTimeout(() => {
+    getDefaultVoice();
+  });
 
   function clickWrapper(e: SyntheticEvent) {
     setIsDialogOpen(false);
@@ -94,7 +94,12 @@ function SpeakerComponent({
 
   return (
     <div className="speakerComponent" onClick={(e) => myDoubleClickCallback(e)}>
-      <SVGIcon name={SVGIcons.speaker} svgClass={`itemIcon`} size={size} />
+      <SVGIcon
+        name={SVGIcons.speaker}
+        svgClass={`itemIcon active speakerIcon`}
+        size={size}
+        tooltip="Double click to select language"
+      />
       {isDialogOpen && (
         <div className="dialogWrapper z-2" onClick={clickWrapper}>
           <div className="dialog">
