@@ -4,12 +4,18 @@ export interface Card {
   examples: string[];
 }
 
+export interface Group {
+  name: string;
+  cards: Card[];
+}
+
 export enum Routes {
   card = 'card',
   about = 'about',
   new = 'new',
   edit = 'edit',
   search = 'search',
+  groups = 'groups',
 }
 
 export enum SVGIcons {
@@ -33,6 +39,9 @@ export enum SVGIcons {
   trash = 'trash',
   share = 'share',
   house = 'house',
+  check = 'check',
+  linkedin = 'linkedin',
+  github = 'github',
 }
 
 export enum Direction {

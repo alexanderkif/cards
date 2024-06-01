@@ -1,5 +1,6 @@
 import {
   MutableRefObject,
+  ReactNode,
   SyntheticEvent,
   useCallback,
   useEffect,
@@ -25,7 +26,7 @@ import SpeakerComponent from '../SpeakerComponent/SpeakerComponent';
 import SVGIcon from '../Icons/SVGIcons';
 
 const ANIMATION_TIME = 300;
-const BIG_SPEAKER = '7vmin';
+const BIG_SPEAKER = '5vmin';
 
 function CardComponent({
   swipeFn,
@@ -124,6 +125,10 @@ function CardComponent({
     dispatch(setPage(Routes.card));
   };
 
+  const formatHTML = (str: string): ReactNode => {
+    return <span dangerouslySetInnerHTML={{ __html: str }} />;
+  };
+
   return (
     <div className="cardComponent" {...handlers}>
       {cards[cardIndex] && (
@@ -134,7 +139,7 @@ function CardComponent({
         >
           <div className={`content ${isAllCardsFlipped ? 'back' : ''}`}>
             <div className="text">
-              {cards[cardIndex].head}
+              {formatHTML(cards[cardIndex].head)}
               <SpeakerComponent
                 text={cards[cardIndex].head}
                 size={BIG_SPEAKER}
@@ -168,7 +173,7 @@ function CardComponent({
                   (tail, index) =>
                     tail && (
                       <li key={`${cards[cardIndex].head}_${tail}-${index}`}>
-                        {tail + ' '}
+                        {formatHTML(tail)}
                         <SpeakerComponent text={tail} size={BIG_SPEAKER} />
                       </li>
                     )
@@ -184,7 +189,7 @@ function CardComponent({
                         <li
                           key={`${cards[cardIndex].head}_${example}-${index}`}
                         >
-                          {example + ' '}
+                          {formatHTML(example)}
                           <SpeakerComponent text={example} />
                         </li>
                       )

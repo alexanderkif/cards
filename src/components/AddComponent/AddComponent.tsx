@@ -8,6 +8,7 @@ import {
   emptyCard,
   selectCardIndex,
   selectCards,
+  selectCurrentGroup,
 } from '@/store/cardsSlice';
 import { setPage } from '@/store/menuSlice';
 
@@ -26,6 +27,7 @@ function AddComponent({ edit = false }: { edit: boolean }) {
   const dispatch = useAppDispatch();
   const cards = useAppSelector(selectCards);
   const cardIndex = useAppSelector(selectCardIndex);
+  const currentGroup = useAppSelector(selectCurrentGroup);
 
   const [card, setCard] = useState(emptyCard);
 
@@ -87,6 +89,7 @@ function AddComponent({ edit = false }: { edit: boolean }) {
   return (
     <div className="addComponent">
       <div className="fields">
+        <div className="groupName">{currentGroup}</div>
         <input
           type="text"
           name={Fields.head}
