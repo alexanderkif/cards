@@ -18,8 +18,19 @@ import { closeMenu, toggleMenu } from './store/menuSlice';
 import { Group, Direction, Routes } from './types/types';
 import { useRef } from 'react';
 import GroupComponent from './components/GroupComponent/GroupComponent';
+import { decompressFromURI } from './utils/compress';
 
 function App() {
+  const queryParameters = new URLSearchParams(window.location.search);
+  for (const [key, value] of queryParameters) {
+    decompressFromURI(value).then((p) => {
+      const group: Group = {
+        name: key,
+        cards: JSON.parse(p),
+      };
+      dispatch(saveGroup(group));
+    });
+  }
   const swipeFn = useRef<(direction: Direction) => void>(() => {});
   const dispatch = useAppDispatch();
   const groups: Group[] = JSON.parse(localStorage.getItem('groups') || '[]');

@@ -12,6 +12,7 @@ import {
   setCurrentGroup,
 } from '@/store/cardsSlice';
 import SVGIcon from '../Icons/SVGIcons';
+import { createCompressedURL } from '@/utils/compress';
 
 const NAME_LENGTH = 60;
 const MIN_LENGTH = 5;
@@ -31,7 +32,6 @@ function GroupComponent() {
   };
 
   const submitInputs = () => {
-    console.log('submitInputs', groupNameInput, currentGroup);
     if (isEditGroup) {
       dispatch(editGroupName(groupNameInput));
       dispatch(setCurrentGroup(groupNameInput));
@@ -68,6 +68,13 @@ function GroupComponent() {
       dispatch(setCurrentGroup(groups[0].name));
     }
     dispatch(removeGroup(group.name));
+  };
+
+  const handleShareGroup = (groupName: string) => {
+    const groupToSend = groups.find((g) => g.name === groupName);
+    if (groupToSend) {
+      createCompressedURL(groupToSend);
+    }
   };
 
   return (
@@ -119,6 +126,13 @@ function GroupComponent() {
                 </span>
                 <span className="groupName" onClick={() => clickChooseGroup(g)}>
                   {g.name}
+                </span>
+                <span onClick={() => handleShareGroup(g.name)} className="ms-2">
+                  <SVGIcon
+                    name={SVGIcons.share}
+                    size="5vmin"
+                    tooltip="Share group"
+                  />
                 </span>
                 <span onClick={() => clickEditGroup(g)} className="ms-2">
                   <SVGIcon

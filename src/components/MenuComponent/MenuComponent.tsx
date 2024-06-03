@@ -23,11 +23,13 @@ import {
   saveGroup,
   removeGroup,
   selectGroups,
+  selectCurrentGroup,
 } from '@/store/cardsSlice';
 import { Card, Group, Routes, SVGIcons, Theme } from '@/types/types';
 import SVGIcon from '../Icons/SVGIcons';
 import { useSwipeable } from 'react-swipeable';
 import DonateButton from '../DonateButton/DonateButton';
+import { createCompressedURL } from '@/utils/compress';
 
 function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null);
@@ -40,6 +42,7 @@ function MenuComponent() {
   const cards = useAppSelector(selectCards);
   const theme = useAppSelector(selectTheme);
   const groups = useAppSelector(selectGroups);
+  const currentGroup = useAppSelector(selectCurrentGroup);
   const dispatch = useAppDispatch();
   const handleMenuClick = (event: SyntheticEvent) => {
     event.stopPropagation();
@@ -162,6 +165,13 @@ function MenuComponent() {
     dispatch(setTheme(newTheme));
   };
 
+  const handleShareGroup = () => {
+    const groupToSend = groups.find((g) => g.name === currentGroup);
+    if (groupToSend) {
+      createCompressedURL(groupToSend);
+    }
+  };
+
   return (
     <div className="menu">
       <span className="position-absolute top-0 end-0 m-3 z-2 d-flex flex-row-reverse">
@@ -268,6 +278,12 @@ function MenuComponent() {
             isAllCardsFlipped ? 'active' : '',
             'Flip all cards',
             () => dispatch(flipAllCards())
+          )}
+          {getMenuItem(
+            SVGIcons.share,
+            '',
+            'Share active group',
+            handleShareGroup
           )}
           {getMenuItem(SVGIcons.save, '', 'Save to xsl file', saveToFile)}
           {getMenuItem(
