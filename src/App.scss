@@ -6,7 +6,7 @@
 
 .app {
   position: relative;
-  max-width: 64rem;
+  max-width: var(--max-app-width);
   width: 100vw;
   height: 100vh;
 }
