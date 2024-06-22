@@ -63,3 +63,7 @@ svg.negative {
   fill: var(--color-negative);
   stroke: var(--color-negative);
 }
+
+p {
+  margin-bottom: 0.5rem;
+}
