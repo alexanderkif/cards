@@ -35,7 +35,7 @@ body {
   display: flex;
   place-items: center;
   justify-content: center;
-  min-width: 320px;
+  min-width: 300px;
   min-height: 100vh;
   color: var(--color-main);
   background-color: var(--bg-main);

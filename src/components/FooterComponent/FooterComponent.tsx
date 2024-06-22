@@ -9,7 +9,7 @@ function FooterComponent() {
   const page = useAppSelector(selectPage);
 
   return (
-    <div className="footer d-flex w-100 justify-content-center">
+    <div className="footer d-flex justify-content-center">
       <ul
         className="d-flex justify-content-evenly column-gap-3"
         style={{ width: '360px' }}

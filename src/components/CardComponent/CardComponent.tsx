@@ -145,15 +145,15 @@ function CardComponent({
                 size={BIG_SPEAKER}
               />
             </div>
-            <span className="position-absolute d-flex top-0 end-0 py-2 fs-6">
-              <span onClick={clickEditCard} className="me-2">
+            <span className="position-absolute d-flex top-0 end-0 fs-6">
+              <span onClick={clickEditCard} className="actionButton">
                 <SVGIcon
                   name={SVGIcons.edit}
                   size="6vmin"
                   tooltip="Edit card"
                 />
               </span>
-              <span onClick={removeCard} className="me-2">
+              <span onClick={removeCard} className="actionButton">
                 <SVGIcon
                   name={SVGIcons.trash}
                   svgClass="negative"

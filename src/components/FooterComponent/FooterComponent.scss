@@ -1,7 +1,8 @@
 .footer {
-  height: var(--top-menu-height);
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  height: var(--top-menu-height);
+  width: 100vw;
   background-color: var(--bg-main);
 
   li {

@@ -1,5 +1,5 @@
 .cardComponent {
-  --card-max-height: calc(100vh - var(--top-menu-height) * 2);
+  --card-max-height: calc(100vh - var(--top-menu-height) * 2 - 2rem);
   --card-size: min(var(--card-max-height), 90vw);
   --animation-time: 0.3s;
 
@@ -13,8 +13,6 @@
 
   .card {
     position: relative;
-    width: 100%;
-    height: 100%;
     background-color: var(--bg-light);
     border-radius: 1rem;
     text-align: center;
@@ -22,6 +20,7 @@
     font-size: 40px;
     width: var(--card-size);
     height: var(--card-size);
+    min-width: 18rem;
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transition:
@@ -47,6 +46,11 @@
         cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse;
       animation: card-slide-left var(--animation-time)
         cubic-bezier(0.455, 0.03, 0.515, 0.955) reverse;
+    }
+
+    .actionButton {
+      margin-right: 1vmin;
+      margin-top: 1vmin;
     }
   }
 
