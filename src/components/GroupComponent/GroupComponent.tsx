@@ -114,39 +114,39 @@ function GroupComponent() {
                 key={g.name}
                 className={g.name === currentGroup ? 'active' : ''}
               >
-                <span
-                  className={`me-2 ${g.name === currentGroup ? '' : 'hidden'}`}
-                >
+                <span className={g.name === currentGroup ? '' : 'hidden'}>
                   <SVGIcon
                     name={SVGIcons.check}
                     svgClass="active"
                     size="5vmin"
                     tooltip="Active group"
+                    tooltipClass="svgTooltip-right"
                   />
                 </span>
                 <span className="groupName" onClick={() => clickChooseGroup(g)}>
                   {g.name}
                 </span>
-                <span onClick={() => handleShareGroup(g.name)} className="ms-2">
+                <span onClick={() => handleShareGroup(g.name)}>
                   <SVGIcon
                     name={SVGIcons.share}
                     size="5vmin"
                     tooltip="Share group"
                   />
                 </span>
-                <span onClick={() => clickEditGroup(g)} className="ms-2">
+                <span onClick={() => clickEditGroup(g)}>
                   <SVGIcon
                     name={SVGIcons.edit}
                     size="5vmin"
                     tooltip="Rename group"
                   />
                 </span>
-                <span onClick={() => deleteGroup(g)} className="ms-2">
+                <span onClick={() => deleteGroup(g)}>
                   <SVGIcon
                     name={SVGIcons.trash}
                     svgClass="negative"
                     size="5vmin"
                     tooltip="Delete group"
+                    tooltipClass="svgTooltip-left"
                   />
                 </span>
               </li>

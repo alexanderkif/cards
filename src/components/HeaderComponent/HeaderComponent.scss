@@ -1,0 +1,9 @@
+.header {
+  height: var(--top-menu-height);
+  padding: 0 0.5rem;
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+}

@@ -145,7 +145,7 @@ function CardComponent({
                 size={BIG_SPEAKER}
               />
             </div>
-            <span className="position-absolute top-0 end-0 py-2 fs-6">
+            <span className="position-absolute d-flex top-0 end-0 py-2 fs-6">
               <span onClick={clickEditCard} className="me-2">
                 <SVGIcon
                   name={SVGIcons.edit}

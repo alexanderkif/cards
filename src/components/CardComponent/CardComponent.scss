@@ -1,11 +1,15 @@
 .cardComponent {
-  --card-size: 80vmin;
+  --card-max-height: calc(100vh - var(--top-menu-height) * 2);
+  --card-size: min(var(--card-max-height), 90vw);
   --animation-time: 0.3s;
 
-  width: var(--card-size);
-  height: var(--card-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
   perspective: var(--card-size);
-  cursor: pointer;
+  overflow: hidden;
 
   .card {
     position: relative;
@@ -16,12 +20,15 @@
     text-align: center;
     font-weight: bold;
     font-size: 40px;
+    width: var(--card-size);
+    height: var(--card-size);
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transition:
-      transform var(--animation-time) ease-in-out,
-      background-color var(--animation-time) ease-in-out;
+    transform var(--animation-time) ease-in-out,
+    background-color var(--animation-time) ease-in-out;
     color: var(--txt-color-main);
+    cursor: pointer;
 
     &.flipped {
       transform: translateY(-100%) rotateX(180deg);

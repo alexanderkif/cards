@@ -1,0 +1,53 @@
+.svgIcon {
+  --tooltip-width: 8rem;
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  min-width: 44px;
+  min-height: 44px;
+
+  .svgTooltip {
+    position: absolute;
+    width: var(--tooltip-width);
+    padding: 0.5rem;
+    background-color: var(--color-main);
+    color: var(--bg-main);
+    border: 1px solid var(--bg-main);
+    border-radius: 6px;
+    z-index: 1;
+    bottom: 110%;
+    left: calc(50% - var(--tooltip-width) / 2);
+    text-align: center;
+    font-size: 1rem;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out 0s, visibility 0s 0.3s;
+    pointer-events: none;
+
+    &-bottom {
+      bottom: unset;
+      top: 130%;
+    }
+
+    &-left {
+      left: unset;
+      right: 0;
+    }
+
+    &-right {
+      left: 0;
+    }
+  }
+
+  &:hover {
+    .svgTooltip {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.3s ease-in-out 1s, visibility 0s;
+    }
+  }
+}

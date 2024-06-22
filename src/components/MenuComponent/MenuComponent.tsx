@@ -6,9 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import {
   selectIsOpen,
   selectPage,
-  selectTheme,
   setPage,
-  setTheme,
   toggleMenu,
 } from '@/store/menuSlice';
 import {
@@ -25,7 +23,7 @@ import {
   selectGroups,
   selectCurrentGroup,
 } from '@/store/cardsSlice';
-import { Card, Group, Routes, SVGIcons, Theme } from '@/types/types';
+import { Card, Group, Routes, SVGIcons } from '@/types/types';
 import SVGIcon from '../Icons/SVGIcons';
 import { useSwipeable } from 'react-swipeable';
 import DonateButton from '../DonateButton/DonateButton';
@@ -40,7 +38,6 @@ function MenuComponent() {
   const isAllCardsFlipped = useAppSelector(selectIsAllFlipped);
   const page = useAppSelector(selectPage);
   const cards = useAppSelector(selectCards);
-  const theme = useAppSelector(selectTheme);
   const groups = useAppSelector(selectGroups);
   const currentGroup = useAppSelector(selectCurrentGroup);
   const dispatch = useAppDispatch();
@@ -158,13 +155,6 @@ function MenuComponent() {
     onSwipedLeft: () => dispatch(toggleMenu()),
   });
 
-  const toggleTheme = (e: SyntheticEvent) => {
-    e.stopPropagation();
-    const newTheme = theme === Theme.light ? Theme.dark : Theme.light;
-    document.documentElement.setAttribute('data-bs-theme', newTheme);
-    dispatch(setTheme(newTheme));
-  };
-
   const handleShareGroup = () => {
     const groupToSend = groups.find((g) => g.name === currentGroup);
     if (groupToSend) {
@@ -174,59 +164,16 @@ function MenuComponent() {
 
   return (
     <div className="menu">
-      <span className="position-absolute top-0 end-0 m-3 z-2 d-flex flex-row-reverse">
-        <span onClick={toggleTheme}>
-          <SVGIcon
-            name={theme === 'light' ? SVGIcons.moon : SVGIcons.sun}
-            size="1.5rem"
-            tooltip="Light / dark theme"
-          />
-        </span>
-        <span onClick={setRoute(Routes.new)} className="me-3">
-          <SVGIcon name={SVGIcons.add} size="1.5rem" tooltip="Add new card" />
-        </span>
-        <span onClick={() => dispatch(flipAllCards())} className="me-3">
-          <SVGIcon
-            name={SVGIcons.flip}
-            svgClass={isAllCardsFlipped ? 'active' : ''}
-            size="1.5rem"
-            tooltip="Flip all cards"
-          />
-        </span>
-        <span onClick={() => dispatch(shuffleCards())} className="me-3">
-          <SVGIcon
-            name={SVGIcons.random}
-            svgClass={isRandom ? 'active' : ''}
-            size="1.5rem"
-            tooltip="Shuffle cards / sort abc"
-          />
-        </span>
-        <span onClick={() => dispatch(toggleIsExamples())} className="me-3">
-          <SVGIcon
-            name={SVGIcons.examples}
-            svgClass={isExamples ? 'active' : ''}
-            size="1.5rem"
-            tooltip="Show examples"
-          />
-        </span>
-        <span onClick={() => dispatch(setPage(Routes.groups))} className="me-3">
-          <SVGIcon
-            name={SVGIcons.cards}
-            size="1.5rem"
-            tooltip="Manage groups"
-          />
-        </span>
-        <span onClick={() => dispatch(setPage(Routes.card))} className="me-3">
-          <SVGIcon name={SVGIcons.house} size="1.5rem" tooltip="Home page" />
-        </span>
-      </span>
-      <span onClick={handleMenuClick}>
+      <div
+        className={`menuButton position-fixed top-0 m-2 z-3 ${isOpen ? 'opened' : ''}`}
+        onClick={handleMenuClick}
+      >
         <SVGIcon
           name={SVGIcons.menu}
-          svgClass={`menuButton position-absolute top-0 m-3 z-3 ${isOpen ? 'opened' : ''}`}
+          svgClass={`m-1 ${isOpen ? 'active' : ''}`}
           size="2rem"
         />
-      </span>
+      </div>
       <div className={`drawer ${isOpen ? 'opened' : ''}`} {...handlers}>
         <ul>
           {getMenuItem(

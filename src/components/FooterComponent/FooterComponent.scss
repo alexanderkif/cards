@@ -1,0 +1,11 @@
+.footer {
+  height: var(--top-menu-height);
+  position: sticky;
+  bottom: 0;
+  background-color: var(--bg-main);
+
+  li {
+    display: flex;
+    align-items: center;
+  }
+}

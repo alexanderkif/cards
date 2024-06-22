@@ -29,6 +29,7 @@ function AboutComponent() {
             intuitive design and simple navigation ensure a distraction-free
             learning environment.
           </p>
+          <p>Double click on the speaker icon to select a language.</p>
           <p>
             You can use HTML tags to format the card, such as &lt;b&gt; for bold
             text, &lt;i&gt; for italic text, &lt;sup&gt; for superscript,
@@ -45,7 +46,7 @@ function AboutComponent() {
         </div>
         <div className="copyRihgt d-flex justify-content-between align-items-center">
           <span>&copy; Aleksandr Nikiforov, 2024</span>{' '}
-          <span>
+          <span className="d-flex">
             <a
               href="https://www.linkedin.com/in/aleksandr-nikiforov-8a417712a/"
               target="blank"
@@ -54,6 +55,7 @@ function AboutComponent() {
                 name={SVGIcons.linkedin}
                 size="1.5rem"
                 tooltip="LinkedIn"
+                tooltipClass="svgTooltip-left"
               />
             </a>
             <a
@@ -61,7 +63,12 @@ function AboutComponent() {
               href="https://github.com/alexanderkif"
               target="blank"
             >
-              <SVGIcon name={SVGIcons.github} size="1.5rem" tooltip="GitHub" />
+              <SVGIcon
+                name={SVGIcons.github}
+                size="1.5rem"
+                tooltip="GitHub"
+                tooltipClass="svgTooltip-left"
+              />
             </a>
           </span>
         </div>

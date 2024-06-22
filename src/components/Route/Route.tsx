@@ -13,7 +13,9 @@ function Route({
   const page = useAppSelector(selectPage);
 
   return (
-    <div className={`route ${route === page ? 'active' : ''}`}>{component}</div>
+    <div className={`route w-100 h-100 ${route === page ? 'active' : ''}`}>
+      {component}
+    </div>
   );
 }
 

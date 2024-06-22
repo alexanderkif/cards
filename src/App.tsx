@@ -19,6 +19,8 @@ import { Group, Direction, Routes } from './types/types';
 import { useRef } from 'react';
 import GroupComponent from './components/GroupComponent/GroupComponent';
 import { decompressFromURI } from './utils/compress';
+import FooterComponent from './components/FooterComponent/FooterComponent';
+import HeaderComponent from './components/HeaderComponent/HeaderComponent';
 
 function App() {
   const queryParameters = new URLSearchParams(window.location.search);
@@ -80,9 +82,13 @@ function App() {
   });
 
   return (
-    <div className="" onClick={() => dispatch(closeMenu())}>
+    <div
+      className="app d-flex flex-column p-0 m-0"
+      onClick={() => dispatch(closeMenu())}
+    >
       <MenuComponent />
-      <div className="page" {...handlers}>
+      <HeaderComponent />
+      <div className="page flex-fill" {...handlers}>
         <Route
           route={Routes.card}
           component={<CardComponent swipeFn={swipeFn} />}
@@ -93,6 +99,7 @@ function App() {
         <Route route={Routes.edit} component={<AddComponent edit={true} />} />
         <Route route={Routes.about} component={<AboutComponent />} />
       </div>
+      <FooterComponent />
     </div>
   );
 }

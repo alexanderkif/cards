@@ -2,25 +2,31 @@
   --menu-width: 17rem;
   --icon-size: 1.5rem;
   --border-width: 0.7rem;
+  --border-radius: 0.7rem;
+  --drawer-slide-time: 0.3s;
+  
+  @media only screen and (max-width: 768px) {
+    --menu-width: 100%;
+    --border-radius: 0;
+  }
 
   svg {
     fill: var(--color-main);
   }
 
   .menuButton {
+    background-color: var(--bg-main);
+    border: 1px solid var(--color-main);
+    border-radius: 0.5rem;
     left: 0;
-    will-change: fill;
-    transition:
-      left 0.4s ease-in-out,
-      fill 0.8s ease-in-out;
+    transition: left calc(var(--drawer-slide-time) * 0.75) linear 0s,
+      border-color 0s linear calc(var(--drawer-slide-time) * 0.75);
 
     &.opened {
-      left: calc(var(--menu-width) - 2rem - 6vmin);
-      fill: var(--color-active);
-    }
-
-    .menuIcon {
-      height: var(--icon-size);
+      left: calc(var(--menu-width) - 4.5rem);
+      border-color: transparent;
+      transition: left calc(var(--drawer-slide-time) * 0.75) linear calc(var(--drawer-slide-time) * 0.25),
+        border-color 0s linear calc(var(--drawer-slide-time) * 0.25);
     }
   }
 
@@ -33,9 +39,9 @@
     z-index: 2;
     background-color: var(--bg-main);
     box-shadow: 0 0 1rem 0 var(--color-main);
-    border-radius: 0 1rem 1rem 0;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
     overflow-x: hidden;
-    transition: left 0.2s ease-in-out;
+    transition: left var(--drawer-slide-time) linear;
 
     &.opened {
       left: 0;

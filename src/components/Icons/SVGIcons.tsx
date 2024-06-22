@@ -1,33 +1,19 @@
+import './SVGIcon.scss';
 import { SVGIcons } from '@/types/types';
-import { Tooltip } from 'bootstrap';
-import { useEffect, useRef } from 'react';
 
 function SVGIcon({
   name,
   svgClass = '',
   size = '2rem',
   tooltip = '',
+  tooltipClass = '',
 }: {
   name: SVGIcons;
   svgClass?: string;
   size?: string;
   tooltip?: string;
+  tooltipClass?: string;
 }) {
-  const refTooltip = useRef(null);
-
-  useEffect(() => {
-    if (!!tooltip && refTooltip.current) {
-      const tooltip = new Tooltip(refTooltip.current);
-      return tooltip.hide();
-    }
-  }, [tooltip]);
-
-  const handleClick = () => {
-    document.body
-      .querySelectorAll('.tooltip')
-      .forEach((t) => t.parentElement?.removeChild(t));
-  };
-
   const getPaths = () => {
     switch (name) {
       case SVGIcons.menu:
@@ -365,24 +351,18 @@ function SVGIcon({
   };
 
   return (
-    <svg
-      ref={refTooltip}
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      className={svgClass}
-      xmlns="http://www.w3.org/2000/svg"
-      data-bs-toggle="tooltip"
-      data-bs-title={tooltip}
-      data-bs-trigger="hover"
-      data-bs-offset="10,10"
-      data-bs-placement="auto"
-      data-bs-delay='{"show":0,"hide":200}'
-      data-bs-container="body"
-      onClick={handleClick}
-    >
-      {getPaths()}
-    </svg>
+    <button className="svgIcon" style={{ lineHeight: size }}>
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        className={svgClass}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {getPaths()}
+      </svg>
+      {tooltip && <div className={`svgTooltip ${tooltipClass}`}>{tooltip}</div>}
+    </button>
   );
 }
 

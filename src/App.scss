@@ -4,12 +4,22 @@
   user-select: none;
 }
 
-.page {
+.app {
   position: relative;
+  max-width: 64rem;
   width: 100vw;
   height: 100vh;
+}
+
+.page {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: var(--top-menu-height);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }

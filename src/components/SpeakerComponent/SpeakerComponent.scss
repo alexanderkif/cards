@@ -8,16 +8,20 @@
     right: 0;
     top: 0;
     bottom: 0;
-    padding-top: 3vmin;
+    padding: 5vmin;
     border-radius: 1rem;
     display: flex;
     justify-content: center;
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(15px);
-    font-size: 1rem;
+    font-size: 4vmin;
+    line-height: 5vmin;
+    font-style: italic;
 
-    select {
-      font-size: 4vmin;
+    .dialogLabel {
+      padding-bottom: 2vmin;
+      color: var(--color-main);
+      font-weight: normal;
     }
   }
 }
