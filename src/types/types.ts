@@ -42,6 +42,7 @@ export enum SVGIcons {
   check = 'check',
   linkedin = 'linkedin',
   github = 'github',
+  close = 'close',
 }
 
 export enum Direction {

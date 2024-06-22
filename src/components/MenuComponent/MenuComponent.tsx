@@ -10,13 +10,7 @@ import {
   toggleMenu,
 } from '@/store/menuSlice';
 import {
-  flipAllCards,
-  selectIsExamples,
-  selectIsAllFlipped,
-  selectIsRandom,
   setCardIndex,
-  toggleIsExamples,
-  shuffleCards,
   selectCards,
   saveGroup,
   removeGroup,
@@ -33,9 +27,6 @@ function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null);
   const clickFn = useRef<() => void>(() => {});
   const isOpen = useAppSelector(selectIsOpen);
-  const isExamples = useAppSelector(selectIsExamples);
-  const isRandom = useAppSelector(selectIsRandom);
-  const isAllCardsFlipped = useAppSelector(selectIsAllFlipped);
   const page = useAppSelector(selectPage);
   const cards = useAppSelector(selectCards);
   const groups = useAppSelector(selectGroups);
@@ -207,32 +198,15 @@ function MenuComponent() {
               <DonateButton clickFn={clickFn} />
             </li>
           )}
+          {getMenuItem(SVGIcons.close, '', 'Exit', () => window.close())}
           <hr />
-          {getMenuItem(
-            SVGIcons.examples,
-            isExamples ? 'active' : '',
-            'Show examples',
-            () => dispatch(toggleIsExamples())
-          )}
-          {getMenuItem(
-            SVGIcons.random,
-            isRandom ? 'active' : '',
-            'Shuffle cards / sort abc',
-            () => dispatch(shuffleCards())
-          )}
-          {getMenuItem(
-            SVGIcons.flip,
-            isAllCardsFlipped ? 'active' : '',
-            'Flip all cards',
-            () => dispatch(flipAllCards())
-          )}
           {getMenuItem(
             SVGIcons.share,
             '',
             'Share active group',
             handleShareGroup
           )}
-          {getMenuItem(SVGIcons.save, '', 'Save to xsl file', saveToFile)}
+          {getMenuItem(SVGIcons.save, '', 'Save to xlsx file', saveToFile)}
           {getMenuItem(
             SVGIcons.dowload,
             'negative',
