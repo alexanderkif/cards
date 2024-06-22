@@ -19,7 +19,7 @@ function FooterComponent() {
             name={SVGIcons.house}
             svgClass={page === Routes.card ? 'active' : ''}
             size="1.5rem"
-            tooltip="Home page"
+            tooltip="Home"
             tooltipClass="svgTooltip-top"
           />
         </li>
@@ -28,7 +28,7 @@ function FooterComponent() {
             name={SVGIcons.search}
             svgClass={page === Routes.search ? 'active' : ''}
             size="1.5rem"
-            tooltip="Home page"
+            tooltip="Search"
             tooltipClass="svgTooltip-top"
           />
         </li>
@@ -37,7 +37,7 @@ function FooterComponent() {
             name={SVGIcons.add}
             svgClass={page === Routes.new ? 'active' : ''}
             size="1.5rem"
-            tooltip="Add new card"
+            tooltip="Add card"
             tooltipClass="svgTooltip-top"
           />
         </li>
@@ -46,7 +46,7 @@ function FooterComponent() {
             name={SVGIcons.cards}
             svgClass={page === Routes.groups ? 'active' : ''}
             size="1.5rem"
-            tooltip="Manage groups"
+            tooltip="Groups"
             tooltipClass="svgTooltip-top"
           />
         </li>

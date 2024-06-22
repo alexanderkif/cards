@@ -30,8 +30,12 @@
   --color-negative: #FF7755;
 }
 
-body {
+html, body {
   margin: 0;
+  overflow: hidden;
+}
+
+body {
   display: flex;
   place-items: center;
   justify-content: center;
