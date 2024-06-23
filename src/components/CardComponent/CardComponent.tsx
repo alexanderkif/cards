@@ -151,6 +151,7 @@ function CardComponent({
                   name={SVGIcons.edit}
                   size="6vmin"
                   tooltip="Edit card"
+                  tooltipClass="svgTooltip-bottom"
                 />
               </span>
               <span onClick={removeCard} className="actionButton">
@@ -159,6 +160,7 @@ function CardComponent({
                   svgClass="negative"
                   size="6vmin"
                   tooltip="Delete card"
+                  tooltipClass="svgTooltip-bottom"
                 />
               </span>
             </span>

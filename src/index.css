@@ -10,6 +10,7 @@
   --menu-opacity: 0.3;
   --top-menu-height: 3rem;
   --max-app-width: 64rem;
+  --bg-speaker-dialog: rgba(255, 255, 255, 0.8);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -29,6 +30,7 @@
   --color-main: #FFF888;
   --color-active: #55cc33;
   --color-negative: #FF7755;
+  --bg-speaker-dialog: rgba(0, 0, 0, 0.8);
 }
 
 html, body {

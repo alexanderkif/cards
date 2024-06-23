@@ -108,6 +108,7 @@ function SpeakerComponent({
               another language.
             </div>
             <select
+              className="form-select form-select-lg"
               name="lang"
               id="lang"
               value={getVoiceByLocalStorageVoiceName()?.name}
