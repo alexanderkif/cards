@@ -89,7 +89,6 @@ function App() {
       onClick={() => dispatch(closeMenu())}
     >
       <MenuComponent />
-      <HeaderComponent />
       <div className="page flex-fill" {...handlers}>
         <Route
           route={Routes.card}
@@ -101,6 +100,7 @@ function App() {
         <Route route={Routes.edit} component={<AddComponent edit={true} />} />
         <Route route={Routes.about} component={<AboutComponent />} />
       </div>
+      <HeaderComponent />
       <FooterComponent />
     </div>
   );
