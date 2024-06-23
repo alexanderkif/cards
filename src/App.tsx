@@ -52,6 +52,7 @@ function App() {
   }
   if (groups.length > 0 && !currentGroup) {
     dispatch(setCurrentGroup(groups[0].name));
+    dispatch(setCardIndex(0));
   }
   if (groups.length > 0 && !!currentGroup) {
     const currentGroupCards = groups.find((g) => g.name === currentGroup);
@@ -63,6 +64,7 @@ function App() {
     }
     if (currentGroupCards) {
       dispatch(setCards(currentGroupCards.cards));
+      dispatch(setCardIndex(cardIndexInStore));
     }
   }
 
