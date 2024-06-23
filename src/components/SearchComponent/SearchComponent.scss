@@ -9,7 +9,7 @@
     flex-direction: column;
     padding-top: 2rem;
     width: 80vw;
-    max-width: 50rem;
+    max-width: var(--max-app-width);
 
     input {
       padding: 0.5vmin 1vmin;

@@ -10,7 +10,7 @@
     gap: 1rem;
     padding-top: 2rem;
     width: 80vw;
-    max-width: 50rem;
+    max-width: var(--max-app-width);
     font-size: 5vmin;
 
     .groupRow {

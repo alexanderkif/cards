@@ -12,7 +12,7 @@
     height: inherit;
     padding: 1rem;
     width: 95vw;
-    max-width: 50rem;
+    max-width: var(--max-app-width);
     overflow-y: auto;
     text-align: center;
     font-size: 5vmin;

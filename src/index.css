@@ -9,7 +9,7 @@
   --bg-light-back: #ddffdd;
   --menu-opacity: 0.3;
   --top-menu-height: 3rem;
-  --max-app-width: 64rem;
+  --max-app-width: 51rem;
   --bg-speaker-dialog: rgba(255, 255, 255, 0.8);
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -33,11 +33,8 @@
   --bg-speaker-dialog: rgba(0, 0, 0, 0.8);
 }
 
-html, body {
-  margin: 0;
-}
-
 body {
+  margin: 0;
   display: flex;
   place-items: center;
   justify-content: center;

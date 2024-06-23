@@ -9,8 +9,8 @@
     flex-direction: column;
     gap: 0.75rem;
     width: 80vw;
-    max-width: 50rem;
-    padding-top: 2rem;
+    max-width: var(--max-app-width);
+    padding-top: 1rem;
 
     .groupName {
       font-size: 4vmin;
