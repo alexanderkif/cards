@@ -148,10 +148,11 @@ function MenuComponent() {
     onSwipedLeft: () => dispatch(toggleMenu()),
   });
 
-  const handleShareGroup = () => {
+  const handleShareGroup = async () => {
     const groupToSend = groups.find((g) => g.name === currentGroup);
     if (groupToSend) {
-      createCompressedURL(groupToSend);
+      const message = await createCompressedURL(groupToSend);
+      await confirm(message, false);
     }
   };
 

@@ -2,7 +2,7 @@ import { createContext, useState, ReactNode } from 'react';
 import DialogComponent from '../DialogComponent/DialogComponent';
 
 export interface DialogContextType {
-  confirm: (message: string) => Promise<boolean>;
+  confirm: (message: string, showCancel?: boolean) => Promise<boolean>;
 }
 
 export const DialogContext = createContext<DialogContextType | undefined>(
@@ -11,12 +11,14 @@ export const DialogContext = createContext<DialogContextType | undefined>(
 
 export function DialogProvider({ children }: { children: ReactNode }) {
   const [dialogMessage, setDialogMessage] = useState<string | null>(null);
+  const [isShowCancel, setIsShowCancel] = useState(true);
   const [resolveDialog, setResolveDialog] = useState<(value: boolean) => void>(
     () => {}
   );
 
-  const confirm = (message: string): Promise<boolean> => {
+  const confirm = (message: string, showCancel = true): Promise<boolean> => {
     setDialogMessage(message);
+    setIsShowCancel(showCancel);
     return new Promise<boolean>((resolve) => {
       setResolveDialog(() => resolve);
     });
@@ -44,6 +46,7 @@ export function DialogProvider({ children }: { children: ReactNode }) {
           message={dialogMessage}
           onOk={handleOk}
           onCancel={handleCancel}
+          showCancel={isShowCancel}
         />
       )}
     </DialogContext.Provider>

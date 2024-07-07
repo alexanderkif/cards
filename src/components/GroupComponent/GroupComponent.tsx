@@ -72,10 +72,11 @@ function GroupComponent() {
     dispatch(removeGroup(group.name));
   };
 
-  const handleShareGroup = (groupName: string) => {
+  const handleShareGroup = async (groupName: string) => {
     const groupToSend = groups.find((g) => g.name === groupName);
     if (groupToSend) {
-      createCompressedURL(groupToSend);
+      const message = await createCompressedURL(groupToSend);
+      await confirm(message, false);
     }
   };
 

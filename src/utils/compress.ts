@@ -57,7 +57,7 @@ function download(filename: string, text: string) {
   document.body.removeChild(element);
 }
 
-export const createCompressedURL = async (group: Group) => {
+export const createCompressedURL = async (group: Group): Promise<string> => {
   const cardsJson = JSON.stringify(group.cards);
   const compressed = await compressToURI(cardsJson);
   const url = new URL(window.location.origin);
@@ -73,7 +73,5 @@ export const createCompressedURL = async (group: Group) => {
     `<html><h1>To add group of cards ${name} to Cards-pwa.vercel.app click the link below</h1><br><h1>${a.outerHTML}</h1></html>`
   );
 
-  alert(
-    `Send the file “${fileName}” from the “Downloads” to the person you want to share with.`
-  );
+  return `Send the file “${fileName}” from the “Downloads” to the person you want to share with.`;
 };
