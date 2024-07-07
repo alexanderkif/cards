@@ -22,6 +22,7 @@ import SVGIcon from '../Icons/SVGIcons';
 import { useSwipeable } from 'react-swipeable';
 import DonateButton from '../DonateButton/DonateButton';
 import { createCompressedURL } from '@/utils/compress';
+import { useDialog } from '@/hooks/hooks';
 
 function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null);
@@ -32,12 +33,13 @@ function MenuComponent() {
   const groups = useAppSelector(selectGroups);
   const currentGroup = useAppSelector(selectCurrentGroup);
   const dispatch = useAppDispatch();
+  const { confirm } = useDialog();
   const handleMenuClick = (event: SyntheticEvent) => {
     event.stopPropagation();
     dispatch(toggleMenu());
   };
-  const removeAllCards = () => {
-    const confirmation = confirm('All existing cards will be removed.');
+  const removeAllCards = async () => {
+    const confirmation = await confirm('All existing cards will be removed.');
     if (!confirmation) {
       return;
     }
@@ -68,8 +70,8 @@ function MenuComponent() {
     return () => dispatch(setPage(route));
   }
 
-  function clickLoadFile() {
-    const confirmation = confirm(
+  async function clickLoadFile() {
+    const confirmation = await confirm(
       'All existing cards will be overwritten with new cards.'
     );
     if (!confirmation) {

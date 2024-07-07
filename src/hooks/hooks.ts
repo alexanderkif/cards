@@ -1,4 +1,8 @@
-import { useState, useEffect } from 'react';
+import {
+  DialogContext,
+  DialogContextType,
+} from '@/components/DialogContext/DialogContext';
+import { useState, useEffect, useContext } from 'react';
 
 export const useLocalStorage = (key: string, defaultValue: string) => {
   const [value, setValue] = useState(() => {
@@ -113,3 +117,11 @@ export const useFetch = (url: string) => {
 //     </div>
 //   );
 // };
+
+export function useDialog(): DialogContextType {
+  const context = useContext(DialogContext);
+  if (!context) {
+    throw new Error('useDialog must be used within a DialogProvider');
+  }
+  return context;
+}

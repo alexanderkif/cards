@@ -13,6 +13,7 @@ import {
 } from '@/store/cardsSlice';
 import SVGIcon from '../Icons/SVGIcons';
 import { createCompressedURL } from '@/utils/compress';
+import { useDialog } from '@/hooks/hooks';
 
 const NAME_LENGTH = 60;
 const MIN_LENGTH = 5;
@@ -22,6 +23,7 @@ function GroupComponent() {
   const dispatch = useAppDispatch();
   const currentGroup = useAppSelector(selectCurrentGroup);
   const groups = useAppSelector(selectGroups);
+  const { confirm } = useDialog();
 
   const [groupNameInput, setGroupNameInput] = useState('');
   const [isEditGroup, setIsEditGroup] = useState(false);
@@ -58,8 +60,8 @@ function GroupComponent() {
     setGroupNameInput('');
   };
 
-  const deleteGroup = (group: Group) => {
-    const confirmation = confirm('Current group will be removed.');
+  const deleteGroup = async (group: Group) => {
+    const confirmation = await confirm('Current group will be removed.');
     if (!confirmation) {
       return;
     }

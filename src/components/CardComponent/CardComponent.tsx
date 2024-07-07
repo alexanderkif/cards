@@ -24,6 +24,7 @@ import { Direction, Routes, SVGIcons } from '@/types/types';
 import { setPage } from '@/store/menuSlice';
 import SpeakerComponent from '../SpeakerComponent/SpeakerComponent';
 import SVGIcon from '../Icons/SVGIcons';
+import { useDialog } from '@/hooks/hooks';
 
 const ANIMATION_TIME = 300;
 const BIG_SPEAKER = '5vmin';
@@ -41,6 +42,7 @@ function CardComponent({
   const isExamples = useAppSelector(selectIsExamples);
   const isAllCardsFlipped = useAppSelector(selectIsAllFlipped);
   const [isFace, setIsFace] = useState(true);
+  const { confirm } = useDialog();
 
   useEffect(() => {
     if (cards.length === 0) dispatch(setPage(Routes.new));
@@ -115,9 +117,9 @@ function CardComponent({
     dispatch(setPage(Routes.edit));
   };
 
-  const removeCard = (e: SyntheticEvent) => {
+  const removeCard = async (e: SyntheticEvent) => {
     e.stopPropagation();
-    const confirmation = confirm('Current card will be removed.');
+    const confirmation = await confirm('Current card will be removed.');
     if (!confirmation) {
       return;
     }

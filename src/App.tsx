@@ -21,6 +21,7 @@ import GroupComponent from './components/GroupComponent/GroupComponent';
 import { decompressFromURI } from './utils/compress';
 import FooterComponent from './components/FooterComponent/FooterComponent';
 import HeaderComponent from './components/HeaderComponent/HeaderComponent';
+import { DialogProvider } from './components/DialogContext/DialogContext';
 
 function App() {
   const queryParameters = new URLSearchParams(window.location.search);
@@ -88,20 +89,22 @@ function App() {
       className="app d-flex flex-column p-0 m-0"
       onClick={() => dispatch(closeMenu())}
     >
-      <MenuComponent />
-      <div className="page flex-fill" {...handlers}>
-        <Route
-          route={Routes.card}
-          component={<CardComponent swipeFn={swipeFn} />}
-        />
-        <Route route={Routes.search} component={<SearchComponent />} />
-        <Route route={Routes.groups} component={<GroupComponent />} />
-        <Route route={Routes.new} component={<AddComponent edit={false} />} />
-        <Route route={Routes.edit} component={<AddComponent edit={true} />} />
-        <Route route={Routes.about} component={<AboutComponent />} />
-      </div>
-      <HeaderComponent />
-      <FooterComponent />
+      <DialogProvider>
+        <MenuComponent />
+        <div className="page flex-fill" {...handlers}>
+          <Route
+            route={Routes.card}
+            component={<CardComponent swipeFn={swipeFn} />}
+          />
+          <Route route={Routes.search} component={<SearchComponent />} />
+          <Route route={Routes.groups} component={<GroupComponent />} />
+          <Route route={Routes.new} component={<AddComponent edit={false} />} />
+          <Route route={Routes.edit} component={<AddComponent edit={true} />} />
+          <Route route={Routes.about} component={<AboutComponent />} />
+        </div>
+        <HeaderComponent />
+        <FooterComponent />
+      </DialogProvider>
     </div>
   );
 }

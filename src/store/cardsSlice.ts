@@ -69,7 +69,8 @@ export const cardsSlice = createSlice({
       saveGroupsToLocalStorage(state.groups, state.currentGroup, state.cards);
     },
     setCardIndex: (state, action: PayloadAction<number>) => {
-      state.cardIndex = action.payload;
+      state.cardIndex =
+        state.cardIndex > state.cards.length - 1 ? 0 : action.payload;
       localStorage.setItem('cardIndex', JSON.stringify(state.cardIndex));
     },
     setNextCardIndex: (state) => {
