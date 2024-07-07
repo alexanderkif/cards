@@ -22,6 +22,7 @@ import { decompressFromURI } from './utils/compress';
 import FooterComponent from './components/FooterComponent/FooterComponent';
 import HeaderComponent from './components/HeaderComponent/HeaderComponent';
 import { DialogProvider } from './components/DialogContext/DialogContext';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const queryParameters = new URLSearchParams(window.location.search);
@@ -104,6 +105,7 @@ function App() {
         </div>
         <HeaderComponent />
         <FooterComponent />
+        <Analytics />
       </DialogProvider>
     </div>
   );
