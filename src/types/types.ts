@@ -43,6 +43,8 @@ export enum SVGIcons {
   linkedin = 'linkedin',
   github = 'github',
   close = 'close',
+  left = 'left',
+  right = 'right',
 }
 
 export enum Direction {

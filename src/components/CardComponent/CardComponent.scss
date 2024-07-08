@@ -138,4 +138,24 @@
     fill: var(--txt-color-main);
     stroke: var(--txt-color-main);
   }
+
+  .arrow-left, .arrow-right {
+    position: absolute;
+    background-color: var(--bg-main);
+    border-radius: 50%;
+    margin: 1px;
+
+    svg {
+      fill: var(--color-main);
+      stroke: var(--color-main);
+    }
+  }
+
+  .arrow-left {
+    left: 0;
+  }
+
+  .arrow-right {
+    right: 0;
+  }
 }

@@ -24,7 +24,7 @@ import { Direction, Routes, SVGIcons } from '@/types/types';
 import { setPage } from '@/store/menuSlice';
 import SpeakerComponent from '../SpeakerComponent/SpeakerComponent';
 import SVGIcon from '../Icons/SVGIcons';
-import { useDialog } from '@/hooks/hooks';
+import { useDialog, useMediaQuery } from '@/hooks/hooks';
 
 const ANIMATION_TIME = 300;
 const BIG_SPEAKER = '5vmin';
@@ -43,6 +43,7 @@ function CardComponent({
   const isAllCardsFlipped = useAppSelector(selectIsAllFlipped);
   const [isFace, setIsFace] = useState(true);
   const { confirm } = useDialog();
+  const isMobile = useMediaQuery('(max-width: 1024px)');
 
   useEffect(() => {
     if (cards.length === 0) dispatch(setPage(Routes.new));
@@ -202,6 +203,16 @@ function CardComponent({
               </div>
             )}
           </div>
+        </div>
+      )}
+      {!isMobile && (
+        <div className="arrow-left" onClick={() => slideCard(Direction.right)}>
+          <SVGIcon name={SVGIcons.left} svgClass="itemIcon" />
+        </div>
+      )}
+      {!isMobile && (
+        <div className="arrow-right" onClick={() => slideCard(Direction.left)}>
+          <SVGIcon name={SVGIcons.right} svgClass="itemIcon" />
         </div>
       )}
     </div>
