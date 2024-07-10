@@ -2,6 +2,8 @@
   --card-max-height: calc(100vh - var(--top-menu-height) * 2 - 2rem);
   --card-size: min(var(--card-max-height), 90vw);
   --animation-time: 0.3s;
+  --card-border-radius: 1rem;
+  --scrollBar-width: 0.3rem;
 
   display: flex;
   justify-content: center;
@@ -14,7 +16,7 @@
   .card {
     position: relative;
     background-color: var(--bg-light);
-    border-radius: 1rem;
+    border-radius: var(--card-border-radius);
     text-align: center;
     font-weight: bold;
     font-size: 40px;
@@ -91,6 +93,25 @@
 
     &.back {
       transform: rotateX(180deg);
+      justify-content: start;
+      overflow-y: auto;
+  
+      &::-webkit-scrollbar {
+        width: var(--scrollBar-width);
+      }
+      &::-webkit-scrollbar-track {
+        border: none;
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        border-radius: calc(var(--scrollBar-width) / 2);
+        background-color: var(--txt-color-main);
+        opacity: 0.5;
+      }
+      &::-webkit-scrollbar-button {
+        height: calc(var(--card-border-radius) / 2);
+        background-color: transparent;
+      }
     }
   }
 
@@ -109,6 +130,11 @@
     li {
       display: block;
       line-height: 12vmin;
+
+      &.smallTail {
+        font-size: 6vmin;
+        line-height: 7vmin;
+      }
     }
   }
 
@@ -116,21 +142,21 @@
     flex: auto;
     width: 100%;
     box-sizing: border-box;
-    padding: 2vmin 5vmin;
     font-size: 5vmin;
+    line-height: 6vmin;
     font-style: italic;
     font-weight: normal;
     overflow-wrap: anywhere;
 
     li {
       display: block;
-      border-top: 1px solid var(--bg-main);
+      border-top: 1px solid var(--txt-color-main);
     }
   }
 
   ul {
     list-style: none;
-    padding: 0;
+    padding: 1rem;
     margin: 0;
   }
 

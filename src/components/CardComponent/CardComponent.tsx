@@ -177,7 +177,10 @@ function CardComponent({
                 {cards[cardIndex].tails.map(
                   (tail, index) =>
                     tail && (
-                      <li key={`${cards[cardIndex].head}_${tail}-${index}`}>
+                      <li
+                        key={`${cards[cardIndex].head}_${tail}-${index}`}
+                        className={tail.length > 50 ? 'smallTail' : ''}
+                      >
                         {formatHTML(tail)}
                         <SpeakerComponent text={tail} size={BIG_SPEAKER} />
                       </li>
