@@ -29,6 +29,16 @@ function HeaderComponent() {
 
   return (
     <ul className="header d-flex justify-content-end column-gap-3">
+      <li>
+        <a href="https://t.me/cardspwa" target="blank">
+          <SVGIcon
+            name={SVGIcons.telegram}
+            size="2rem"
+            tooltip="Telegram group"
+            tooltipClass="svgTooltip-bottom"
+          />
+        </a>
+      </li>
       <li onClick={() => dispatch(toggleIsExamples())}>
         <SVGIcon
           name={SVGIcons.examples}

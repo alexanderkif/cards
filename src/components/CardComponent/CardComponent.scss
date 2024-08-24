@@ -26,8 +26,8 @@
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transition:
-    transform var(--animation-time) ease-in-out,
-    background-color var(--animation-time) ease-in-out;
+      transform var(--animation-time) ease-in-out,
+      background-color var(--animation-time) ease-in-out;
     color: var(--txt-color-main);
     cursor: pointer;
 
@@ -90,28 +90,29 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
+    justify-content: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      width: var(--scrollBar-width);
+    }
+    &::-webkit-scrollbar-track {
+      border: none;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: calc(var(--scrollBar-width) / 2);
+      background-color: var(--txt-color-main);
+      opacity: 0.5;
+    }
+    &::-webkit-scrollbar-button {
+      height: calc(var(--card-border-radius) / 2);
+      background-color: transparent;
+    }
 
     &.back {
       transform: rotateX(180deg);
-      justify-content: start;
-      overflow-y: auto;
-  
-      &::-webkit-scrollbar {
-        width: var(--scrollBar-width);
-      }
-      &::-webkit-scrollbar-track {
-        border: none;
-        background-color: transparent;
-      }
-      &::-webkit-scrollbar-thumb {
-        border-radius: calc(var(--scrollBar-width) / 2);
-        background-color: var(--txt-color-main);
-        opacity: 0.5;
-      }
-      &::-webkit-scrollbar-button {
-        height: calc(var(--card-border-radius) / 2);
-        background-color: transparent;
-      }
     }
   }
 
@@ -130,11 +131,12 @@
     li {
       display: block;
       line-height: 12vmin;
+    }
 
-      &.smallTail {
-        font-size: 6vmin;
-        line-height: 7vmin;
-      }
+    .smallTail,
+    &.smallText {
+      font-size: 6vmin;
+      line-height: 7vmin;
     }
   }
 
@@ -165,7 +167,8 @@
     stroke: var(--txt-color-main);
   }
 
-  .arrow-left, .arrow-right {
+  .arrow-left,
+  .arrow-right {
     position: absolute;
     background-color: var(--bg-main);
     border-radius: 50%;

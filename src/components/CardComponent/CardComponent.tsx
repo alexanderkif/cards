@@ -141,7 +141,11 @@ function CardComponent({
           onClick={() => setIsFace(!isFace)}
         >
           <div className={`content ${isAllCardsFlipped ? 'back' : ''}`}>
-            <div className="text">
+            <div
+              className={
+                cards[cardIndex].head.length > 50 ? 'text smallText' : 'text'
+              }
+            >
               {formatHTML(cards[cardIndex].head)}
               <SpeakerComponent
                 text={cards[cardIndex].head}

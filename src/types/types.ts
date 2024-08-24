@@ -45,6 +45,7 @@ export enum SVGIcons {
   close = 'close',
   left = 'left',
   right = 'right',
+  telegram = 'telegram',
 }
 
 export enum Direction {
