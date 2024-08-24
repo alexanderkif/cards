@@ -9,6 +9,7 @@ import {
   selectCardIndex,
   selectCards,
   selectCurrentGroup,
+  setCardIndex,
 } from '@/store/cardsSlice';
 import { setPage } from '@/store/menuSlice';
 
@@ -32,7 +33,10 @@ function AddComponent({ edit = false }: { edit: boolean }) {
   const [card, setCard] = useState(emptyCard);
 
   useEffect(() => {
-    if (cards.length > 0) {
+    if (cardIndex >= cards.length) {
+      dispatch(setCardIndex(0));
+    }
+    if (cards.length > 0 && cardIndex < cards.length) {
       setCard(
         JSON.parse(
           JSON.stringify(
@@ -41,7 +45,7 @@ function AddComponent({ edit = false }: { edit: boolean }) {
         )
       );
     }
-  }, [cardIndex, cards, edit]);
+  }, [cardIndex, cards, dispatch, edit]);
 
   const changeInput = (e: FormEvent) => {
     const { name, value } = e.target as HTMLInputElement;

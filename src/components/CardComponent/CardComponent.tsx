@@ -16,6 +16,7 @@ import {
   setNextCardIndex,
   setPrevCardIndex,
   removeCurrentCard,
+  selectCurrentGroup,
 } from '@/store/cardsSlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useSwipeable } from 'react-swipeable';
@@ -44,10 +45,11 @@ function CardComponent({
   const [isFace, setIsFace] = useState(true);
   const { confirm } = useDialog();
   const isMobile = useMediaQuery('(max-width: 1024px)');
+  const currentGroup = useAppSelector(selectCurrentGroup);
 
   useEffect(() => {
-    if (cards.length === 0) dispatch(setPage(Routes.new));
-  }, [cards, dispatch]);
+    if (cards.length === 0 && currentGroup) dispatch(setPage(Routes.new));
+  }, [cards, currentGroup, dispatch]);
 
   const slideCard = useCallback(
     (direction: Direction) => {

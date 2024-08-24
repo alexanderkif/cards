@@ -67,7 +67,12 @@ function GroupComponent() {
     }
     handleCancel();
     if (group.name === currentGroup) {
-      dispatch(setCurrentGroup(groups[0].name));
+      const groupsFiltered = groups.filter((g) => g.name !== currentGroup);
+      if (groupsFiltered.length) {
+        dispatch(setCurrentGroup(groupsFiltered[0].name));
+      } else {
+        dispatch(setCurrentGroup(''));
+      }
     }
     dispatch(removeGroup(group.name));
   };

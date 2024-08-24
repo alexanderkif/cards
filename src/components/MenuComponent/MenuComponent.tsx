@@ -174,13 +174,25 @@ function MenuComponent() {
             SVGIcons.house,
             getActiveRouteClass(Routes.card),
             'Home',
-            setRoute(cards.length === 0 ? Routes.new : Routes.card)
+            setRoute(
+              currentGroup
+                ? cards.length > 0
+                  ? Routes.card
+                  : Routes.new
+                : Routes.groups
+            )
           )}
           {getMenuItem(
             SVGIcons.search,
             getActiveRouteClass(Routes.search),
             'Search',
-            setRoute(Routes.search)
+            setRoute(
+              currentGroup
+                ? cards.length > 0
+                  ? Routes.search
+                  : Routes.new
+                : Routes.groups
+            )
           )}
           {getMenuItem(
             SVGIcons.cards,
