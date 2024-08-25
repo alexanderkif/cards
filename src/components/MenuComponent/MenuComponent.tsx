@@ -72,7 +72,7 @@ function MenuComponent() {
 
   async function clickLoadFile() {
     const confirmation = await confirm(
-      'All existing cards will be overwritten with new cards.'
+      'All existing cards with the same group names will be overwritten with new cards.'
     );
     if (!confirmation) {
       return;

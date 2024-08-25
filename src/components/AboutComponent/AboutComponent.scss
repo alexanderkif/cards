@@ -17,6 +17,23 @@
     text-align: center;
     font-size: 5vmin;
 
+    &::-webkit-scrollbar {
+      width: var(--scrollBar-width);
+    }
+    &::-webkit-scrollbar-track {
+      border: none;
+      background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: calc(var(--scrollBar-width) / 2);
+      background-color: var(--color-main);
+      opacity: 0.5;
+    }
+    &::-webkit-scrollbar-button {
+      height: calc(var(--card-border-radius) / 2);
+      background-color: transparent;
+    }
+
     h1 {
       padding-bottom: 1rem;
     }

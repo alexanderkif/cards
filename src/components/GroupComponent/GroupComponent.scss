@@ -3,13 +3,33 @@
   justify-content: center;
   height: 100%;
   width: 100%;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    width: var(--scrollBar-width);
+  }
+  &::-webkit-scrollbar-track {
+    border: 1rem solid transparent;
+    border: none;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    border: 1rem solid transparent;
+    border-radius: calc(var(--scrollBar-width) / 2);
+    background-color: var(--color-main);
+    opacity: 0.5;
+  }
+  &::-webkit-scrollbar-button {
+    height: calc(var(--card-border-radius) / 2);
+    background-color: transparent;
+  }
 
   .fields {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding-top: 2rem;
-    width: 80vw;
+    width: 90%;
     max-width: var(--max-app-width);
     font-size: 5vmin;
 

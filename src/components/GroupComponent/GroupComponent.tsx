@@ -30,7 +30,7 @@ function GroupComponent() {
 
   const changeInput = (e: FormEvent) => {
     const { value } = e.target as HTMLInputElement;
-    setGroupNameInput(value.trim());
+    setGroupNameInput(value.toString().trim());
   };
 
   const submitInputs = () => {
@@ -94,7 +94,7 @@ function GroupComponent() {
             type="text"
             value={groupNameInput}
             onChange={changeInput}
-            placeholder="Group Name (min length 5)"
+            placeholder="Group Name (min length is 5)"
             required
             minLength={MIN_LENGTH}
             maxLength={NAME_LENGTH}

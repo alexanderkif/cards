@@ -11,6 +11,7 @@
   --top-menu-height: 3rem;
   --max-app-width: 51rem;
   --bg-speaker-dialog: rgba(255, 255, 255, 0.8);
+  --scrollBar-width: 0.3rem;
 
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

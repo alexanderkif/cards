@@ -3,7 +3,6 @@
   --card-size: min(var(--card-max-height), 90vw);
   --animation-time: 0.3s;
   --card-border-radius: 1rem;
-  --scrollBar-width: 0.3rem;
 
   display: flex;
   justify-content: center;
@@ -113,6 +112,19 @@
 
     &.back {
       transform: rotateX(180deg);
+    }
+
+    &.front {
+      z-index: 1;
+    }
+  }
+
+  .flipped .content {
+    &.front {
+      z-index: 0;
+    }
+    &.back {
+      z-index: 1;
     }
   }
 

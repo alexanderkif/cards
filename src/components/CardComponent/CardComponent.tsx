@@ -142,7 +142,7 @@ function CardComponent({
           className={`card ${isFace ? '' : 'flipped'}`}
           onClick={() => setIsFace(!isFace)}
         >
-          <div className={`content ${isAllCardsFlipped ? 'back' : ''}`}>
+          <div className={`content ${isAllCardsFlipped ? 'back' : 'front'}`}>
             <div
               className={
                 cards[cardIndex].head.length > 50 ? 'text smallText' : 'text'
@@ -175,7 +175,7 @@ function CardComponent({
             </span>
           </div>
           <div
-            className={`content ${isAllCardsFlipped ? '' : 'back'}`}
+            className={`content ${isAllCardsFlipped ? 'front' : 'back'}`}
             ref={backRef}
           >
             <div className="text">
