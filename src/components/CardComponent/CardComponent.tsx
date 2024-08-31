@@ -4,6 +4,7 @@ import {
   SyntheticEvent,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -134,6 +135,15 @@ function CardComponent({
     return <span dangerouslySetInnerHTML={{ __html: str }} />;
   };
 
+  const isTailsLong = useMemo(
+    (): boolean =>
+      cards[cardIndex].tails.reduce(
+        (acc, t) => acc + (t?.toString().length || 0),
+        0
+      ) > 50,
+    [cardIndex, cards]
+  );
+
   return (
     <div className="cardComponent" {...handlers}>
       {cards[cardIndex] && (
@@ -148,11 +158,13 @@ function CardComponent({
                 cards[cardIndex].head.length > 50 ? 'text smallText' : 'text'
               }
             >
-              {formatHTML(cards[cardIndex].head)}
-              <SpeakerComponent
-                text={cards[cardIndex].head}
-                size={BIG_SPEAKER}
-              />
+              <div>
+                {formatHTML(cards[cardIndex].head)}
+                <SpeakerComponent
+                  text={cards[cardIndex].head}
+                  size={BIG_SPEAKER}
+                />
+              </div>
             </div>
             <span className="position-absolute d-flex top-0 end-0 fs-6">
               <span onClick={clickEditCard} className="actionButton">
@@ -185,7 +197,7 @@ function CardComponent({
                     tail && (
                       <li
                         key={`${cards[cardIndex].head}_${tail}-${index}`}
-                        className={tail.length > 50 ? 'smallTail' : ''}
+                        className={isTailsLong ? 'smallTail' : ''}
                       >
                         {formatHTML(tail)}
                         <SpeakerComponent text={tail} size={BIG_SPEAKER} />
