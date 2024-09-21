@@ -1,8 +1,8 @@
 :root {
   --bg-mix: 50%;
-  --txt-color-main: #333333;
+  --txt-color-main: #151515;
   --bg-main: #FFFFF8;
-  --color-main: #333333;
+  --color-main: #151515;
   --color-active: #118822;
   --color-negative: #dd2200;
   --bg-light: #ddffff;
@@ -27,7 +27,7 @@
 }
 
 [data-bs-theme=dark] {
-  --bg-main: #333333;
+  --bg-main: #151515;
   --color-main: #FFF888;
   --color-active: #55cc33;
   --color-negative: #FF7755;
