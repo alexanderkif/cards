@@ -28,12 +28,12 @@ function HeaderComponent() {
   };
 
   return (
-    <ul className="header d-flex justify-content-end column-gap-3">
+    <ul className="header d-flex justify-content-end column-gap-2">
       <li>
         <a href="https://t.me/cardspwa" target="blank">
           <SVGIcon
             name={SVGIcons.telegram}
-            size="2rem"
+            size="1.5rem"
             tooltip="Telegram group"
             tooltipClass="svgTooltip-bottom"
           />
@@ -43,7 +43,7 @@ function HeaderComponent() {
         <SVGIcon
           name={SVGIcons.examples}
           svgClass={isExamples ? 'active' : ''}
-          size="2rem"
+          size="1.5rem"
           tooltip={isExamples ? 'Hide examples' : 'Show examples'}
           tooltipClass="svgTooltip-bottom"
         />
@@ -52,7 +52,7 @@ function HeaderComponent() {
         <SVGIcon
           name={SVGIcons.random}
           svgClass={isRandom ? 'active' : ''}
-          size="2rem"
+          size="1.5rem"
           tooltip={isRandom ? 'Sort cards "abc"' : 'Shuffle cards'}
           tooltipClass="svgTooltip-bottom"
         />
@@ -61,7 +61,7 @@ function HeaderComponent() {
         <SVGIcon
           name={SVGIcons.flip}
           svgClass={isAllCardsFlipped ? 'active' : ''}
-          size="2rem"
+          size="1.5rem"
           tooltip="Flip all cards"
           tooltipClass="svgTooltip-bottom"
         />
@@ -69,7 +69,7 @@ function HeaderComponent() {
       <li onClick={toggleTheme}>
         <SVGIcon
           name={theme === 'light' ? SVGIcons.moon : SVGIcons.sun}
-          size="2rem"
+          size="1.5rem"
           tooltip={theme === 'light' ? 'Dark mode' : 'Light mode'}
           tooltipClass="svgTooltip-bottom svgTooltip-left"
         />
