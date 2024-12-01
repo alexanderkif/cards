@@ -25,6 +25,7 @@ import { DialogProvider } from './components/DialogContext/DialogContext';
 import { Analytics } from '@vercel/analytics/react';
 
 function App() {
+  const dispatch = useAppDispatch();
   const queryParameters = new URLSearchParams(window.location.search);
   for (const [key, value] of queryParameters) {
     decompressFromURI(value).then((p) => {
@@ -36,7 +37,6 @@ function App() {
     });
   }
   const swipeFn = useRef<(direction: Direction) => void>(() => {});
-  const dispatch = useAppDispatch();
   const groups: Group[] = JSON.parse(localStorage.getItem('groups') || '[]');
   const currentGroup = JSON.parse(localStorage.getItem('currentGroup') || '""');
   const cardIndexInStore = +(localStorage.getItem('cardIndex') || 0);

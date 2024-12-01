@@ -137,10 +137,10 @@ function CardComponent({
 
   const isTailsLong = useMemo(
     (): boolean =>
-      cards[cardIndex].tails.reduce(
+      (cards[cardIndex]?.tails?.reduce(
         (acc, t) => acc + (t?.toString().length || 0),
         0
-      ) > 50,
+      ) || 0) > 50,
     [cardIndex, cards]
   );
 
