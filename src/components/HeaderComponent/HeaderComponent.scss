@@ -4,10 +4,16 @@
   height: var(--top-menu-height);
   width: 100vw;
   max-width: var(--max-app-width);
-  padding: 0 0.5rem;
+  padding: 0 var(--spacing-sm);
+  background: var(--clay-bg);
+  box-shadow: var(--clay-shadow-flat);
+  backdrop-filter: blur(10px);
+  // z-index: 10;
 
   li {
     display: flex;
     align-items: center;
+    background: transparent;
+    border-radius: var(--clay-radius-small);
   }
 }

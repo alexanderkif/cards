@@ -1,6 +1,8 @@
 .speakerComponent {
   display: inline-flex;
+  vertical-align: middle;
   width: min-content;
+  pointer-events: auto;
 
   .dialogWrapper {
     position: fixed;
@@ -8,20 +10,64 @@
     right: 0;
     top: 0;
     bottom: 0;
-    padding: 5vmin;
-    border-radius: 1rem;
+    padding: var(--spacing-2xl);
+    border-radius: var(--clay-radius);
     display: flex;
     justify-content: center;
+    align-items: center;
     background-color: var(--bg-speaker-dialog);
     backdrop-filter: blur(15px);
-    font-size: 4vmin;
-    line-height: 5vmin;
+    font-size: var(--font-lg);
+    line-height: calc(var(--font-lg) * 1.25);
     font-style: italic;
 
+    .dialog {
+      max-height: 100%;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
     .dialogLabel {
-      padding-bottom: 2vmin;
+      padding-bottom: var(--spacing-md);
       color: var(--color-main);
       font-weight: normal;
+      flex-shrink: 0;
+    }
+
+    .voices-list {
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-xs);
+      flex: 1;
+      min-height: 0;
+
+      .voice-option {
+        padding: var(--spacing-sm) var(--spacing-md);
+        border-radius: var(--clay-radius-small);
+        background-color: var(--clay-bg);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: var(--color-main);
+        font-style: normal;
+
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow:
+            inset 2px 2px 4px var(--clay-shadow-dark),
+            inset -2px -2px 4px var(--clay-shadow-light);
+        }
+
+        &.active {
+          background-color: var(--clay-accent);
+          color: var(--color-contrast);
+          font-weight: bold;
+          box-shadow:
+            inset 2px 2px 5px rgba(0, 0, 0, 0.2),
+            inset -2px -2px 5px rgba(255, 255, 255, 0.1);
+        }
+      }
     }
   }
 }

@@ -22,14 +22,14 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useSwipeable } from 'react-swipeable';
 import { HandledEvents } from 'react-swipeable/es/types';
-import { Direction, Routes, SVGIcons } from '@/types/types';
+import { Direction, Routes } from '@/types/types';
 import { setPage } from '@/store/menuSlice';
 import SpeakerComponent from '../SpeakerComponent/SpeakerComponent';
-import SVGIcon from '../Icons/SVGIcons';
+import { iconMap } from '../Icons/iconMapping';
+import ClayIcon from '../Icons/ClayIcon';
 import { useDialog, useMediaQuery } from '@/hooks/hooks';
 
 const ANIMATION_TIME = 300;
-const BIG_SPEAKER = '5vmin';
 
 function CardComponent({
   swipeFn,
@@ -96,7 +96,11 @@ function CardComponent({
       slideCard(Direction.left);
     },
     onSwipedUp: () => setIsFace(false),
-    onSwipedDown: () => setIsFace(true),
+    onSwipedDown: ({ event }: { event: HandledEvents }) => {
+      event.preventDefault(); // Предотвращаем pull-to-refresh браузера
+      setIsFace(true);
+    },
+    preventScrollOnSwipe: true,
   });
 
   const handleKeyDown = useCallback(
@@ -155,33 +159,34 @@ function CardComponent({
           <div className={`content ${isAllCardsFlipped ? 'back' : 'front'}`}>
             <div
               className={
-                cards[cardIndex].head.length > 50 ? 'text smallText' : 'text'
+                'p-3 text' +
+                (cards[cardIndex].head.length > 50 ? ' smallText' : '')
               }
             >
               <div>
                 {formatHTML(cards[cardIndex].head)}
                 <SpeakerComponent
+                  className="ms-2"
                   text={cards[cardIndex].head}
-                  size={BIG_SPEAKER}
                 />
               </div>
             </div>
-            <span className="position-absolute d-flex top-0 end-0 fs-6">
+            <span className="position-absolute d-flex gap-2 p-2 top-0 end-0 fs-6">
               <span onClick={clickEditCard} className="actionButton">
-                <SVGIcon
-                  name={SVGIcons.edit}
-                  size="6vmin"
+                <ClayIcon
+                  icon={iconMap.edit}
+                  size={28}
                   tooltip="Edit card"
-                  tooltipClass="svgTooltip-bottom"
+                  tooltipPosition="bottom"
                 />
               </span>
               <span onClick={removeCard} className="actionButton">
-                <SVGIcon
-                  name={SVGIcons.trash}
-                  svgClass="negative"
-                  size="6vmin"
+                <ClayIcon
+                  icon={iconMap.trash}
+                  size={28}
+                  className="negative"
                   tooltip="Delete card"
-                  tooltipClass="svgTooltip-bottom"
+                  tooltipPosition="bottom"
                 />
               </span>
             </span>
@@ -200,7 +205,7 @@ function CardComponent({
                         className={isTailsLong ? 'smallTail' : ''}
                       >
                         {formatHTML(tail)}
-                        <SpeakerComponent text={tail} size={BIG_SPEAKER} />
+                        <SpeakerComponent text={tail} className="ms-2" />
                       </li>
                     )
                 )}
@@ -216,7 +221,7 @@ function CardComponent({
                           key={`${cards[cardIndex].head}_${example}-${index}`}
                         >
                           {formatHTML(example)}
-                          <SpeakerComponent text={example} />
+                          <SpeakerComponent text={example} className="ms-2" />
                         </li>
                       )
                   )}
@@ -228,12 +233,12 @@ function CardComponent({
       )}
       {!isMobile && (
         <div className="arrow-left" onClick={() => slideCard(Direction.right)}>
-          <SVGIcon name={SVGIcons.left} svgClass="itemIcon" />
+          <ClayIcon icon={iconMap.left} size={28} />
         </div>
       )}
       {!isMobile && (
         <div className="arrow-right" onClick={() => slideCard(Direction.left)}>
-          <SVGIcon name={SVGIcons.right} svgClass="itemIcon" />
+          <ClayIcon icon={iconMap.right} size={28} />
         </div>
       )}
     </div>

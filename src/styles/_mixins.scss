@@ -1,0 +1,104 @@
+// Clay/Neomorphism mixins
+
+@mixin clay-raised {
+  box-shadow: var(--clay-shadow-raised);
+}
+
+@mixin clay-pressed {
+  box-shadow: var(--clay-shadow-pressed);
+}
+
+@mixin clay-flat {
+  box-shadow: var(--clay-shadow-flat);
+}
+
+@mixin clay-hover {
+  box-shadow: var(--clay-shadow-hover);
+}
+
+@mixin clay-element($type: 'raised') {
+  background: var(--clay-bg);
+  border: none;
+  border-radius: var(--clay-radius);
+  
+  @if $type == 'raised' {
+    @include clay-raised;
+  } @else if $type == 'pressed' {
+    @include clay-pressed;
+  } @else {
+    @include clay-flat;
+  }
+}
+
+@mixin clay-button {
+  background: var(--clay-bg);
+  border: none;
+  border-radius: var(--clay-radius-small);
+  box-shadow: var(--clay-shadow-raised);
+  color: var(--clay-text-primary);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    box-shadow: var(--clay-shadow-hover);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    box-shadow: var(--clay-shadow-pressed);
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: var(--clay-shadow-flat);
+  }
+}
+
+@mixin clay-input {
+  background: var(--clay-bg);
+  border: none;
+  border-radius: var(--clay-radius-small);
+  box-shadow: var(--clay-shadow-pressed);
+  color: var(--clay-text-primary);
+  padding: var(--spacing-lg);
+  font-size: var(--font-md);
+  transition: all 0.3s ease;
+  
+  &:focus {
+    outline: none;
+    box-shadow: 
+      var(--clay-shadow-pressed),
+      0 0 0 2px var(--clay-accent);
+  }
+  
+  &::placeholder {
+    color: var(--clay-text-secondary);
+  }
+}
+
+@mixin clay-card {
+  background: var(--clay-card-bg);
+  border: none;
+  border-radius: var(--clay-radius);
+  box-shadow: var(--clay-shadow-raised);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Responsive mixin for touch devices
+@mixin touch-device {
+  @media (hover: none) and (pointer: coarse) {
+    @content;
+  }
+}
+
+// Remove hover effects on touch devices
+@mixin no-hover-on-touch {
+  @include touch-device {
+    &:hover {
+      box-shadow: var(--clay-shadow-raised);
+      transform: none;
+    }
+  }
+}

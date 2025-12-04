@@ -1,7 +1,7 @@
 import './SpeakerComponent.scss';
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import SVGIcon from '../Icons/SVGIcons';
-import { SVGIcons } from '@/types/types';
+import { iconMap } from '../Icons/iconMapping';
+import ClayIcon from '../Icons/ClayIcon';
 
 const UTTER_SLOW_RATE = 0.7;
 const UTTER_HI_RATE = 1;
@@ -9,10 +9,10 @@ const DELAY_DOUBLE_CLICK = 300;
 
 function SpeakerComponent({
   text,
-  size = '3vmin',
+  className: className = '',
 }: {
   text: string;
-  size?: string;
+  className?: string;
 }) {
   const timePassed = useRef(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -75,10 +75,18 @@ function SpeakerComponent({
     if (voices.length === 0) {
       setVoices(synth.getVoices());
     }
+    const currentVoice = getVoiceByLocalStorageVoiceName();
     return voices.map((voice) => (
-      <option value={voice.name} key={voice.lang + voice.name}>
+      <div
+        key={voice.lang + voice.name}
+        className={`voice-option ${currentVoice?.name === voice.name ? 'active' : ''}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          saveVoiceToLocalStorage(voice.name);
+        }}
+      >
         {voice.name}
-      </option>
+      </div>
     ));
   };
 
@@ -94,29 +102,23 @@ function SpeakerComponent({
   }
 
   return (
-    <div className="speakerComponent" onClick={(e) => myDoubleClickCallback(e)}>
-      <SVGIcon
-        name={SVGIcons.speaker}
-        svgClass={`itemIcon active speakerIcon`}
-        size={size}
-      />
+    <div className={'speakerComponent' + (className ? ` ${className}` : '')}>
+      <span onClick={(e) => myDoubleClickCallback(e)} className="actionButton">
+        <ClayIcon icon={iconMap.speaker} />
+      </span>
       {isDialogOpen && (
         <div className="dialogWrapper z-2" onClick={clickWrapper}>
-          <div className="dialog">
+          <div
+            className="dialog"
+            onTouchMove={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
+          >
             <div className="dialogLabel">
               Select language. Double click on the speaker icon to choose
               another language.
             </div>
-            <select
-              className="form-select form-select-lg"
-              name="lang"
-              id="lang"
-              value={getVoiceByLocalStorageVoiceName()?.name}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => saveVoiceToLocalStorage(e.target.value)}
-            >
-              {getVoicesOptions()}
-            </select>
+            <div className="voices-list">{getVoicesOptions()}</div>
           </div>
         </div>
       )}

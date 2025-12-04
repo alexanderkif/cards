@@ -13,13 +13,13 @@
     padding-top: 1rem;
 
     .groupName {
-      font-size: 4vmin;
+      font-size: 1.125rem;
     }
 
     input {
-      padding: 0.5vmin 1vmin;
-      border-radius: 1vmin;
-      font-size: 5vmin;
+      padding: 0.5rem 1rem;
+      border-radius: var(--clay-radius-small);
+      font-size: 1.5rem;
       outline: none;
       border: 2px solid var(--color-active);
       background-color: var(--bg-main);
@@ -34,12 +34,12 @@
       justify-content: center;
 
       button {
-        padding: 0 3vmin;
-        border-radius: 1vmin;
+        padding: 0.5rem 1.5rem;
+        border-radius: var(--clay-radius-small);
         border: 2px solid var(--color-active);
         color: var(--color-active);
         background-color: transparent;
-        font-size: 5vmin;
+        font-size: 1.5rem;
         cursor: pointer;
 
         &:disabled {

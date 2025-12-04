@@ -4,10 +4,19 @@
   height: var(--top-menu-height);
   width: 100vw;
   max-width: var(--max-app-width);
-  background-color: var(--bg-main);
+  background: var(--clay-bg);
+  box-shadow: var(--clay-shadow-flat);
+  backdrop-filter: blur(10px);
+  // z-index: 10;
 
   li {
     display: flex;
     align-items: center;
+    justify-content: center;
+    background: transparent;
+    border-radius: var(--clay-radius-small);
+    padding: var(--spacing-xs);
+    width: var(--icon-button-size);
+    height: var(--icon-button-size);
   }
 }

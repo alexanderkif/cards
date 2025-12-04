@@ -1,8 +1,9 @@
 import './FooterComponent.scss';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectPage, setPage } from '@/store/menuSlice';
-import { Routes, SVGIcons } from '@/types/types';
-import SVGIcon from '../Icons/SVGIcons';
+import { Routes } from '@/types/types';
+import { iconMap } from '../Icons/iconMapping';
+import ClayIcon from '../Icons/ClayIcon';
 import { selectCards, selectCurrentGroup } from '@/store/cardsSlice';
 
 function FooterComponent() {
@@ -30,12 +31,12 @@ function FooterComponent() {
             )
           }
         >
-          <SVGIcon
-            name={SVGIcons.house}
-            svgClass={page === Routes.card ? 'active' : ''}
-            size="1.5rem"
+          <ClayIcon
+            icon={iconMap.house}
+            size={28}
+            className={page === Routes.card ? 'active' : ''}
             tooltip="Home"
-            tooltipClass="svgTooltip-top"
+            tooltipPosition="top"
           />
         </li>
         <li
@@ -51,12 +52,12 @@ function FooterComponent() {
             )
           }
         >
-          <SVGIcon
-            name={SVGIcons.search}
-            svgClass={page === Routes.search ? 'active' : ''}
-            size="1.5rem"
+          <ClayIcon
+            icon={iconMap.search}
+            size={28}
+            className={page === Routes.search ? 'active' : ''}
             tooltip="Search"
-            tooltipClass="svgTooltip-top"
+            tooltipPosition="top"
           />
         </li>
         <li
@@ -64,21 +65,21 @@ function FooterComponent() {
             dispatch(setPage(currentGroup ? Routes.new : Routes.groups))
           }
         >
-          <SVGIcon
-            name={SVGIcons.add}
-            svgClass={page === Routes.new ? 'active' : ''}
-            size="1.5rem"
+          <ClayIcon
+            icon={iconMap.add}
+            size={28}
+            className={page === Routes.new ? 'active' : ''}
             tooltip="Add card"
-            tooltipClass="svgTooltip-top"
+            tooltipPosition="top"
           />
         </li>
         <li onClick={() => dispatch(setPage(Routes.groups))}>
-          <SVGIcon
-            name={SVGIcons.cards}
-            svgClass={page === Routes.groups ? 'active' : ''}
-            size="1.5rem"
+          <ClayIcon
+            icon={iconMap.cards}
+            size={28}
+            className={page === Routes.groups ? 'active' : ''}
             tooltip="Groups"
-            tooltipClass="svgTooltip-top"
+            tooltipPosition="top"
           />
         </li>
       </ul>

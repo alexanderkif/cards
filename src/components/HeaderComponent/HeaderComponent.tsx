@@ -1,8 +1,9 @@
 import './HeaderComponent.scss';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectTheme, setTheme } from '@/store/menuSlice';
-import { SVGIcons, Theme } from '@/types/types';
-import SVGIcon from '../Icons/SVGIcons';
+import { Theme } from '@/types/types';
+import { iconMap } from '../Icons/iconMapping';
+import ClayIcon from '../Icons/ClayIcon';
 import { SyntheticEvent } from 'react';
 import {
   flipAllCards,
@@ -31,47 +32,47 @@ function HeaderComponent() {
     <ul className="header d-flex justify-content-end column-gap-2">
       <li>
         <a href="https://t.me/cardspwa" target="blank">
-          <SVGIcon
-            name={SVGIcons.telegram}
-            size="1.5rem"
+          <ClayIcon
+            icon={iconMap.telegram}
+            size={28}
             tooltip="Telegram group"
-            tooltipClass="svgTooltip-bottom"
+            tooltipPosition="bottom"
           />
         </a>
       </li>
       <li onClick={() => dispatch(toggleIsExamples())}>
-        <SVGIcon
-          name={SVGIcons.examples}
-          svgClass={isExamples ? 'active' : ''}
-          size="1.5rem"
+        <ClayIcon
+          icon={iconMap.examples}
+          size={28}
+          className={isExamples ? 'active' : ''}
           tooltip={isExamples ? 'Hide examples' : 'Show examples'}
-          tooltipClass="svgTooltip-bottom"
+          tooltipPosition="bottom"
         />
       </li>
       <li onClick={() => dispatch(shuffleCards())}>
-        <SVGIcon
-          name={SVGIcons.random}
-          svgClass={isRandom ? 'active' : ''}
-          size="1.5rem"
+        <ClayIcon
+          icon={iconMap.random}
+          size={28}
+          className={isRandom ? 'active' : ''}
           tooltip={isRandom ? 'Sort cards "abc"' : 'Shuffle cards'}
-          tooltipClass="svgTooltip-bottom"
+          tooltipPosition="bottom"
         />
       </li>
       <li onClick={() => dispatch(flipAllCards())}>
-        <SVGIcon
-          name={SVGIcons.flip}
-          svgClass={isAllCardsFlipped ? 'active' : ''}
-          size="1.5rem"
+        <ClayIcon
+          icon={iconMap.flip}
+          size={28}
+          className={isAllCardsFlipped ? 'active' : ''}
           tooltip="Flip all cards"
-          tooltipClass="svgTooltip-bottom"
+          tooltipPosition="bottom"
         />
       </li>
       <li onClick={toggleTheme}>
-        <SVGIcon
-          name={theme === 'light' ? SVGIcons.moon : SVGIcons.sun}
-          size="1.5rem"
+        <ClayIcon
+          icon={theme === 'light' ? iconMap.moon : iconMap.sun}
+          size={28}
           tooltip={theme === 'light' ? 'Dark mode' : 'Light mode'}
-          tooltipClass="svgTooltip-bottom svgTooltip-left"
+          tooltipPosition="bottom"
         />
       </li>
     </ul>
