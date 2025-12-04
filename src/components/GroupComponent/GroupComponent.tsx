@@ -134,13 +134,28 @@ function GroupComponent() {
                 <span className="groupName" onClick={() => clickChooseGroup(g)}>
                   {g.name}
                 </span>
-                <span onClick={() => handleShareGroup(g.name)}>
+                <span
+                  onClick={() => handleShareGroup(g.name)}
+                  role="button"
+                  aria-label="Share group"
+                  tabIndex={0}
+                >
                   <ClayIcon icon={Share2} tooltip="Share group" />
                 </span>
-                <span onClick={() => clickEditGroup(g)}>
+                <span
+                  onClick={() => clickEditGroup(g)}
+                  role="button"
+                  aria-label="Rename group"
+                  tabIndex={0}
+                >
                   <ClayIcon icon={Edit} tooltip="Rename group" />
                 </span>
-                <span onClick={() => deleteGroup(g)}>
+                <span
+                  onClick={() => deleteGroup(g)}
+                  role="button"
+                  aria-label="Delete group"
+                  tabIndex={0}
+                >
                   <ClayIcon
                     icon={Trash2}
                     className="negative"

@@ -29,6 +29,16 @@ function SpeakerComponent({
     }
   }, [synth, voices]);
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isDialogOpen) {
+        setIsDialogOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isDialogOpen]);
+
   const say = (): void => {
     utter.rate = isUtterRateHi ? UTTER_HI_RATE : UTTER_SLOW_RATE;
     isUtterRateHi = !isUtterRateHi;
@@ -43,7 +53,6 @@ function SpeakerComponent({
   };
 
   const myDoubleClickCallback = (e: SyntheticEvent & { detail: number }) => {
-    e.stopPropagation();
     if (e.detail === 1) {
       const voice = getVoiceByLocalStorageVoiceName();
       setTimeout(() => {
@@ -80,10 +89,10 @@ function SpeakerComponent({
       <div
         key={voice.lang + voice.name}
         className={`voice-option ${currentVoice?.name === voice.name ? 'active' : ''}`}
-        onClick={(e) => {
-          e.stopPropagation();
-          saveVoiceToLocalStorage(voice.name);
-        }}
+        onClick={() => saveVoiceToLocalStorage(voice.name)}
+        role="option"
+        aria-selected={currentVoice?.name === voice.name}
+        tabIndex={0}
       >
         {voice.name}
       </div>
@@ -96,29 +105,35 @@ function SpeakerComponent({
     );
   }
 
-  function clickWrapper(e: SyntheticEvent) {
+  function clickWrapper() {
     setIsDialogOpen(false);
-    e.stopPropagation();
   }
 
   return (
     <div className={'speakerComponent' + (className ? ` ${className}` : '')}>
-      <span onClick={(e) => myDoubleClickCallback(e)} className="actionButton">
+      <span
+        onClick={(e) => myDoubleClickCallback(e)}
+        className="actionButton"
+        role="button"
+        aria-label="Text to speech"
+        tabIndex={0}
+      >
         <ClayIcon icon={iconMap.speaker} />
       </span>
       {isDialogOpen && (
         <div className="dialogWrapper z-2" onClick={clickWrapper}>
-          <div
-            className="dialog"
-            onTouchMove={(e) => e.stopPropagation()}
-            onTouchStart={(e) => e.stopPropagation()}
-            onTouchEnd={(e) => e.stopPropagation()}
-          >
+          <div className="dialog">
             <div className="dialogLabel">
               Select language. Double click on the speaker icon to choose
               another language.
             </div>
-            <div className="voices-list">{getVoicesOptions()}</div>
+            <div
+              className="voices-list"
+              role="listbox"
+              aria-label="Select voice"
+            >
+              {getVoicesOptions()}
+            </div>
           </div>
         </div>
       )}

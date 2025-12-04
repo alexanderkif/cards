@@ -88,19 +88,39 @@ function CardComponent({
 
   const handlers = useSwipeable({
     onSwipedLeft: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
       event.stopPropagation();
+      event.preventDefault();
       slideCard(Direction.right);
     },
     onSwipedRight: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
       event.stopPropagation();
+      event.preventDefault();
       slideCard(Direction.left);
     },
-    onSwipedUp: () => setIsFace(false),
+    onSwipedUp: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
+      event.preventDefault();
+      setIsFace(false);
+    },
     onSwipedDown: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
       event.preventDefault(); // Предотвращаем pull-to-refresh браузера
       setIsFace(true);
     },
-    preventScrollOnSwipe: true,
   });
 
   const handleKeyDown = useCallback(
@@ -154,7 +174,13 @@ function CardComponent({
         <div
           ref={cardRef}
           className={`card ${isFace ? '' : 'flipped'}`}
-          onClick={() => setIsFace(!isFace)}
+          onClick={(e) => {
+            // Не переворачиваем карточку, если клик на диалоге голоса
+            if ((e.target as HTMLElement).closest('.speakerComponent')) {
+              return;
+            }
+            setIsFace(!isFace);
+          }}
         >
           <div className={`content ${isAllCardsFlipped ? 'back' : 'front'}`}>
             <div
@@ -172,7 +198,13 @@ function CardComponent({
               </div>
             </div>
             <span className="position-absolute d-flex gap-2 p-2 top-0 end-0 fs-6">
-              <span onClick={clickEditCard} className="actionButton">
+              <span
+                onClick={clickEditCard}
+                className="actionButton"
+                role="button"
+                aria-label="Edit card"
+                tabIndex={0}
+              >
                 <ClayIcon
                   icon={iconMap.edit}
                   size={28}
@@ -180,7 +212,13 @@ function CardComponent({
                   tooltipPosition="bottom"
                 />
               </span>
-              <span onClick={removeCard} className="actionButton">
+              <span
+                onClick={removeCard}
+                className="actionButton"
+                role="button"
+                aria-label="Delete card"
+                tabIndex={0}
+              >
                 <ClayIcon
                   icon={iconMap.trash}
                   size={28}
