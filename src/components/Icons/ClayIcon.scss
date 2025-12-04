@@ -35,8 +35,21 @@
     }
   }
   
-  &.negative {
+  &.negative,
+  &.danger {
     color: var(--clay-error);
+  }
+
+  &.warning {
+    color: var(--clay-warning);
+  }
+
+  &.info {
+    color: var(--clay-info);
+  }
+
+  &.success {
+    color: var(--clay-accent); // Зеленый цвет как основной акцент
   }
   
   svg {

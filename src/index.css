@@ -17,6 +17,8 @@
   --clay-accent-hover: #236b47;
   --clay-success: #4caf50;
   --clay-error: #f44336;
+  --clay-warning: #f59e0b;
+  --clay-info: #3b82f6;
   --clay-card-bg: #e0e5ec;
   
   /* Card pastel backgrounds */
@@ -95,6 +97,8 @@
   --clay-accent-hover: #72c793;
   --clay-success: #66bb6a;
   --clay-error: #ef5350;
+  --clay-warning: #fbbf24;
+  --clay-info: #60a5fa;
   --clay-card-bg: #2a302c;
   
   /* Card pastel backgrounds */

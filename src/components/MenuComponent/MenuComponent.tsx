@@ -173,7 +173,7 @@ function MenuComponent() {
         <ul>
           {getMenuItem(
             'house',
-            getActiveRouteClass(Routes.card),
+            `success ${getActiveRouteClass(Routes.card)}`,
             'Home',
             setRoute(
               currentGroup
@@ -185,7 +185,7 @@ function MenuComponent() {
           )}
           {getMenuItem(
             'search',
-            getActiveRouteClass(Routes.search),
+            `success ${getActiveRouteClass(Routes.search)}`,
             'Search',
             setRoute(
               currentGroup
@@ -197,31 +197,35 @@ function MenuComponent() {
           )}
           {getMenuItem(
             'cards',
-            getActiveRouteClass(Routes.groups),
+            `success ${getActiveRouteClass(Routes.groups)}`,
             'Manage groups of cards',
             setRoute(Routes.groups)
           )}
           {getMenuItem(
             'question',
-            getActiveRouteClass(Routes.about),
+            `success ${getActiveRouteClass(Routes.about)}`,
             'About',
             setRoute(Routes.about)
           )}
           {window.PayPal && (
             <li onClick={() => clickFn.current()}>
-              <ClayIcon icon={iconMap.smile} size={28} className="itemIcon" />
-              <span className="itemText">Buy me a coffee</span>
+              <ClayIcon
+                icon={iconMap.smile}
+                size={28}
+                className="itemIcon info"
+              />
+              <span className="itemText info">Buy me a coffee</span>
               <DonateButton clickFn={clickFn} />
             </li>
           )}
-          {getMenuItem('close', '', 'Exit', () => window.close())}
+          {getMenuItem('close', 'success', 'Exit', () => window.close())}
           <hr />
-          {getMenuItem('share', '', 'Share active group', handleShareGroup)}
-          {getMenuItem('save', '', 'Save to xlsx file', saveToFile)}
-          {getMenuItem('dowload', 'negative', 'Download file', clickLoadFile)}
+          {getMenuItem('share', 'info', 'Share active group', handleShareGroup)}
+          {getMenuItem('save', 'success', 'Save to xlsx file', saveToFile)}
+          {getMenuItem('dowload', 'danger', 'Download file', clickLoadFile)}
           {getMenuItem(
             'removeAll',
-            'negative',
+            'danger',
             'Remove all cards!!!',
             removeAllCards
           )}

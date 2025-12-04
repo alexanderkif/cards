@@ -140,7 +140,11 @@ function GroupComponent() {
                   aria-label="Share group"
                   tabIndex={0}
                 >
-                  <ClayIcon icon={Share2} tooltip="Share group" />
+                  <ClayIcon
+                    icon={Share2}
+                    className="info"
+                    tooltip="Share group"
+                  />
                 </span>
                 <span
                   onClick={() => clickEditGroup(g)}
@@ -148,7 +152,11 @@ function GroupComponent() {
                   aria-label="Rename group"
                   tabIndex={0}
                 >
-                  <ClayIcon icon={Edit} tooltip="Rename group" />
+                  <ClayIcon
+                    icon={Edit}
+                    className="warning"
+                    tooltip="Rename group"
+                  />
                 </span>
                 <span
                   onClick={() => deleteGroup(g)}
@@ -158,7 +166,7 @@ function GroupComponent() {
                 >
                   <ClayIcon
                     icon={Trash2}
-                    className="negative"
+                    className="danger"
                     tooltip="Delete group"
                     tooltipPosition="left"
                   />

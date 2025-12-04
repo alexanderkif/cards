@@ -6,12 +6,6 @@
     --menu-width: 100%;
   }
 
-  svg {
-    fill: none;
-    stroke: var(--clay-text-primary);
-    stroke-width: 1.5;
-  }
-
   .menuButton {
     left: var(--spacing-sm);
     top: var(--spacing-sm);
@@ -98,6 +92,28 @@
           }
         }
 
+        // Цветовые классы для иконок
+        .clay-icon.active {
+          color: var(--clay-accent);
+        }
+
+        .clay-icon.negative,
+        .clay-icon.danger {
+          color: var(--clay-error);
+        }
+
+        .clay-icon.warning {
+          color: var(--clay-warning);
+        }
+
+        .clay-icon.info {
+          color: var(--clay-info);
+        }
+
+        .clay-icon.success {
+          color: var(--clay-accent);
+        }
+
         .itemText {
           flex: 1;
           text-align: left;
@@ -109,8 +125,21 @@
             color: var(--clay-accent);
           }
   
-          &.negative {
+          &.negative,
+          &.danger {
             color: var(--clay-error);
+          }
+
+          &.warning {
+            color: var(--clay-warning);
+          }
+
+          &.info {
+            color: var(--clay-info);
+          }
+
+          &.success {
+            color: var(--clay-accent);
           }
         }
 

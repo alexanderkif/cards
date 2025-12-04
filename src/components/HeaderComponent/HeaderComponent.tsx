@@ -35,6 +35,7 @@ function HeaderComponent() {
           <ClayIcon
             icon={iconMap.telegram}
             size={28}
+            className="info"
             tooltip="Telegram group"
             tooltipPosition="bottom"
           />
@@ -71,6 +72,7 @@ function HeaderComponent() {
         <ClayIcon
           icon={theme === 'light' ? iconMap.moon : iconMap.sun}
           size={28}
+          className="warning"
           tooltip={theme === 'light' ? 'Dark mode' : 'Light mode'}
           tooltipPosition="bottom"
         />

@@ -87,6 +87,15 @@ function CardComponent({
   }, [slideCard, swipeFn]);
 
   const handlers = useSwipeable({
+    onSwiping: ({ event, dir }: { event: HandledEvents; dir: string }) => {
+      // Предотвращаем pull-to-refresh во время свайпа вниз
+      if (
+        dir === 'Down' &&
+        !(event.target as HTMLElement).closest('.speakerComponent')
+      ) {
+        event.preventDefault();
+      }
+    },
     onSwipedLeft: ({ event }: { event: HandledEvents }) => {
       // Игнорируем свайп, если он начался внутри диалога голоса
       if ((event.target as HTMLElement).closest('.speakerComponent')) {
@@ -208,6 +217,7 @@ function CardComponent({
                 <ClayIcon
                   icon={iconMap.edit}
                   size={28}
+                  className="warning"
                   tooltip="Edit card"
                   tooltipPosition="bottom"
                 />
@@ -222,7 +232,7 @@ function CardComponent({
                 <ClayIcon
                   icon={iconMap.trash}
                   size={28}
-                  className="negative"
+                  className="danger"
                   tooltip="Delete card"
                   tooltipPosition="bottom"
                 />

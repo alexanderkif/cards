@@ -118,7 +118,7 @@ function SpeakerComponent({
         aria-label="Text to speech"
         tabIndex={0}
       >
-        <ClayIcon icon={iconMap.speaker} />
+        <ClayIcon icon={iconMap.speaker} className="success" />
       </span>
       {isDialogOpen && (
         <div className="dialogWrapper z-2" onClick={clickWrapper}>
