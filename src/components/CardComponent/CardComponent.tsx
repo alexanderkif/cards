@@ -22,14 +22,14 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useSwipeable } from 'react-swipeable';
 import { HandledEvents } from 'react-swipeable/es/types';
-import { Direction, Routes, SVGIcons } from '@/types/types';
+import { Direction, Routes } from '@/types/types';
 import { setPage } from '@/store/menuSlice';
 import SpeakerComponent from '../SpeakerComponent/SpeakerComponent';
-import SVGIcon from '../Icons/SVGIcons';
+import { iconMap } from '../Icons/iconMapping';
+import ClayIcon from '../Icons/ClayIcon';
 import { useDialog, useMediaQuery } from '@/hooks/hooks';
 
 const ANIMATION_TIME = 300;
-const BIG_SPEAKER = '5vmin';
 
 function CardComponent({
   swipeFn,
@@ -87,16 +87,49 @@ function CardComponent({
   }, [slideCard, swipeFn]);
 
   const handlers = useSwipeable({
+    onSwiping: ({ event, dir }: { event: HandledEvents; dir: string }) => {
+      // Предотвращаем pull-to-refresh во время свайпа вниз
+      if (
+        dir === 'Down' &&
+        !(event.target as HTMLElement).closest('.speakerComponent')
+      ) {
+        event.preventDefault();
+      }
+    },
     onSwipedLeft: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
       event.stopPropagation();
+      event.preventDefault();
       slideCard(Direction.right);
     },
     onSwipedRight: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
       event.stopPropagation();
+      event.preventDefault();
       slideCard(Direction.left);
     },
-    onSwipedUp: () => setIsFace(false),
-    onSwipedDown: () => setIsFace(true),
+    onSwipedUp: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
+      event.preventDefault();
+      setIsFace(false);
+    },
+    onSwipedDown: ({ event }: { event: HandledEvents }) => {
+      // Игнорируем свайп, если он начался внутри диалога голоса
+      if ((event.target as HTMLElement).closest('.speakerComponent')) {
+        return;
+      }
+      event.preventDefault(); // Предотвращаем pull-to-refresh браузера
+      setIsFace(true);
+    },
   });
 
   const handleKeyDown = useCallback(
@@ -150,38 +183,59 @@ function CardComponent({
         <div
           ref={cardRef}
           className={`card ${isFace ? '' : 'flipped'}`}
-          onClick={() => setIsFace(!isFace)}
+          onClick={(e) => {
+            // Не переворачиваем карточку, если клик на диалоге голоса
+            if ((e.target as HTMLElement).closest('.speakerComponent')) {
+              return;
+            }
+            setIsFace(!isFace);
+          }}
         >
           <div className={`content ${isAllCardsFlipped ? 'back' : 'front'}`}>
             <div
               className={
-                cards[cardIndex].head.length > 50 ? 'text smallText' : 'text'
+                'p-3 text' +
+                (cards[cardIndex].head.length > 50 ? ' smallText' : '')
               }
             >
               <div>
                 {formatHTML(cards[cardIndex].head)}
                 <SpeakerComponent
+                  className="ms-2"
                   text={cards[cardIndex].head}
-                  size={BIG_SPEAKER}
+                  voiceId="front"
                 />
               </div>
             </div>
-            <span className="position-absolute d-flex top-0 end-0 fs-6">
-              <span onClick={clickEditCard} className="actionButton">
-                <SVGIcon
-                  name={SVGIcons.edit}
-                  size="6vmin"
+            <span className="position-absolute d-flex gap-2 p-2 top-0 end-0 fs-6">
+              <span
+                onClick={clickEditCard}
+                className="actionButton"
+                role="button"
+                aria-label="Edit card"
+                tabIndex={0}
+              >
+                <ClayIcon
+                  icon={iconMap.edit}
+                  size={28}
+                  className="warning"
                   tooltip="Edit card"
-                  tooltipClass="svgTooltip-bottom"
+                  tooltipPosition="bottom"
                 />
               </span>
-              <span onClick={removeCard} className="actionButton">
-                <SVGIcon
-                  name={SVGIcons.trash}
-                  svgClass="negative"
-                  size="6vmin"
+              <span
+                onClick={removeCard}
+                className="actionButton"
+                role="button"
+                aria-label="Delete card"
+                tabIndex={0}
+              >
+                <ClayIcon
+                  icon={iconMap.trash}
+                  size={28}
+                  className="danger"
                   tooltip="Delete card"
-                  tooltipClass="svgTooltip-bottom"
+                  tooltipPosition="bottom-right"
                 />
               </span>
             </span>
@@ -200,7 +254,11 @@ function CardComponent({
                         className={isTailsLong ? 'smallTail' : ''}
                       >
                         {formatHTML(tail)}
-                        <SpeakerComponent text={tail} size={BIG_SPEAKER} />
+                        <SpeakerComponent
+                          text={tail}
+                          className="ms-2"
+                          voiceId="back"
+                        />
                       </li>
                     )
                 )}
@@ -216,7 +274,11 @@ function CardComponent({
                           key={`${cards[cardIndex].head}_${example}-${index}`}
                         >
                           {formatHTML(example)}
-                          <SpeakerComponent text={example} />
+                          <SpeakerComponent
+                            text={example}
+                            className="ms-2"
+                            voiceId="examples"
+                          />
                         </li>
                       )
                   )}
@@ -228,12 +290,12 @@ function CardComponent({
       )}
       {!isMobile && (
         <div className="arrow-left" onClick={() => slideCard(Direction.right)}>
-          <SVGIcon name={SVGIcons.left} svgClass="itemIcon" />
+          <ClayIcon icon={iconMap.left} size={28} />
         </div>
       )}
       {!isMobile && (
         <div className="arrow-right" onClick={() => slideCard(Direction.left)}>
-          <SVGIcon name={SVGIcons.right} svgClass="itemIcon" />
+          <ClayIcon icon={iconMap.right} size={28} />
         </div>
       )}
     </div>

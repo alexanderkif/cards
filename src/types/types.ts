@@ -18,36 +18,6 @@ export enum Routes {
   groups = 'groups',
 }
 
-export enum SVGIcons {
-  menu = 'menu',
-  cards = 'cards',
-  add = 'add',
-  edit = 'edit',
-  remove = 'remove',
-  search = 'search',
-  examples = 'examples',
-  random = 'random',
-  question = 'question',
-  dowload = 'dowload',
-  save = 'save',
-  removeAll = 'removeAll',
-  flip = 'flip',
-  smile = 'smile',
-  speaker = 'speaker',
-  moon = 'moon',
-  sun = 'sun',
-  trash = 'trash',
-  share = 'share',
-  house = 'house',
-  check = 'check',
-  linkedin = 'linkedin',
-  github = 'github',
-  close = 'close',
-  left = 'left',
-  right = 'right',
-  telegram = 'telegram',
-}
-
 export enum Direction {
   left = 'left',
   right = 'right',

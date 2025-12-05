@@ -1,7 +1,7 @@
 import './SpeakerComponent.scss';
 import { SyntheticEvent, useEffect, useRef, useState } from 'react';
-import SVGIcon from '../Icons/SVGIcons';
-import { SVGIcons } from '@/types/types';
+import { iconMap } from '../Icons/iconMapping';
+import ClayIcon from '../Icons/ClayIcon';
 
 const UTTER_SLOW_RATE = 0.7;
 const UTTER_HI_RATE = 1;
@@ -9,10 +9,12 @@ const DELAY_DOUBLE_CLICK = 300;
 
 function SpeakerComponent({
   text,
-  size = '3vmin',
+  className: className = '',
+  voiceId = 'default',
 }: {
   text: string;
-  size?: string;
+  className?: string;
+  voiceId?: string;
 }) {
   const timePassed = useRef(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -29,6 +31,16 @@ function SpeakerComponent({
     }
   }, [synth, voices]);
 
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isDialogOpen) {
+        setIsDialogOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isDialogOpen]);
+
   const say = (): void => {
     utter.rate = isUtterRateHi ? UTTER_HI_RATE : UTTER_SLOW_RATE;
     isUtterRateHi = !isUtterRateHi;
@@ -43,7 +55,6 @@ function SpeakerComponent({
   };
 
   const myDoubleClickCallback = (e: SyntheticEvent & { detail: number }) => {
-    e.stopPropagation();
     if (e.detail === 1) {
       const voice = getVoiceByLocalStorageVoiceName();
       setTimeout(() => {
@@ -66,7 +77,7 @@ function SpeakerComponent({
   const saveVoiceToLocalStorage = (name: string) => {
     const voice = voices.find((v) => v.name === name);
     if (voice) {
-      localStorage.setItem('voiceName', name);
+      localStorage.setItem(`voiceName_${voiceId}`, name);
     }
     setIsDialogOpen(false);
   };
@@ -75,31 +86,44 @@ function SpeakerComponent({
     if (voices.length === 0) {
       setVoices(synth.getVoices());
     }
+    const currentVoice = getVoiceByLocalStorageVoiceName();
     return voices.map((voice) => (
-      <option value={voice.name} key={voice.lang + voice.name}>
+      <div
+        key={voice.lang + voice.name}
+        className={`voice-option ${currentVoice?.name === voice.name ? 'active' : ''}`}
+        onClick={() => saveVoiceToLocalStorage(voice.name)}
+        role="option"
+        aria-selected={currentVoice?.name === voice.name}
+        tabIndex={0}
+      >
         {voice.name}
-      </option>
+      </div>
     ));
   };
 
   function getVoiceByLocalStorageVoiceName() {
     return (
-      voices.find((v) => v.name === localStorage.getItem('voiceName')) || null
+      voices.find(
+        (v) => v.name === localStorage.getItem(`voiceName_${voiceId}`)
+      ) || null
     );
   }
 
-  function clickWrapper(e: SyntheticEvent) {
+  function clickWrapper() {
     setIsDialogOpen(false);
-    e.stopPropagation();
   }
 
   return (
-    <div className="speakerComponent" onClick={(e) => myDoubleClickCallback(e)}>
-      <SVGIcon
-        name={SVGIcons.speaker}
-        svgClass={`itemIcon active speakerIcon`}
-        size={size}
-      />
+    <div className={'speakerComponent' + (className ? ` ${className}` : '')}>
+      <span
+        onClick={(e) => myDoubleClickCallback(e)}
+        className="actionButton"
+        role="button"
+        aria-label="Text to speech"
+        tabIndex={0}
+      >
+        <ClayIcon icon={iconMap.speaker} className="success" />
+      </span>
       {isDialogOpen && (
         <div className="dialogWrapper z-2" onClick={clickWrapper}>
           <div className="dialog">
@@ -107,16 +131,13 @@ function SpeakerComponent({
               Select language. Double click on the speaker icon to choose
               another language.
             </div>
-            <select
-              className="form-select form-select-lg"
-              name="lang"
-              id="lang"
-              value={getVoiceByLocalStorageVoiceName()?.name}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => saveVoiceToLocalStorage(e.target.value)}
+            <div
+              className="voices-list"
+              role="listbox"
+              aria-label="Select voice"
             >
               {getVoicesOptions()}
-            </select>
+            </div>
           </div>
         </div>
       )}

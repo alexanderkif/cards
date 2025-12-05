@@ -1,5 +1,5 @@
-import { SVGIcons } from '@/types/types';
-import SVGIcon from '../Icons/SVGIcons';
+import ClayIcon from '../Icons/ClayIcon';
+import { Linkedin, Github } from 'lucide-react';
 import './AboutComponent.scss';
 
 function AboutComponent() {
@@ -51,11 +51,10 @@ function AboutComponent() {
               href="https://www.linkedin.com/in/aleksandr-nikiforov-8a417712a/"
               target="blank"
             >
-              <SVGIcon
-                name={SVGIcons.linkedin}
-                size="1.5rem"
+              <ClayIcon
+                icon={Linkedin}
                 tooltip="LinkedIn"
-                tooltipClass="svgTooltip-left"
+                tooltipPosition="left"
               />
             </a>
             <a
@@ -63,12 +62,7 @@ function AboutComponent() {
               href="https://github.com/alexanderkif"
               target="blank"
             >
-              <SVGIcon
-                name={SVGIcons.github}
-                size="1.5rem"
-                tooltip="GitHub"
-                tooltipClass="svgTooltip-left"
-              />
+              <ClayIcon icon={Github} tooltip="GitHub" tooltipPosition="left" />
             </a>
           </span>
         </div>

@@ -8,10 +8,20 @@ interface MenuState {
   theme: Theme;
 }
 
+// Определяем системную тему устройства
+const getSystemTheme = (): Theme => {
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? Theme.dark
+      : Theme.light;
+  }
+  return Theme.light;
+};
+
 const initialState: MenuState = {
   isOpen: false,
   page: Routes.card,
-  theme: (localStorage.getItem('theme') as Theme) || 'light',
+  theme: (localStorage.getItem('theme') as Theme) || getSystemTheme(),
 };
 
 export const menuSlice = createSlice({

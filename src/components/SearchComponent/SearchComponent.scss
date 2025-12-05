@@ -25,14 +25,14 @@
   .fields {
     display: flex;
     flex-direction: column;
-    padding-top: 2rem;
+    padding-top: var(--spacing-2xl);
     width: 90%;
     max-width: var(--max-app-width);
 
     input {
-      padding: 0.5vmin 1vmin;
-      border-radius: 1vmin;
-      font-size: 5vmin;
+      padding: var(--spacing-md) var(--spacing-lg);
+      border-radius: var(--clay-radius-small);
+      font-size: var(--font-xl);
       outline: none;
       border: 2px solid var(--color-active);
 
@@ -49,9 +49,9 @@
       li {
         display: flex;
         align-items: center;
-        margin-top: 1rem;
+        margin-top: var(--spacing-lg);
         border-bottom: 1px solid;
-        font-size: 5vmin;
+        font-size: var(--font-xl);
         cursor: pointer;
       }
     }

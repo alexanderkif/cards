@@ -17,8 +17,9 @@ import {
   selectGroups,
   selectCurrentGroup,
 } from '@/store/cardsSlice';
-import { Card, Group, Routes, SVGIcons } from '@/types/types';
-import SVGIcon from '../Icons/SVGIcons';
+import { Card, Group, Routes } from '@/types/types';
+import { iconMap, IconName } from '../Icons/iconMapping';
+import ClayIcon from '../Icons/ClayIcon';
 import { useSwipeable } from 'react-swipeable';
 import DonateButton from '../DonateButton/DonateButton';
 import { createCompressedURL } from '@/utils/compress';
@@ -49,14 +50,18 @@ function MenuComponent() {
   };
 
   function getMenuItem(
-    svg: SVGIcons,
+    iconName: IconName,
     iconClass = '',
     text: string,
     fn: () => void = () => {}
   ) {
     return (
       <li onClick={fn}>
-        <SVGIcon name={svg} svgClass={`itemIcon ${iconClass}`} />
+        <ClayIcon
+          icon={iconMap[iconName]}
+          size={28}
+          className={`itemIcon ${iconClass}`}
+        />
         <span className={`itemText ${iconClass}`}>{text}</span>
       </li>
     );
@@ -158,21 +163,17 @@ function MenuComponent() {
 
   return (
     <div className="menu">
-      <div
-        className={`menuButton position-fixed top-0 m-2 z-3 ${isOpen ? 'opened' : ''}`}
+      <ClayIcon
+        icon={iconMap.menu}
+        size={28}
+        className={`menuButton position-fixed z-3 ${isOpen ? 'active' : ''}`}
         onClick={handleMenuClick}
-      >
-        <SVGIcon
-          name={SVGIcons.menu}
-          svgClass={`m-1 ${isOpen ? 'active' : ''}`}
-          size="2rem"
-        />
-      </div>
+      />
       <div className={`drawer ${isOpen ? 'opened' : ''}`} {...handlers}>
         <ul>
           {getMenuItem(
-            SVGIcons.house,
-            getActiveRouteClass(Routes.card),
+            'house',
+            `success ${getActiveRouteClass(Routes.card)}`,
             'Home',
             setRoute(
               currentGroup
@@ -183,8 +184,8 @@ function MenuComponent() {
             )
           )}
           {getMenuItem(
-            SVGIcons.search,
-            getActiveRouteClass(Routes.search),
+            'search',
+            `success ${getActiveRouteClass(Routes.search)}`,
             'Search',
             setRoute(
               currentGroup
@@ -195,42 +196,36 @@ function MenuComponent() {
             )
           )}
           {getMenuItem(
-            SVGIcons.cards,
-            getActiveRouteClass(Routes.groups),
+            'cards',
+            `success ${getActiveRouteClass(Routes.groups)}`,
             'Manage groups of cards',
             setRoute(Routes.groups)
           )}
           {getMenuItem(
-            SVGIcons.question,
-            getActiveRouteClass(Routes.about),
+            'question',
+            `success ${getActiveRouteClass(Routes.about)}`,
             'About',
             setRoute(Routes.about)
           )}
           {window.PayPal && (
             <li onClick={() => clickFn.current()}>
-              <SVGIcon name={SVGIcons.smile} svgClass="itemIcon" />
-              <span className="itemText">Buy me a coffee</span>
+              <ClayIcon
+                icon={iconMap.smile}
+                size={28}
+                className="itemIcon info"
+              />
+              <span className="itemText info">Buy me a coffee</span>
               <DonateButton clickFn={clickFn} />
             </li>
           )}
-          {getMenuItem(SVGIcons.close, '', 'Exit', () => window.close())}
+          {getMenuItem('close', 'success', 'Exit', () => window.close())}
           <hr />
+          {getMenuItem('share', 'info', 'Share active group', handleShareGroup)}
+          {getMenuItem('save', 'success', 'Save to xlsx file', saveToFile)}
+          {getMenuItem('dowload', 'danger', 'Download file', clickLoadFile)}
           {getMenuItem(
-            SVGIcons.share,
-            '',
-            'Share active group',
-            handleShareGroup
-          )}
-          {getMenuItem(SVGIcons.save, '', 'Save to xlsx file', saveToFile)}
-          {getMenuItem(
-            SVGIcons.dowload,
-            'negative',
-            'Download file',
-            clickLoadFile
-          )}
-          {getMenuItem(
-            SVGIcons.removeAll,
-            'negative',
+            'removeAll',
+            'danger',
             'Remove all cards!!!',
             removeAllCards
           )}

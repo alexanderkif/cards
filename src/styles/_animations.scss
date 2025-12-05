@@ -1,0 +1,75 @@
+// Clay animations
+
+@keyframes clay-pulse {
+  0%, 100% {
+    box-shadow: var(--clay-shadow-raised);
+  }
+  50% {
+    box-shadow: var(--clay-shadow-hover);
+  }
+}
+
+@keyframes clay-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes clay-ripple {
+  0% {
+    box-shadow: 
+      0 0 0 0 var(--clay-accent),
+      var(--clay-shadow-raised);
+  }
+  100% {
+    box-shadow: 
+      0 0 0 20px transparent,
+      var(--clay-shadow-raised);
+  }
+}
+
+@keyframes clay-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes clay-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Utility classes
+.animate-pulse {
+  animation: clay-pulse 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: clay-float 3s ease-in-out infinite;
+}
+
+.animate-ripple {
+  animation: clay-ripple 0.6s ease-out;
+}
+
+.fade-in {
+  animation: clay-fade-in 0.3s ease-out;
+}
+
+.scale-in {
+  animation: clay-scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}

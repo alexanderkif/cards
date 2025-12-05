@@ -1,47 +1,66 @@
 .menu {
   --menu-width: 17rem;
-  --icon-size: 1.5rem;
-  --border-width: 0.7rem;
-  --border-radius: 0.7rem;
   --drawer-slide-time: 0.3s;
   
   @media only screen and (max-width: 768px) {
     --menu-width: 100%;
-    --border-radius: 0;
-  }
-
-  svg {
-    fill: var(--color-main);
   }
 
   .menuButton {
-    background-color: var(--bg-main);
-    border: 1px solid var(--color-main);
-    border-radius: 0.5rem;
-    left: 0;
-    transition: left calc(var(--drawer-slide-time) * 0.75) linear 0s,
-      border-color 0s linear calc(var(--drawer-slide-time) * 0.75);
+    left: var(--spacing-sm);
+    top: var(--spacing-sm);
+    background: var(--clay-bg);
+    border-radius: 50%;
+    box-shadow: var(--clay-shadow-raised);
+    padding: var(--spacing-sm);
+    width: var(--icon-button-size);
+    height: var(--icon-button-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: left calc(var(--drawer-slide-time) * 0.75) cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.2s ease,
+      transform 0.2s ease,
+      border-radius 0.2s ease;
 
-    &.opened {
-      left: calc(var(--menu-width) - 4.5rem);
-      border-color: transparent;
+    &:hover {
+      box-shadow: var(--clay-shadow-hover);
+      transform: scale(1.1);
+      border-radius: var(--clay-radius-small);
+    }
+
+    &:active {
+      box-shadow: var(--clay-shadow-pressed);
+      transform: scale(0.95);
+    }
+
+    &.active {
+      left: calc(var(--menu-width) - var(--icon-button-size) - var(--spacing-sm));
       transition: left calc(var(--drawer-slide-time) * 0.75) linear calc(var(--drawer-slide-time) * 0.25),
-        border-color 0s linear calc(var(--drawer-slide-time) * 0.25);
+        box-shadow 0.2s ease,
+        transform 0.2s ease,
+        border-radius 0.2s ease;
     }
   }
 
   .drawer {
     position: fixed;
     top: 0;
-    left: calc(var(--menu-width) * -1 - var(--border-width));
+    left: calc(var(--menu-width) * -1);
     bottom: 0;
     width: var(--menu-width);
     z-index: 2;
-    background-color: var(--bg-main);
-    box-shadow: 0 0 1rem 0 var(--color-main);
-    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    background: var(--clay-bg);
+    box-shadow: 
+      20px 0 40px rgba(0, 0, 0, 0.15),
+      var(--clay-shadow-raised);
+    border-radius: 0 var(--clay-radius) var(--clay-radius) 0;
     overflow-x: hidden;
-    transition: left var(--drawer-slide-time) linear;
+    transition: left var(--drawer-slide-time) cubic-bezier(0.4, 0, 0.2, 1);
+
+    @media only screen and (max-width: 768px) {
+      border-radius: 0;
+    }
 
     &.opened {
       left: 0;
@@ -50,52 +69,111 @@
     ul {
       list-style: none;
       padding: 0;
-      margin: 1.3rem 0;
+      margin: var(--spacing-xl) 0;
 
       li {
         display: flex;
         align-items: center;
-        padding: 0 1rem;
-        margin-bottom: 0.75rem;
+        background: transparent;
+        border-radius: var(--clay-radius-small);
+        margin: var(--spacing-sm) var(--spacing-lg);
+        padding: var(--spacing-md) var(--spacing-lg);
         cursor: pointer;
-        transition: all 0.1s ease-in-out;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
         .itemIcon {
-          flex: auto;
-          max-width: 1.5rem;
+          flex-shrink: 0;
+          width: var(--icon-button-size);
+          height: var(--icon-button-size);
+          
+          svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        // Цветовые классы для иконок
+        .clay-icon.active {
+          color: var(--clay-accent);
+        }
+
+        .clay-icon.negative,
+        .clay-icon.danger {
+          color: var(--clay-error);
+        }
+
+        .clay-icon.warning {
+          color: var(--clay-warning);
+        }
+
+        .clay-icon.info {
+          color: var(--clay-info);
+        }
+
+        .clay-icon.success {
+          color: var(--clay-accent);
         }
 
         .itemText {
           flex: 1;
           text-align: left;
-          padding-left: 1rem;
+          padding-left: var(--spacing-lg);
           font-weight: 500;
+          font-size: var(--font-md);
 
           &.active {
-            color: var(--color-active);
+            color: var(--clay-accent);
           }
   
-          &.negative {
-            color: var(--color-negative);
+          &.negative,
+          &.danger {
+            color: var(--clay-error);
+          }
+
+          &.warning {
+            color: var(--clay-warning);
+          }
+
+          &.info {
+            color: var(--clay-info);
+          }
+
+          &.success {
+            color: var(--clay-accent);
           }
         }
 
         &:hover {
-          background-color: color-mix(
-            in srgb,
-            var(--bg-light),
-            transparent var(--bg-mix)
-          );
-          box-shadow: 0 0 0.5rem 0.5rem
-            color-mix(in srgb, var(--bg-light), transparent var(--bg-mix));
+          background: var(--clay-bg);
+          box-shadow: var(--clay-shadow-flat);
+          transform: translateX(4px);
+        }
+
+        &:active {
+          box-shadow: var(--clay-shadow-pressed);
+          transform: translateX(2px);
         }
       }
     }
 
     hr {
       border: none;
-      border-bottom: 1px solid var(--color-main);
-      margin-bottom: 0.75rem;
+      border-bottom: 1px solid var(--clay-text-secondary);
+      opacity: 0.3;
+      margin: var(--spacing-md) var(--spacing-lg);
     }
+  }
+}
+
+// Remove hover effects on touch devices
+@media (hover: none) and (pointer: coarse) {
+  .menu .drawer ul li:hover {
+    box-shadow: none;
+    background: transparent;
+    transform: none;
+  }
+
+  .menu .menuButton:hover {
+    box-shadow: var(--clay-shadow-raised);
   }
 }

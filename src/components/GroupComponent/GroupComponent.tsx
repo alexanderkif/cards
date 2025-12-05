@@ -1,7 +1,7 @@
 import { FormEvent, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import './GroupComponent.scss';
-import { Group, SVGIcons } from '@/types/types';
+import { Group } from '@/types/types';
 import {
   editGroupName,
   removeGroup,
@@ -11,7 +11,8 @@ import {
   setCardIndex,
   setCurrentGroup,
 } from '@/store/cardsSlice';
-import SVGIcon from '../Icons/SVGIcons';
+import ClayIcon from '../Icons/ClayIcon';
+import { Check, Share2, Edit, Trash2 } from 'lucide-react';
 import { createCompressedURL } from '@/utils/compress';
 import { useDialog } from '@/hooks/hooks';
 
@@ -123,38 +124,51 @@ function GroupComponent() {
                 className={g.name === currentGroup ? 'active' : ''}
               >
                 <span className={g.name === currentGroup ? '' : 'hidden'}>
-                  <SVGIcon
-                    name={SVGIcons.check}
-                    svgClass="active"
-                    size="5vmin"
+                  <ClayIcon
+                    icon={Check}
+                    className="active"
                     tooltip="Active group"
-                    tooltipClass="svgTooltip-right"
+                    tooltipPosition="right"
                   />
                 </span>
                 <span className="groupName" onClick={() => clickChooseGroup(g)}>
                   {g.name}
                 </span>
-                <span onClick={() => handleShareGroup(g.name)}>
-                  <SVGIcon
-                    name={SVGIcons.share}
-                    size="5vmin"
+                <span
+                  onClick={() => handleShareGroup(g.name)}
+                  role="button"
+                  aria-label="Share group"
+                  tabIndex={0}
+                >
+                  <ClayIcon
+                    icon={Share2}
+                    className="info"
                     tooltip="Share group"
                   />
                 </span>
-                <span onClick={() => clickEditGroup(g)}>
-                  <SVGIcon
-                    name={SVGIcons.edit}
-                    size="5vmin"
+                <span
+                  onClick={() => clickEditGroup(g)}
+                  role="button"
+                  aria-label="Rename group"
+                  tabIndex={0}
+                >
+                  <ClayIcon
+                    icon={Edit}
+                    className="warning"
                     tooltip="Rename group"
                   />
                 </span>
-                <span onClick={() => deleteGroup(g)}>
-                  <SVGIcon
-                    name={SVGIcons.trash}
-                    svgClass="negative"
-                    size="5vmin"
+                <span
+                  onClick={() => deleteGroup(g)}
+                  role="button"
+                  aria-label="Delete group"
+                  tabIndex={0}
+                >
+                  <ClayIcon
+                    icon={Trash2}
+                    className="danger"
                     tooltip="Delete group"
-                    tooltipClass="svgTooltip-left"
+                    tooltipPosition="left"
                   />
                 </span>
               </li>

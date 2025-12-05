@@ -31,7 +31,7 @@
     padding-top: 2rem;
     width: 90%;
     max-width: var(--max-app-width);
-    font-size: 5vmin;
+    font-size: 1.5rem;
 
     .groupRow {
       display: flex;
@@ -41,8 +41,8 @@
       
       input {
         flex: 1;
-        padding: 0.5vmin 1vmin;
-        border-radius: 1vmin;
+        padding: 0.5rem 1rem;
+        border-radius: var(--clay-radius-small);
         outline: none;
         border: 2px solid var(--color-active);
         background-color: var(--bg-main);
@@ -53,8 +53,8 @@
       }
 
       button {
-        padding: 0 3vmin;
-        border-radius: 1vmin;
+        padding: 0.5rem 1.5rem;
+        border-radius: var(--clay-radius-small);
         border: 2px solid var(--color-active);
         color: var(--color-active);
         background-color: transparent;

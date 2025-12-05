@@ -4,58 +4,89 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 3;
+  animation: fade-in 0.2s ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   .dialog {
-    background: var(--bg-main);
-    padding: 2rem;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background: var(--clay-bg);
+    padding: var(--spacing-2xl);
+    border-radius: var(--clay-radius);
+    border: none;
+    box-shadow: 
+      0 20px 60px rgba(0, 0, 0, 0.3),
+      var(--clay-shadow-raised);
     max-width: var(--max-app-width);
+    animation: scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    @keyframes scale-in {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
   }
 
   p {
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-2xl);
+    color: var(--clay-text-primary);
   }
   
   .dialog-buttons {
     display: flex;
     justify-content: flex-end;
-    gap: 2rem;
+    gap: var(--spacing-lg);
 
     button {
-      background: var(--bg-main);
-      border: 1px solid var(--color-main);
-      border-radius: 6px;
-      box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
-      box-sizing: border-box;
-      color: var(--color-main);
+      background: var(--clay-bg);
+      border: none;
+      border-radius: var(--clay-radius-small);
+      box-shadow: var(--clay-shadow-raised);
+      color: var(--clay-text-primary);
       cursor: pointer;
-      display: inline-block;
-      font-family: nunito, roboto, proxima-nova, "proxima nova", sans-serif;
-      font-size: 16px;
-      font-weight: 800;
-      line-height: 16px;
-      min-height: 40px;
-      outline: 0;
-      padding: 12px 14px;
-      text-align: center;
-      text-rendering: geometricprecision;
-      text-transform: none;
-      user-select: none;
-      -webkit-user-select: none;
-      touch-action: manipulation;
-      vertical-align: middle;
+      font-family: inherit;
+      font-size: var(--font-md);
+      font-weight: 500;
+      line-height: 1;
+      min-height: var(--icon-button-size);
+      min-width: 80px;
+      padding: var(--spacing-md) var(--spacing-xl);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
       &:active, &:hover {
-        background-color: var(--color-main);
-        background-position: 0 0;
-        color: var(--bg-main);
+        box-shadow: var(--clay-shadow-hover);
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        box-shadow: var(--clay-shadow-pressed);
+        transform: translateY(0);
       }
     }
+  }
+}
+
+// Remove hover effects on touch devices
+@media (hover: none) and (pointer: coarse) {
+  .dialog-overlay .dialog-buttons button:hover {
+    box-shadow: var(--clay-shadow-raised);
+    transform: none;
   }
 }

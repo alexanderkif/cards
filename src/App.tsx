@@ -13,10 +13,10 @@ import {
   setCards,
   setCurrentGroup,
 } from './store/cardsSlice';
-import { useAppDispatch } from './store/hooks';
-import { closeMenu, toggleMenu } from './store/menuSlice';
+import { useAppDispatch, useAppSelector } from './store/hooks';
+import { closeMenu, selectTheme, toggleMenu } from './store/menuSlice';
 import { Group, Direction, Routes } from './types/types';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import GroupComponent from './components/GroupComponent/GroupComponent';
 import { decompressFromURI } from './utils/compress';
 import FooterComponent from './components/FooterComponent/FooterComponent';
@@ -26,6 +26,13 @@ import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const dispatch = useAppDispatch();
+  const theme = useAppSelector(selectTheme);
+
+  // Применяем тему при монтировании компонента
+  useEffect(() => {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+  }, [theme]);
+
   const queryParameters = new URLSearchParams(window.location.search);
   for (const [key, value] of queryParameters) {
     decompressFromURI(value).then((p) => {

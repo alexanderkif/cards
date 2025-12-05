@@ -1,38 +1,48 @@
 .cardComponent {
-  --card-max-height: calc(100vh - var(--top-menu-height) * 2 - 2rem);
-  --card-size: min(var(--card-max-height), 90vw);
+  --card-padding: var(--spacing-2xl);
   --animation-time: 0.3s;
-  --card-border-radius: 1rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   width: 100%;
-  perspective: var(--card-size);
+  perspective: 1000px;
   overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overscroll-behavior-y: contain; // Предотвращаем pull-to-refresh на iOS/Android
 
   .card {
-    position: relative;
-    background-color: var(--bg-light);
-    border-radius: var(--card-border-radius);
+    position: fixed;
+    top: calc(var(--top-menu-height) + var(--card-padding));
+    right: var(--card-padding);
+    bottom: calc(var(--top-menu-height) + var(--card-padding));
+    left: var(--card-padding);
+    max-width: var(--max-app-width);
+    margin: 0 auto;
+    background: var(--clay-card-bg);
+    border-radius: var(--clay-radius);
+    border: none;
     text-align: center;
     font-weight: bold;
     font-size: 40px;
-    width: var(--card-size);
-    height: var(--card-size);
-    min-width: 18rem;
     transform-style: preserve-3d;
-    transform-origin: bottom center;
+    transform-origin: center center;
     transition:
-      transform var(--animation-time) ease-in-out,
-      background-color var(--animation-time) ease-in-out;
-    color: var(--txt-color-main);
+      transform var(--animation-time) cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow var(--animation-time) ease;
+    color: var(--clay-text-primary);
     cursor: pointer;
+    pointer-events: auto;
+    overflow: visible;
 
     &.flipped {
-      transform: translateY(-100%) rotateX(180deg);
-      background-color: var(--bg-light-back);
+      transform: rotateX(180deg);
     }
 
     &.slide-left {
@@ -50,8 +60,27 @@
     }
 
     .actionButton {
-      margin-right: 1vmin;
-      margin-top: 1vmin;
+      background: var(--clay-bg);
+      border: none;
+      border-radius: var(--clay-radius-small);
+      box-shadow: var(--clay-shadow-flat);
+      padding: var(--spacing-sm);
+      width: var(--icon-button-size);
+      height: var(--icon-button-size);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      &:hover {
+        box-shadow: var(--clay-shadow-raised);
+        transform: translateY(-2px);
+      }
+      
+      &:active {
+        box-shadow: var(--clay-shadow-pressed);
+        transform: translateY(0);
+      }
     }
   }
 
@@ -84,14 +113,14 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    justify-content: start;
     overflow-y: auto;
     overflow-x: hidden;
+    border-radius: var(--clay-radius);
 
     &::-webkit-scrollbar {
       width: var(--scrollBar-width);
@@ -112,19 +141,59 @@
 
     &.back {
       transform: rotateX(180deg);
+      background: var(--clay-card-back-bg);
+      justify-content: space-between;
+      
+      .text {
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+      
+      .examples {
+        flex: 0 0 auto;
+      }
     }
 
     &.front {
       z-index: 1;
+      background: var(--clay-card-front-bg);
+      box-shadow: var(--clay-shadow-raised);
+      
+      // Внутренняя тень для контраста в темной теме
+      [data-bs-theme='dark'] & {
+        box-shadow: var(--clay-shadow-raised),
+                    inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: var(--clay-shadow-raised),
+                            inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: var(--clay-shadow-raised),
+                         inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
+      }
     }
   }
 
   .flipped .content {
     &.front {
       z-index: 0;
+      box-shadow: none;
     }
     &.back {
       z-index: 1;
+      box-shadow: -8px -8px 16px var(--clay-shadow-light),
+                  8px 8px 16px var(--clay-shadow-dark);
+      
+      // Внутренняя тень для контраста в темной теме
+      [data-bs-theme='dark'] & {
+        box-shadow: -8px -8px 16px var(--clay-shadow-light),
+                    8px 8px 16px var(--clay-shadow-dark),
+                    inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: -8px -8px 16px var(--clay-shadow-light),
+                            8px 8px 16px var(--clay-shadow-dark),
+                            inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: -8px -8px 16px var(--clay-shadow-light),
+                         8px 8px 16px var(--clay-shadow-dark),
+                         inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5);
+      }
     }
   }
 
@@ -134,30 +203,30 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 3vmin;
+    column-gap: var(--spacing-xl);
     max-width: 100%;
-    font-size: 10vmin;
+    font-size: var(--card-font-base);
     overflow-wrap: anywhere;
-    line-height: 12vmin;
+    line-height: calc(var(--card-font-base) * var(--card-line-height));
 
     li {
       display: block;
-      line-height: 12vmin;
+      line-height: calc(var(--card-font-base) * var(--card-line-height));
     }
 
     .smallTail,
     &.smallText {
-      font-size: 6vmin;
-      line-height: 7vmin;
+      font-size: var(--card-font-small);
+      line-height: calc(var(--card-font-small) * var(--card-line-height));
     }
   }
 
   .examples {
-    flex: auto;
+    flex: 0 0 auto;
     width: 100%;
     box-sizing: border-box;
-    font-size: 5vmin;
-    line-height: 6vmin;
+    font-size: var(--font-lg);
+    line-height: calc(var(--font-lg) * 1.2);
     font-style: italic;
     font-weight: normal;
     overflow-wrap: anywhere;
@@ -165,38 +234,69 @@
     li {
       display: block;
       border-top: 1px solid var(--txt-color-main);
+      padding-top: var(--spacing-sm);
+      padding-bottom: var(--spacing-sm);
     }
   }
 
   ul {
     list-style: none;
-    padding: 1rem;
+    padding: var(--spacing-lg);
     margin: 0;
-  }
-
-  svg {
-    fill: var(--txt-color-main);
-    stroke: var(--txt-color-main);
   }
 
   .arrow-left,
   .arrow-right {
-    position: absolute;
-    background-color: var(--bg-main);
+    position: fixed;
+    top: 50%;
+    background: var(--clay-bg);
     border-radius: 50%;
-    margin: 1px;
+    box-shadow: var(--clay-shadow-raised);
+    padding: var(--spacing-sm);
+    width: var(--icon-button-size);
+    height: var(--icon-button-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: auto;
 
     svg {
-      fill: var(--color-main);
-      stroke: var(--color-main);
+      fill: none;
+      stroke: var(--clay-text-primary);
+      stroke-width: 1.5;
+      display: block;
     }
   }
 
   .arrow-left {
-    left: 0;
+    left: var(--card-padding);
+    transform: translate(-50%, -50%);
+    
+    &:hover {
+      box-shadow: var(--clay-shadow-hover);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    &:active {
+      box-shadow: var(--clay-shadow-pressed);
+      transform: translate(-50%, -50%) scale(1);
+    }
   }
 
   .arrow-right {
-    right: 0;
+    right: var(--card-padding);
+    transform: translate(50%, -50%);
+    
+    &:hover {
+      box-shadow: var(--clay-shadow-hover);
+      transform: translate(50%, -50%) scale(1.1);
+    }
+
+    &:active {
+      box-shadow: var(--clay-shadow-pressed);
+      transform: translate(50%, -50%) scale(1);
+    }
   }
 }

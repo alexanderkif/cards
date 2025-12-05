@@ -2,6 +2,7 @@
 
 :root {
   user-select: none;
+  overscroll-behavior-y: contain; // Глобально предотвращаем pull-to-refresh
 }
 
 .app {
@@ -18,7 +19,6 @@
   align-items: center;
   padding: var(--top-menu-height) 0;
   height: 100%;
-  overflow: auto;
 }
 
 ul {
