@@ -6,7 +6,7 @@ interface ClayIconProps {
   size?: number;
   className?: string;
   tooltip?: string;
-  tooltipPosition?: 'top' | 'bottom' | 'left' | 'right';
+  tooltipPosition?: 'top' | 'bottom' | 'left' | 'right' | 'bottom-right';
   onClick?: (e: React.MouseEvent) => void;
   'aria-label'?: string;
 }

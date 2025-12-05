@@ -10,9 +10,11 @@ const DELAY_DOUBLE_CLICK = 300;
 function SpeakerComponent({
   text,
   className: className = '',
+  voiceId = 'default',
 }: {
   text: string;
   className?: string;
+  voiceId?: string;
 }) {
   const timePassed = useRef(0);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -75,7 +77,7 @@ function SpeakerComponent({
   const saveVoiceToLocalStorage = (name: string) => {
     const voice = voices.find((v) => v.name === name);
     if (voice) {
-      localStorage.setItem('voiceName', name);
+      localStorage.setItem(`voiceName_${voiceId}`, name);
     }
     setIsDialogOpen(false);
   };
@@ -101,7 +103,9 @@ function SpeakerComponent({
 
   function getVoiceByLocalStorageVoiceName() {
     return (
-      voices.find((v) => v.name === localStorage.getItem('voiceName')) || null
+      voices.find(
+        (v) => v.name === localStorage.getItem(`voiceName_${voiceId}`)
+      ) || null
     );
   }
 

@@ -122,6 +122,12 @@
     top: 50%;
     transform: translateY(-50%) translateX(8px);
   }
+  
+  &.clay-tooltip-bottom-right {
+    top: 100%;
+    right: 0;
+    transform: translateY(8px);
+  }
 }
 
 .clay-icon:hover .clay-tooltip {

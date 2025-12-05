@@ -203,6 +203,7 @@ function CardComponent({
                 <SpeakerComponent
                   className="ms-2"
                   text={cards[cardIndex].head}
+                  voiceId="front"
                 />
               </div>
             </div>
@@ -234,7 +235,7 @@ function CardComponent({
                   size={28}
                   className="danger"
                   tooltip="Delete card"
-                  tooltipPosition="bottom"
+                  tooltipPosition="bottom-right"
                 />
               </span>
             </span>
@@ -253,7 +254,11 @@ function CardComponent({
                         className={isTailsLong ? 'smallTail' : ''}
                       >
                         {formatHTML(tail)}
-                        <SpeakerComponent text={tail} className="ms-2" />
+                        <SpeakerComponent
+                          text={tail}
+                          className="ms-2"
+                          voiceId="back"
+                        />
                       </li>
                     )
                 )}
@@ -269,7 +274,11 @@ function CardComponent({
                           key={`${cards[cardIndex].head}_${example}-${index}`}
                         >
                           {formatHTML(example)}
-                          <SpeakerComponent text={example} className="ms-2" />
+                          <SpeakerComponent
+                            text={example}
+                            className="ms-2"
+                            voiceId="examples"
+                          />
                         </li>
                       )
                   )}
