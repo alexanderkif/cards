@@ -38,15 +38,15 @@ A modern Progressive Web App for learning with flash cards, featuring a clean cl
 - Background: `#e0e5ec`
 - Text: `#2d3a2d`
 - Accent: `#2d8659`
-- Card Front: `#d5ebe0`
-- Card Back: `#e0ebd5`
+- Card Front: `#d5ebe0` (soft green)
+- Card Back: `#d5e8eb` (soft cyan-teal)
 
 **Dark Theme:**
 - Background: `#1a1f1b` (body) / `#2a302c` (elements)
 - Text: `#d5ebe0`
 - Accent: `#5dba82`
-- Card Front: `#2f3531`
-- Card Back: `#31352f`
+- Card Front: `#33403a` (dark green-teal)
+- Card Back: `#34413f` (dark teal)
 
 ### Spacing System
 - `--spacing-xs`: 4px

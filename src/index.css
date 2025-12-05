@@ -23,7 +23,7 @@
   
   /* Card pastel backgrounds */
   --clay-card-front-bg: #d5ebe0;
-  --clay-card-back-bg: #e0ebd5;
+  --clay-card-back-bg: #d5e8eb;
   
   /* Legacy mapped to clay */
   --bg-main: var(--clay-bg);
@@ -102,8 +102,18 @@
   --clay-card-bg: #2a302c;
   
   /* Card pastel backgrounds */
-  --clay-card-front-bg: #2f3531;
-  --clay-card-back-bg: #31352f;
+  --clay-card-front-bg: #33403a;
+  --clay-card-back-bg: #34413f;
+  
+  /* Clay shadows - более деликатные для темной темы */
+  --clay-shadow-raised: -4px -4px 12px var(--clay-shadow-light),
+                        8px 8px 16px var(--clay-shadow-dark);
+  --clay-shadow-pressed: inset -2px -2px 6px var(--clay-shadow-light),
+                         inset 4px 4px 8px var(--clay-shadow-dark);
+  --clay-shadow-flat: -1px -1px 4px var(--clay-shadow-light),
+                      2px 2px 6px var(--clay-shadow-dark);
+  --clay-shadow-hover: -5px -5px 15px var(--clay-shadow-light),
+                       10px 10px 20px var(--clay-shadow-dark);
   
   /* Legacy mapped to clay dark */
   --bg-main: #1a1f1b;
