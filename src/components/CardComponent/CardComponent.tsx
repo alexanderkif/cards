@@ -289,12 +289,12 @@ function CardComponent({
         </div>
       )}
       {!isMobile && (
-        <div className="arrow-left" onClick={() => slideCard(Direction.right)}>
+        <div className="arrow-left" onClick={() => slideCard(Direction.left)}>
           <ClayIcon icon={iconMap.left} size={28} />
         </div>
       )}
       {!isMobile && (
-        <div className="arrow-right" onClick={() => slideCard(Direction.left)}>
+        <div className="arrow-right" onClick={() => slideCard(Direction.right)}>
           <ClayIcon icon={iconMap.right} size={28} />
         </div>
       )}
