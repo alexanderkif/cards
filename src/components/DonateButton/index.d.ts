@@ -1,6 +1,6 @@
 export {};
 
 declare global {
-  // eslint-disable-next-line no-var, @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   var PayPal: any;
 }

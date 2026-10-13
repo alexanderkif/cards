@@ -1,10 +1,9 @@
 import {
-  MutableRefObject,
   ReactNode,
+  RefObject,
   SyntheticEvent,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -32,13 +31,13 @@ import { useDialog, useMediaQuery } from '@/hooks/hooks';
 const ANIMATION_TIME = 300;
 
 function CardComponent({
-  swipeFn,
+  swipeFnRef,
 }: {
-  swipeFn: MutableRefObject<(direction: Direction) => void>;
+  swipeFnRef: RefObject<(direction: Direction) => void>;
 }) {
   const dispatch = useAppDispatch();
-  const cardRef = useRef(null);
-  const backRef = useRef(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const backRef = useRef<HTMLDivElement>(null);
   const cards = useAppSelector(selectCards);
   const cardIndex = useAppSelector(selectCardIndex);
   const isExamples = useAppSelector(selectIsExamples);
@@ -52,20 +51,20 @@ function CardComponent({
     if (cards.length === 0 && currentGroup) dispatch(setPage(Routes.new));
   }, [cards, currentGroup, dispatch]);
 
+  // Identity must stay stable: it is written to a ref and invoked by
+  // react-swipeable in the parent, outside React's render cycle.
   const slideCard = useCallback(
     (direction: Direction) => {
-      if (!cardRef.current) {
+      const cardEl = cardRef.current;
+      if (!cardEl) {
         return;
       }
-      const cardEl: HTMLElement = cardRef.current;
-      if (cardEl.classList.contains('flipped')) {
-        setIsFace(true);
-        setTimeout(slide, ANIMATION_TIME);
-      } else {
-        slide();
-      }
-      function slide() {
-        cardEl.classList.add(`slide-${direction}`);
+      const slide = () => {
+        const el = cardRef.current;
+        if (!el) {
+          return;
+        }
+        el.classList.add(`slide-${direction}`);
         setTimeout(
           () =>
             direction === Direction.right
@@ -74,17 +73,23 @@ function CardComponent({
           ANIMATION_TIME / 2
         );
         setTimeout(
-          () => cardEl.classList.remove(`slide-${direction}`),
+          () => el.classList.remove(`slide-${direction}`),
           ANIMATION_TIME
         );
+      };
+      if (cardEl.classList.contains('flipped')) {
+        setIsFace(true);
+        setTimeout(slide, ANIMATION_TIME);
+      } else {
+        slide();
       }
     },
     [dispatch]
   );
 
   useEffect(() => {
-    swipeFn.current = slideCard;
-  }, [slideCard, swipeFn]);
+    swipeFnRef.current = slideCard;
+  }, [slideCard, swipeFnRef]);
 
   const handlers = useSwipeable({
     onSwiping: ({ event, dir }: { event: HandledEvents; dir: string }) => {
@@ -132,6 +137,8 @@ function CardComponent({
     },
   });
 
+  // Registered on the window (non-React imperative API); reference identity
+  // must be stable so the listener is not re-bound on every render.
   const handleKeyDown = useCallback(
     ({ key }: KeyboardEvent): void => {
       if (key === 'ArrowUp') setIsFace(false);
@@ -165,17 +172,15 @@ function CardComponent({
   };
 
   const formatHTML = (str: string): ReactNode => {
+    // Card content can be imported from a URL/xlsx and is treated as untrusted.
     return <span dangerouslySetInnerHTML={{ __html: str }} />;
   };
 
-  const isTailsLong = useMemo(
-    (): boolean =>
-      (cards[cardIndex]?.tails?.reduce(
-        (acc, t) => acc + (t?.toString().length || 0),
-        0
-      ) || 0) > 50,
-    [cardIndex, cards]
-  );
+  const isTailsLong =
+    (cards[cardIndex]?.tails?.reduce(
+      (acc, t) => acc + (t?.toString().length || 0),
+      0
+    ) || 0) > 50;
 
   return (
     <div className="cardComponent" {...handlers}>

@@ -18,11 +18,21 @@ export const emptyCard = {
   examples: ['', ''],
 };
 
+const storedGroups: Group[] = JSON.parse(
+  localStorage.getItem('groups') || '[]'
+);
+const storedCurrentGroup: string = JSON.parse(
+  localStorage.getItem('currentGroup') || '""'
+);
+const storedCards: Card[] =
+  storedGroups.find((g) => g.name === storedCurrentGroup)?.cards || [];
+const storedCardIndex = +(localStorage.getItem('cardIndex') || 0);
+
 const initialState: CardsState = {
-  cardIndex: 0,
-  groups: JSON.parse(localStorage.getItem('groups') || '[]'),
-  currentGroup: JSON.parse(localStorage.getItem('currentGroup') || '""'),
-  cards: [],
+  cardIndex: storedCardIndex > storedCards.length - 1 ? 0 : storedCardIndex,
+  groups: storedGroups,
+  currentGroup: storedCurrentGroup,
+  cards: storedCards,
   isExamples: JSON.parse(localStorage.getItem('isExamples') || 'true'),
   isRandom: JSON.parse(localStorage.getItem('isRandom') || 'true'),
   isFlipCards: JSON.parse(localStorage.getItem('isFlipCards') || 'false'),
@@ -59,18 +69,15 @@ export const cardsSlice = createSlice({
     shuffleCards: (state) => {
       state.isRandom = !state.isRandom;
       localStorage.setItem('isRandom', JSON.stringify(state.isRandom));
+      const shuffled = [...state.cards];
       state.cards = state.isRandom
-        ? [...shuffle(state.cards)]
-        : [
-            ...state.cards.sort((c1, c2) =>
-              ('' + c1.head).localeCompare(c2.head)
-            ),
-          ];
+        ? shuffle(shuffled)
+        : shuffled.sort((c1, c2) => ('' + c1.head).localeCompare(c2.head));
       saveGroupsToLocalStorage(state.groups, state.currentGroup, state.cards);
     },
     setCardIndex: (state, action: PayloadAction<number>) => {
       state.cardIndex =
-        state.cardIndex > state.cards.length - 1 ? 0 : action.payload;
+        action.payload > state.cards.length - 1 ? 0 : action.payload;
       localStorage.setItem('cardIndex', JSON.stringify(state.cardIndex));
     },
     setNextCardIndex: (state) => {
@@ -112,9 +119,7 @@ export const cardsSlice = createSlice({
       state.cards = [];
     },
     removeCurrentCard: (state) => {
-      state.cards = state.cards.filter(
-        (card) => card !== state.cards[state.cardIndex]
-      );
+      state.cards = state.cards.filter((_, index) => index !== state.cardIndex);
       saveGroupsToLocalStorage(state.groups, state.currentGroup, state.cards);
       if (state.cardIndex > state.cards.length - 1) state.cardIndex = 0;
     },

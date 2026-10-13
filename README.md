@@ -17,12 +17,13 @@ A modern Progressive Web App for learning with flash cards, featuring a clean cl
 
 ## Tech Stack
 
-- **React 18.2.0** + **TypeScript** - Type-safe modern UI
-- **Vite 5.2.0** - Fast build tool with HMR
-- **Redux Toolkit 2.2.2** - State management
+- **React 19.3** + **TypeScript 6** - Type-safe modern UI
+- **React Compiler** - Automatic memoization (no manual `useMemo`/`useCallback`)
+- **Vite 8** - Fast build tool with HMR
+- **Redux Toolkit 2.13** + **react-redux 9.3** - State management
 - **Lucide React** - Beautiful outline icons
 - **SCSS** - Modular stylesheets with clay mixins
-- **Bootstrap 5.3.3** - Base styling framework
+- **Bootstrap 5.3** - Base styling framework
 - **PWA** - Offline support with service workers
 
 ## Design System
@@ -65,7 +66,7 @@ A modern Progressive Web App for learning with flash cards, featuring a clean cl
 ## Development
 
 ### Prerequisites
-- Node.js 18+ 
+- Node.js 20.19+ or 22.12+ (required by Vite 8)
 - npm or yarn
 
 ### Installation
@@ -137,8 +138,9 @@ src/
 4. Share groups with others
 
 ### Text-to-Speech
-- Single click speaker icon: Play pronunciation
-- Double click speaker icon: Select voice/language
+- Single click speaker icon: play / stop pronunciation (the icon toggles to a
+  red stop square while speaking)
+- Double click speaker icon: select voice/language
 - Works on both sides of cards and examples
 
 ## Accessibility

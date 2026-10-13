@@ -2,7 +2,7 @@ import { FormEvent, useState } from 'react';
 import './SearchComponent.scss';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { selectCards, setCardIndex } from '@/store/cardsSlice';
-import { Card, Routes } from '@/types/types';
+import { Routes } from '@/types/types';
 import { setPage } from '@/store/menuSlice';
 
 const SEARCH_LENGTH = 30;
@@ -16,22 +16,27 @@ function SearchComponent() {
     const { value } = e.target as HTMLInputElement;
     setSearchString(value);
   };
-  const setCurrentCard = (card: Card) => {
-    dispatch(setCardIndex(cards.indexOf(card)));
+  const setCurrentCard = (index: number) => {
+    dispatch(setCardIndex(index));
     dispatch(setPage(Routes.card));
   };
   const getResults = () => {
     if (searchString.length < SEARCH_LENGTH_MIN) {
       return <></>;
     }
+    const query = searchString.toLowerCase();
     return cards
-      .filter((card) =>
+      .map((card, index) => ({ card, index }))
+      .filter(({ card }) =>
         String(card.head + card.tails)
           .toLowerCase()
-          .includes(searchString.toLowerCase())
+          .includes(query)
       )
-      .map((card) => (
-        <li key={card.head + card.tails} onClick={() => setCurrentCard(card)}>
+      .map(({ card, index }) => (
+        <li
+          key={`${card.head}_${card.tails}-${index}`}
+          onClick={() => setCurrentCard(index)}
+        >
           {card.head + ' * ' + card.tails.join(' * ')}
         </li>
       ));

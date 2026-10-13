@@ -62,7 +62,7 @@
     .actionButton {
       background: var(--clay-bg);
       border: none;
-      border-radius: var(--clay-radius-small);
+      border-radius: 50%;
       box-shadow: var(--clay-shadow-flat);
       padding: var(--spacing-sm);
       width: var(--icon-button-size);
@@ -71,15 +71,29 @@
       align-items: center;
       justify-content: center;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      
-      &:hover {
-        box-shadow: var(--clay-shadow-raised);
-        transform: translateY(-2px);
+
+      .clay-icon {
+        background: transparent;
+        box-shadow: none;
+
+        &:hover,
+        &:active {
+          background: transparent;
+          box-shadow: none;
+          transform: none;
+        }
       }
-      
+
+      &:hover {
+        border-radius: var(--clay-radius-small);
+
+        .clay-icon svg {
+          transform: scale(1.1);
+        }
+      }
+
       &:active {
         box-shadow: var(--clay-shadow-pressed);
-        transform: translateY(0);
       }
     }
   }

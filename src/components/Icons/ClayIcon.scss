@@ -58,6 +58,12 @@
     stroke: currentColor;
     fill: none;
   }
+
+  // Brand logos are solid silhouettes, not stroked line icons.
+  svg.brand-icon {
+    fill: currentColor;
+    stroke: none;
+  }
 }
 
 // Remove hover effects on touch devices
@@ -91,7 +97,7 @@
   color: var(--clay-text-primary);
   padding: var(--spacing-sm) var(--spacing-md);
   border-radius: var(--clay-radius-small);
-  box-shadow: var(--clay-shadow-raised);
+  box-shadow: var(--clay-shadow-flat);
   font-size: var(--font-sm);
   white-space: nowrap;
   opacity: 0;

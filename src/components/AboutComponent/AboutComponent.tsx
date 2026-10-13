@@ -1,5 +1,5 @@
 import ClayIcon from '../Icons/ClayIcon';
-import { Linkedin, Github } from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from '../Icons/BrandIcons';
 import './AboutComponent.scss';
 
 function AboutComponent() {
@@ -52,7 +52,7 @@ function AboutComponent() {
               target="blank"
             >
               <ClayIcon
-                icon={Linkedin}
+                icon={LinkedinIcon}
                 tooltip="LinkedIn"
                 tooltipPosition="left"
               />
@@ -62,7 +62,11 @@ function AboutComponent() {
               href="https://github.com/alexanderkif"
               target="blank"
             >
-              <ClayIcon icon={Github} tooltip="GitHub" tooltipPosition="left" />
+              <ClayIcon
+                icon={GithubIcon}
+                tooltip="GitHub"
+                tooltipPosition="left"
+              />
             </a>
           </span>
         </div>
