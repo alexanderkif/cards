@@ -1,8 +1,14 @@
-import { LucideIcon } from 'lucide-react';
+import { ComponentType } from 'react';
 import './ClayIcon.scss';
 
+export type IconComponent = ComponentType<{
+  size?: number;
+  strokeWidth?: number;
+  fill?: string;
+}>;
+
 interface ClayIconProps {
-  icon: LucideIcon;
+  icon: IconComponent;
   size?: number;
   className?: string;
   tooltip?: string;

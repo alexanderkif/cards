@@ -1,5 +1,5 @@
 import './SpeakerComponent.scss';
-import { SyntheticEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { iconMap } from '../Icons/iconMapping';
 import ClayIcon from '../Icons/ClayIcon';
 
@@ -16,116 +16,155 @@ function SpeakerComponent({
   className?: string;
   voiceId?: string;
 }) {
-  const timePassed = useRef(0);
+  const isRateHi = useRef(true);
+  const clickTimer = useRef<number | null>(null);
+  const currentUtterRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const textRef = useRef(text);
+  const voicesRef = useRef<SpeechSynthesisVoice[]>([]);
+  const selectedVoiceNameRef = useRef<string | null>(
+    localStorage.getItem(`voiceName_${voiceId}`)
+  );
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
-
-  const synth = speechSynthesis;
-  const utter = new SpeechSynthesisUtterance();
-  let isUtterRateHi = true;
+  const [selectedVoiceName, setSelectedVoiceName] = useState<string | null>(
+    localStorage.getItem(`voiceName_${voiceId}`)
+  );
 
   useEffect(() => {
-    if (voices?.length === 0) {
-      setVoices(synth.getVoices());
-      return;
-    }
-  }, [synth, voices]);
+    textRef.current = text;
+  }, [text]);
+
+  useEffect(() => {
+    voicesRef.current = voices;
+  }, [voices]);
+
+  useEffect(() => {
+    selectedVoiceNameRef.current = selectedVoiceName;
+  }, [selectedVoiceName]);
+
+  useEffect(() => {
+    if (typeof speechSynthesis === 'undefined') return;
+    const updateVoices = () => setVoices(speechSynthesis.getVoices());
+    updateVoices();
+    speechSynthesis.addEventListener('voiceschanged', updateVoices);
+    return () => {
+      speechSynthesis.removeEventListener('voiceschanged', updateVoices);
+    };
+  }, []);
 
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isDialogOpen) {
-        setIsDialogOpen(false);
-      }
+      if (e.key === 'Escape') setIsDialogOpen(false);
     };
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [isDialogOpen]);
+  }, []);
 
-  const say = (): void => {
-    utter.rate = isUtterRateHi ? UTTER_HI_RATE : UTTER_SLOW_RATE;
-    isUtterRateHi = !isUtterRateHi;
-    const voice = getVoiceByLocalStorageVoiceName();
-    if (voice) {
-      utter.voice = voice;
-      utter.lang = voice.lang;
-      const pattern = /<sup>|<\/sup>|<sub>|<\/sub>|<b>|<\/b>|<i>|<\/i>|<br>/gi;
-      utter.text = text.replaceAll(pattern, '');
-      synth.speak(utter);
+  // Останавливаем речь при размонтировании.
+  useEffect(() => {
+    return () => {
+      if (currentUtterRef.current && typeof speechSynthesis !== 'undefined') {
+        speechSynthesis.cancel();
+      }
+      if (clickTimer.current !== null) window.clearTimeout(clickTimer.current);
+    };
+  }, []);
+
+  const clearClickTimer = () => {
+    if (clickTimer.current !== null) {
+      window.clearTimeout(clickTimer.current);
+      clickTimer.current = null;
     }
   };
 
-  const myDoubleClickCallback = (e: SyntheticEvent & { detail: number }) => {
-    if (e.detail === 1) {
-      const voice = getVoiceByLocalStorageVoiceName();
-      setTimeout(() => {
-        if (Date.now() - timePassed.current >= DELAY_DOUBLE_CLICK) {
-          if (voice) {
-            say();
-          } else {
-            setIsDialogOpen(true);
-          }
-        }
-      }, DELAY_DOUBLE_CLICK);
+  const stopSpeaking = () => {
+    if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+    currentUtterRef.current = null;
+    setIsSpeaking(false);
+  };
+
+  const startSpeaking = () => {
+    if (typeof speechSynthesis === 'undefined') return;
+    const voice = voicesRef.current.find(
+      (v) => v.name === selectedVoiceNameRef.current
+    );
+    if (!voice) {
+      setIsDialogOpen(true);
+      return;
+    }
+    // На всякий случай сбрасываем предыдущее.
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance();
+    currentUtterRef.current = utter;
+    utter.rate = isRateHi.current ? UTTER_HI_RATE : UTTER_SLOW_RATE;
+    isRateHi.current = !isRateHi.current;
+    utter.voice = voice;
+    utter.lang = voice.lang;
+    const pattern = /<sup>|<\/sup>|<sub>|<\/sub>|<b>|<\/b>|<i>|<\/i>|<br>/gi;
+    utter.text = textRef.current.replaceAll(pattern, '');
+    const handleEnd = () => {
+      if (currentUtterRef.current === utter) {
+        currentUtterRef.current = null;
+        setIsSpeaking(false);
+      }
+    };
+    utter.onend = handleEnd;
+    utter.onerror = handleEnd;
+    setIsSpeaking(true);
+    speechSynthesis.speak(utter);
+  };
+
+  const currentVoice = voices.find((v) => v.name === selectedVoiceName) || null;
+
+  const onSpeakerClick = () => {
+    // Если что-то играет — останавливаем немедленно и сбрасываем таймер.
+    if (isSpeaking || currentUtterRef.current) {
+      clearClickTimer();
+      stopSpeaking();
+      return;
     }
 
-    if (e.detail === 2) {
-      timePassed.current = Date.now();
+    // Если уже стоит таймер ожидания (первый клик из возможного двойного) —
+    // значит это второй клик: отменяем запуск и открываем диалог.
+    if (clickTimer.current !== null) {
+      clearClickTimer();
       setIsDialogOpen(true);
+      return;
     }
+
+    // Первый клик — ждём, не будет ли второго.
+    clickTimer.current = window.setTimeout(() => {
+      clickTimer.current = null;
+      startSpeaking();
+    }, DELAY_DOUBLE_CLICK);
   };
 
   const saveVoiceToLocalStorage = (name: string) => {
-    const voice = voices.find((v) => v.name === name);
-    if (voice) {
-      localStorage.setItem(`voiceName_${voiceId}`, name);
-    }
+    localStorage.setItem(`voiceName_${voiceId}`, name);
+    setSelectedVoiceName(name);
     setIsDialogOpen(false);
   };
-
-  const getVoicesOptions = () => {
-    if (voices.length === 0) {
-      setVoices(synth.getVoices());
-    }
-    const currentVoice = getVoiceByLocalStorageVoiceName();
-    return voices.map((voice) => (
-      <div
-        key={voice.lang + voice.name}
-        className={`voice-option ${currentVoice?.name === voice.name ? 'active' : ''}`}
-        onClick={() => saveVoiceToLocalStorage(voice.name)}
-        role="option"
-        aria-selected={currentVoice?.name === voice.name}
-        tabIndex={0}
-      >
-        {voice.name}
-      </div>
-    ));
-  };
-
-  function getVoiceByLocalStorageVoiceName() {
-    return (
-      voices.find(
-        (v) => v.name === localStorage.getItem(`voiceName_${voiceId}`)
-      ) || null
-    );
-  }
-
-  function clickWrapper() {
-    setIsDialogOpen(false);
-  }
 
   return (
     <div className={'speakerComponent' + (className ? ` ${className}` : '')}>
       <span
-        onClick={(e) => myDoubleClickCallback(e)}
+        onClick={onSpeakerClick}
         className="actionButton"
         role="button"
-        aria-label="Text to speech"
+        aria-label={isSpeaking ? 'Stop' : 'Text to speech'}
         tabIndex={0}
       >
-        <ClayIcon icon={iconMap.speaker} className="success" />
+        <ClayIcon
+          icon={isSpeaking ? iconMap.stop : iconMap.play}
+          className={isSpeaking ? 'danger' : 'success'}
+        />
       </span>
       {isDialogOpen && (
-        <div className="dialogWrapper z-2" onClick={clickWrapper}>
+        <div
+          className="dialogWrapper z-2"
+          onClick={() => setIsDialogOpen(false)}
+        >
           <div className="dialog">
             <div className="dialogLabel">
               Select language. Double click on the speaker icon to choose
@@ -136,7 +175,20 @@ function SpeakerComponent({
               role="listbox"
               aria-label="Select voice"
             >
-              {getVoicesOptions()}
+              {voices.map((voice) => (
+                <div
+                  key={voice.lang + voice.name}
+                  className={`voice-option ${
+                    currentVoice?.name === voice.name ? 'active' : ''
+                  }`}
+                  onClick={() => saveVoiceToLocalStorage(voice.name)}
+                  role="option"
+                  aria-selected={currentVoice?.name === voice.name}
+                  tabIndex={0}
+                >
+                  {voice.name}
+                </div>
+              ))}
             </div>
           </div>
         </div>

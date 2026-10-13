@@ -1,5 +1,23 @@
 import { Group } from '@/types/types';
 
+const CHUNK_SIZE = 0x8000;
+
+const bytesToBinary = (bytes: Uint8Array): string => {
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += CHUNK_SIZE) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + CHUNK_SIZE));
+  }
+  return binary;
+};
+
+const binaryToBytes = (binary: string): Uint8Array<ArrayBuffer> => {
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return bytes;
+};
+
 const compress = async function (
   string: string,
   encoding: CompressionFormat = 'gzip'
@@ -10,7 +28,7 @@ const compress = async function (
   writer.write(byteArray);
   writer.close();
   const buffer = await new Response(cs.readable).arrayBuffer();
-  return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+  return btoa(bytesToBinary(new Uint8Array(buffer)));
 };
 
 const decompress = async function (
@@ -19,9 +37,7 @@ const decompress = async function (
 ) {
   const cs = new DecompressionStream(encoding);
   const writer = cs.writable.getWriter();
-  const byteArray = new Uint8Array(
-    [...atob(data)].map((char) => char.charCodeAt(0))
-  );
+  const byteArray = binaryToBytes(atob(data));
   writer.write(byteArray);
   writer.close();
   const arrayBuffer = await new Response(cs.readable).arrayBuffer();

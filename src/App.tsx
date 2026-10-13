@@ -28,54 +28,61 @@ function App() {
   const dispatch = useAppDispatch();
   const theme = useAppSelector(selectTheme);
 
-  // Применяем тему при монтировании компонента
   useEffect(() => {
     document.documentElement.setAttribute('data-bs-theme', theme);
   }, [theme]);
 
-  const queryParameters = new URLSearchParams(window.location.search);
-  for (const [key, value] of queryParameters) {
-    decompressFromURI(value).then((p) => {
-      const group: Group = {
-        name: key,
-        cards: JSON.parse(p),
-      };
-      dispatch(saveGroup(group));
-    });
-  }
-  const swipeFn = useRef<(direction: Direction) => void>(() => {});
-  const groups: Group[] = JSON.parse(localStorage.getItem('groups') || '[]');
-  const currentGroup = JSON.parse(localStorage.getItem('currentGroup') || '""');
-  const cardIndexInStore = +(localStorage.getItem('cardIndex') || 0);
-  const cardsInStore = localStorage.getItem('cards');
-
-  if (groups.length === 0) {
-    dispatch(setCurrentGroup(''));
-    groupsExample.forEach((group) => {
-      dispatch(saveGroup(group));
-    });
-    if (cardsInStore) {
-      dispatch(saveGroup({ name: 'Cards', cards: JSON.parse(cardsInStore) }));
-      localStorage.removeItem('cards');
+  useEffect(() => {
+    const queryParameters = new URLSearchParams(window.location.search);
+    for (const [key, value] of queryParameters) {
+      decompressFromURI(value).then((p) => {
+        const group: Group = {
+          name: key,
+          cards: JSON.parse(p),
+        };
+        dispatch(saveGroup(group));
+      });
     }
-  }
-  if (groups.length > 0 && !currentGroup) {
-    dispatch(setCurrentGroup(groups[0].name));
-    dispatch(setCardIndex(0));
-  }
-  if (groups.length > 0 && !!currentGroup) {
-    const currentGroupCards = groups.find((g) => g.name === currentGroup);
-    if (
-      currentGroupCards &&
-      currentGroupCards.cards.length < cardIndexInStore
-    ) {
+  }, [dispatch]);
+
+  useEffect(() => {
+    const groups: Group[] = JSON.parse(localStorage.getItem('groups') || '[]');
+    const currentGroup = JSON.parse(
+      localStorage.getItem('currentGroup') || '""'
+    );
+    const cardIndexInStore = +(localStorage.getItem('cardIndex') || 0);
+    const cardsInStore = localStorage.getItem('cards');
+
+    if (groups.length === 0) {
+      dispatch(setCurrentGroup(''));
+      groupsExample.forEach((group) => {
+        dispatch(saveGroup(group));
+      });
+      if (cardsInStore) {
+        dispatch(saveGroup({ name: 'Cards', cards: JSON.parse(cardsInStore) }));
+        localStorage.removeItem('cards');
+      }
+    }
+    if (groups.length > 0 && !currentGroup) {
+      dispatch(setCurrentGroup(groups[0].name));
       dispatch(setCardIndex(0));
     }
-    if (currentGroupCards) {
-      dispatch(setCards(currentGroupCards.cards));
-      dispatch(setCardIndex(cardIndexInStore));
+    if (groups.length > 0 && !!currentGroup) {
+      const currentGroupCards = groups.find((g) => g.name === currentGroup);
+      if (
+        currentGroupCards &&
+        currentGroupCards.cards.length < cardIndexInStore
+      ) {
+        dispatch(setCardIndex(0));
+      }
+      if (currentGroupCards) {
+        dispatch(setCards(currentGroupCards.cards));
+        dispatch(setCardIndex(cardIndexInStore));
+      }
     }
-  }
+  }, [dispatch]);
+
+  const swipeFnRef = useRef<(direction: Direction) => void>(() => {});
 
   const handlers = useSwipeable({
     onSwipedRight: (e) => {
@@ -84,11 +91,11 @@ function App() {
         return;
       }
       if (!(e.event.target as HTMLElement).classList.contains('page')) return;
-      else swipeFn.current(Direction.left);
+      else swipeFnRef.current(Direction.left);
     },
     onSwipedLeft: (e) => {
       if (!(e.event.target as HTMLElement).classList.contains('page')) return;
-      swipeFn.current(Direction.right);
+      swipeFnRef.current(Direction.right);
     },
   });
 
@@ -102,7 +109,7 @@ function App() {
         <div className="page flex-fill" {...handlers}>
           <Route
             route={Routes.card}
-            component={<CardComponent swipeFn={swipeFn} />}
+            component={<CardComponent swipeFnRef={swipeFnRef} />}
           />
           <Route route={Routes.search} component={<SearchComponent />} />
           <Route route={Routes.groups} component={<GroupComponent />} />

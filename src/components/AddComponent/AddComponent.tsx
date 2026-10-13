@@ -30,18 +30,18 @@ function AddComponent({ edit = false }: { edit: boolean }) {
   const cardIndex = useAppSelector(selectCardIndex);
   const currentGroup = useAppSelector(selectCurrentGroup);
 
-  const [card, setCard] = useState(emptyCard);
+  const [card, setCard] = useState<Card>(() => structuredClone(emptyCard));
 
   useEffect(() => {
     if (cardIndex >= cards.length) {
       dispatch(setCardIndex(0));
     }
     if (cards.length > 0 && cardIndex < cards.length) {
+      // Sync the editable form with the card selected in the store.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCard(
-        JSON.parse(
-          JSON.stringify(
-            edit && cardIndex > -1 ? cards[cardIndex || 0] : emptyCard
-          )
+        structuredClone(
+          edit && cardIndex > -1 ? cards[cardIndex || 0] : emptyCard
         )
       );
     }
@@ -49,7 +49,7 @@ function AddComponent({ edit = false }: { edit: boolean }) {
 
   const changeInput = (e: FormEvent) => {
     const { name, value } = e.target as HTMLInputElement;
-    const updatedCard: Card = JSON.parse(JSON.stringify(card));
+    const updatedCard: Card = structuredClone(card);
 
     switch (name) {
       case Fields.head:
@@ -88,7 +88,7 @@ function AddComponent({ edit = false }: { edit: boolean }) {
       dispatch(setPage(Routes.card));
     } else {
       dispatch(addCard(newCard));
-      setCard(emptyCard);
+      setCard(structuredClone(emptyCard));
     }
   };
 

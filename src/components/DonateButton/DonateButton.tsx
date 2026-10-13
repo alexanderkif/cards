@@ -1,35 +1,44 @@
 import './DonateButton.scss';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
+import { loadPayPalSdk } from '@/utils/paypal';
 
 const donateBtnID = '#donate-button';
 
 export default function DonateButton({
-  clickFn,
+  clickFnRef,
 }: {
-  clickFn: MutableRefObject<() => void>;
+  clickFnRef: RefObject<() => void>;
 }) {
-  const donateElement = useRef(null);
+  const donateElement = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    clickFn.current = () => {
-      const el = donateElement.current as unknown as HTMLElement;
-      const buttonEl = el.querySelector('img');
+    clickFnRef.current = () => {
+      const buttonEl = donateElement.current?.querySelector('img');
       if (buttonEl) buttonEl.click();
     };
-  }, [clickFn]);
+  }, [clickFnRef]);
 
   useEffect(() => {
-    PayPal.Donation.Button({
-      env: 'production',
-      hosted_button_id: 'CR3J4TSGQ8GFG',
-      image: {
-        src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif',
-        alt: 'Donate with PayPal button',
-        title: 'PayPal - The safer, easier way to pay online!',
-      },
-    }).render(donateBtnID);
-    const el = donateElement.current as unknown as HTMLElement;
+    const el = donateElement.current;
+    let cancelled = false;
+    loadPayPalSdk()
+      .then(() => {
+        if (cancelled || !window.PayPal?.Donation) return;
+        window.PayPal.Donation.Button({
+          env: 'production',
+          hosted_button_id: 'CR3J4TSGQ8GFG',
+          image: {
+            src: 'https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif',
+            alt: 'Donate with PayPal button',
+            title: 'PayPal - The safer, easier way to pay online!',
+          },
+        }).render(donateBtnID);
+      })
+      .catch(() => {
+        // SDK unavailable (blocked/offline); the donate item stays empty.
+      });
     return () => {
+      cancelled = true;
       if (el) el.innerHTML = '';
     };
   }, []);

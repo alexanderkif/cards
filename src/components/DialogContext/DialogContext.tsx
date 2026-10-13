@@ -1,45 +1,34 @@
-import { createContext, useState, ReactNode } from 'react';
+import { useRef, useState, ReactNode } from 'react';
 import DialogComponent from '../DialogComponent/DialogComponent';
-
-export interface DialogContextType {
-  confirm: (message: string, showCancel?: boolean) => Promise<boolean>;
-}
-
-export const DialogContext = createContext<DialogContextType | undefined>(
-  undefined
-);
+import { DialogContext } from './DialogContextValue';
 
 export function DialogProvider({ children }: { children: ReactNode }) {
   const [dialogMessage, setDialogMessage] = useState<string | null>(null);
   const [isShowCancel, setIsShowCancel] = useState(true);
-  const [resolveDialog, setResolveDialog] = useState<(value: boolean) => void>(
-    () => {}
-  );
+  const resolveRef = useRef<((value: boolean) => void) | null>(null);
 
   const confirm = (message: string, showCancel = true): Promise<boolean> => {
     setDialogMessage(message);
     setIsShowCancel(showCancel);
     return new Promise<boolean>((resolve) => {
-      setResolveDialog(() => resolve);
+      resolveRef.current = resolve;
     });
   };
 
   const handleOk = () => {
-    if (resolveDialog) {
-      resolveDialog(true);
-      setDialogMessage(null);
-    }
+    resolveRef.current?.(true);
+    resolveRef.current = null;
+    setDialogMessage(null);
   };
 
   const handleCancel = () => {
-    if (resolveDialog) {
-      resolveDialog(false);
-      setDialogMessage(null);
-    }
+    resolveRef.current?.(false);
+    resolveRef.current = null;
+    setDialogMessage(null);
   };
 
   return (
-    <DialogContext.Provider value={{ confirm }}>
+    <DialogContext value={{ confirm }}>
       {children}
       {dialogMessage && (
         <DialogComponent
@@ -49,6 +38,6 @@ export function DialogProvider({ children }: { children: ReactNode }) {
           showCancel={isShowCancel}
         />
       )}
-    </DialogContext.Provider>
+    </DialogContext>
   );
 }

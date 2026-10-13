@@ -27,7 +27,7 @@ import { useDialog } from '@/hooks/hooks';
 
 function MenuComponent() {
   const fileInput = useRef<HTMLInputElement>(null);
-  const clickFn = useRef<() => void>(() => {});
+  const clickFnRef = useRef<() => void>(() => {});
   const isOpen = useAppSelector(selectIsOpen);
   const page = useAppSelector(selectPage);
   const cards = useAppSelector(selectCards);
@@ -35,6 +35,7 @@ function MenuComponent() {
   const currentGroup = useAppSelector(selectCurrentGroup);
   const dispatch = useAppDispatch();
   const { confirm } = useDialog();
+
   const handleMenuClick = (event: SyntheticEvent) => {
     event.stopPropagation();
     dispatch(toggleMenu());
@@ -207,21 +208,23 @@ function MenuComponent() {
             'About',
             setRoute(Routes.about)
           )}
-          {window.PayPal && (
-            <li onClick={() => clickFn.current()}>
+          {isOpen && (
+            <li onClick={() => clickFnRef.current()}>
               <ClayIcon
                 icon={iconMap.smile}
                 size={28}
                 className="itemIcon info"
               />
               <span className="itemText info">Buy me a coffee</span>
-              <DonateButton clickFn={clickFn} />
+              <DonateButton clickFnRef={clickFnRef} />
             </li>
           )}
           {getMenuItem('close', 'success', 'Exit', () => window.close())}
           <hr />
           {getMenuItem('share', 'info', 'Share active group', handleShareGroup)}
           {getMenuItem('save', 'success', 'Save to xlsx file', saveToFile)}
+          {/* clickLoadFile only reads fileInputRef from the click handler */}
+          {/* eslint-disable-next-line react-hooks/refs */}
           {getMenuItem('dowload', 'danger', 'Download file', clickLoadFile)}
           {getMenuItem(
             'removeAll',

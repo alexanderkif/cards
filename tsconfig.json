@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2021",
+    "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": ["ES2021", "DOM", "DOM.Iterable"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
 
@@ -20,15 +20,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*", "./dist/*", ""],
-      "pages/*": ["src/pages/*"],
-      "components/*": ["src/components/*"],
-      "types/*": ["src/@types/*"],
-      "public/*": ["public/*"]
+      "@/*": ["./src/*"],
+      "pages/*": ["./src/pages/*"],
+      "components/*": ["./src/components/*"],
+      "types/*": ["./src/@types/*"],
+      "public/*": ["./public/*"]
     }
   },
-  "include": ["src", ".eslintrc.cjs", "**/*.ts"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

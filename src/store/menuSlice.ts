@@ -18,9 +18,16 @@ const getSystemTheme = (): Theme => {
   return Theme.light;
 };
 
+const getStoredPage = (): Routes => {
+  const stored = localStorage.getItem('page') as Routes | null;
+  return stored && Object.values(Routes).includes(stored)
+    ? stored
+    : Routes.card;
+};
+
 const initialState: MenuState = {
   isOpen: false,
-  page: Routes.card,
+  page: getStoredPage(),
   theme: (localStorage.getItem('theme') as Theme) || getSystemTheme(),
 };
 
@@ -36,6 +43,7 @@ export const menuSlice = createSlice({
     },
     setPage: (state, action: PayloadAction<string>) => {
       state.page = action.payload;
+      localStorage.setItem('page', action.payload);
     },
     setTheme: (state, action: PayloadAction<Theme>) => {
       state.theme = action.payload;
